@@ -1272,9 +1272,6 @@ function playSound(id) {
     return;
   }
 
-  // Stop any other playing sounds
-  stopAll();
-
   let a = audioCache[id];
   // Create new audio element with cache-busting to prevent stale files
   const url = s.url + '?v=' + Date.now();
