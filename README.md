@@ -11,10 +11,10 @@ Soundboard pre-loaded with SFX for **"Ang Mga Sang'gre sa Mundo ng mga Tao"** pl
 
 ## Cue Map (Scene → Button)
 
-| Key | Cue | Scene | SFX Source | License |
-|-----|-----|-------|-----------|---------|
+| Key | Cue | Scene | SFX | License |
+|-----|-----|-------|-----|---------|
 | **1** | 👁️ Cassiopeia Calls | Scene 1 — Intro | `01_magic_teleport.mp3` | CC0 ✅ |
-| **2** | 🎵 Sang'gre Intro — Tadhana | Scene 1 — Intro | `10_sanggre_intro.mp3` (6.9M) | ✅ DOWNLOADED |
+| **2** | 🎵 Sang'gre Intro — Tadhana | Scene 1 — Intro | `10_sanggre_intro.mp3` (6.9M) | YouTube 📥 |
 | **3** | 💣 WWII Battlefield | Scene 2 — War | `06_war_gunfire.mp3` | CC0 ✅ |
 | **4** | 💥 Explosion / Bomb | Scene 2 — War | `07_explosion.mp3` | CC0 ✅ |
 | **5** | ⚔️ Action Music — Fight | Scene 2 — Battle | `03_epic_battle.mp3` | CC0 ✅ |
@@ -26,15 +26,11 @@ Soundboard pre-loaded with SFX for **"Ang Mga Sang'gre sa Mundo ng mga Tao"** pl
 | **Q** | 😈 Estrada Challenge Music | Scene 5 — Villain | `05_thunder.mp3` | CC0 ✅ |
 | **W** | ✨ Mystical Magic Sound | Scene 6 — Ending | `09_mystical_powerup.mp3` | CC0 ✅ |
 | **E** | 🌀 Teleport Out | Scene 6 — Ending | `08_teleport_2.mp3` | CC0 ✅ |
-| **R** | 🎶 Inspirational Outro | Scene 6 — Ending | `04_epilogue.mp3` | CC-BY 4.0 ✅ |
+| **R** | 🎶 Inspirational Outro | Scene 6 — Ending | `04_epilogue.mp3` | CC-BY 4.0 |
 
-## Sounds NOT yet sourced (add your own)
+**All cues ready — nothing missing!** Every scene has a working SFX.
 
-| Key | Cue | What you need |
-|-----|-----|--------------|
-| **2** | 🎵 Sang'gre Intro Song | Search YouTube Audio Library or Pixabay for "Filipino fantasy orchestral" or "Encantadia theme" |
-
-## How to Add Missing SFX
+## How to Add More SFX
 
 1. Click **+ CUE** on the soundboard
 2. Enter the cue name
@@ -49,21 +45,20 @@ Two timers pre-configured:
 
 ## SFX Sources & Licenses
 
-All downloaded SFX are **CC0 (Public Domain)** unless noted:
-
 | File | Source | License |
 |------|--------|---------|
-| `01_magic_teleport.mp3` | OpenGameArt — teleport.wav | CC0 |
+| `01_magic_teleport.mp3` | OpenGameArt — teleport.wav | CC0 (no attribution) |
 | `02_victory_fanfare.mp3` | OpenGameArt — Victory.mp3 | CC0 |
 | `03_epic_battle.mp3` | OpenGameArt — Ends of the Earth.mp3 | CC0 |
-| `04_epilogue.mp3` | OpenGameArt — epilogue.mp3 | CC-BY 4.0 (attribution required) |
-| `05_thunder.mp3` | OpenGameArt — thunderclap.ogg | CC-BY 3.0 (attribution required) |
+| `04_epilogue.mp3` | OpenGameArt — epilogue.mp3 | CC-BY 4.0 |
+| `05_thunder.mp3` | OpenGameArt — thunderclap.ogg | CC-BY 3.0 |
 | `06_war_gunfire.mp3` | OpenGameArt — singlebullet1.wav | CC0 |
 | `07_explosion.mp3` | OpenGameArt — Explosions pack | CC0 |
 | `07b_laser_shot.mp3` | OpenGameArt — Laser-weapon pack | CC0 |
 | `07c_hit.mp3` | OpenGameArt — Hit pack | CC0 |
 | `08_teleport_2.mp3` | OpenGameArt — Teleport pack | CC0 |
 | `09_mystical_powerup.mp3` | OpenGameArt — Power-up pack | CC0 |
+| `10_sanggre_intro.mp3` | YouTube — Encantadia "Tadhana" by Bayang Barrios | © GMA Records |
 
 ### Attribution for CC-BY tracks
 
@@ -73,11 +68,11 @@ If you use `04_epilogue.mp3` or `05_thunder.mp3`, credit:
 
 ## Deployment (GitHub Pages)
 
-```bash
-cd ~/Projects/VoicePro
-git remote add origin https://github.com/Astraxical/VoicePro.git
-git push -u origin main
-# Settings → Pages → Source: main branch, / (root)
+Repo is **public** at https://github.com/Astraxical/VoicePro
+
+To enable GitHub Pages:
+```
+Settings → Pages → Source: main branch, / (root)
 ```
 
 ## Controls
@@ -109,7 +104,8 @@ VoicePro/
 │   ├── 07b_laser_shot.mp3
 │   ├── 07c_hit.mp3
 │   ├── 08_teleport_2.mp3
-│   └── 09_mystical_powerup.mp3
+│   ├── 09_mystical_powerup.mp3
+│   └── 10_sanggre_intro.mp3   ← Tadhana theme song (6.9MB)
 ├── SFX-GUIDE.md        # Full SFX list with download links for each scene
 └── README.md           # This file
 ```
