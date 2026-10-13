@@ -34,6 +34,23 @@
     --transition: 150ms cubic-bezier(.4,0,.2,1);
   }
 
+  /* Light theme */
+  [data-theme="light"] {
+    --bg: #f6f8fa;
+    --surface: #ffffff;
+    --surface2: #f0f3f6;
+    --surface3: #e8ebef;
+    --border: #d0d7de;
+    --border2: #bcc4cc;
+    --text: #1f2328;
+    --text2: #388eec;
+    --text3: #656d76;
+    --text4: #8c959f;
+    --accent-dim: rgba(240,165,0,.1);
+    --green-dim: rgba(63,185,80,.1);
+    --red-dim: rgba(248,81,73,.1);
+  }
+
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
@@ -98,18 +115,16 @@
     font-weight: 500;
     letter-spacing: 1px;
     text-transform: uppercase;
-    margin-left: 2px;
   }
 
-  /* Timer Section */
+  /* Timer Dock */
   .timer-section {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     flex: 1;
     overflow-x: auto;
     scrollbar-width: none;
-    padding: 4px 0;
   }
   .timer-section::-webkit-scrollbar { display: none; }
 
@@ -117,122 +132,77 @@
     background: var(--surface2);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 6px 12px;
-    min-width: 90px;
+    padding: 4px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    min-width: 70px;
     cursor: pointer;
     transition: all var(--transition);
     position: relative;
-    flex-shrink: 0;
   }
-  .timer-card:hover { border-color: var(--border2); background: var(--surface3); }
-  .timer-card.active { border-color: var(--green); box-shadow: 0 0 12px rgba(63,185,80,.2); }
-  .timer-card.over { border-color: var(--red); animation: pulse-red 1s infinite; }
-  @keyframes pulse-red { 0%,100% { box-shadow: 0 0 12px rgba(248,81,73,.2); } 50% { box-shadow: 0 0 20px rgba(248,81,73,.4); } }
-
-  .timer-name {
-    font-size: .6rem;
-    color: var(--text3);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-weight: 600;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+  .timer-card:hover { border-color: var(--border2); }
+  .timer-card.active { border-color: var(--green); background: var(--green-dim); }
+  .timer-card.over { border-color: var(--red); background: var(--red-dim); animation: pulse-red 1s infinite; }
+  @keyframes pulse-red { 0%,100% { box-shadow: 0 0 0 0 rgba(248,81,73,.4); } 50% { box-shadow: 0 0 12px 2px rgba(248,81,73,.2); } }
+  .timer-name { font-size: .55rem; color: var(--text3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 80px; }
   .timer-display {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 1.15rem;
+    font-size: .75rem;
     font-weight: 600;
-    color: var(--green);
-    letter-spacing: 1px;
-    line-height: 1.2;
+    color: var(--text);
   }
-  .timer-card.over .timer-display { color: var(--red); }
-  .timer-card.countdown .timer-display { color: var(--yellow); }
-
-  .timer-btns {
-    display: flex;
-    gap: 3px;
-    margin-top: 4px;
-  }
+  .timer-display.countdown { color: var(--red); }
+  .timer-display.over { color: var(--red); }
+  .timer-btns { display: flex; gap: 3px; }
   .t-btn {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    color: var(--text3);
-    padding: 2px 7px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: .6rem;
-    font-weight: 600;
-    transition: all var(--transition);
+    background: none; border: none; cursor: pointer;
+    color: var(--text3); font-size: .6rem; padding: 1px 3px;
+    border-radius: 3px; transition: all var(--transition);
   }
-  .t-btn:hover { color: var(--text); border-color: var(--border2); }
-  .t-btn.play { color: var(--green); border-color: rgba(63,185,80,.3); }
-  .t-btn.play:hover { background: var(--green-dim); }
-  .t-btn.reset { color: var(--text3); }
-  .t-btn.del { color: var(--red); border-color: rgba(248,81,73,.2); }
-  .t-btn.del:hover { background: var(--red-dim); }
-
-  /* Timer edit popup */
+  .t-btn:hover { color: var(--text); background: var(--surface3); }
+  .t-btn.play { color: var(--green); }
+  .t-btn.reset { color: var(--blue); }
+  .t-btn.del { color: var(--red); }
   .timer-edit {
     display: none;
     position: absolute;
     bottom: calc(100% + 8px);
-    left: 0;
-    background: var(--surface2);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--surface);
     border: 1px solid var(--border2);
     border-radius: var(--radius);
     padding: 10px;
     z-index: 50;
-    box-shadow: 0 -8px 24px rgba(0,0,0,.5);
-    min-width: 200px;
+    box-shadow: 0 8px 24px rgba(0,0,0,.4);
+    min-width: 180px;
   }
   .timer-edit.show { display: block; }
-  .timer-edit label { font-size: .6rem; color: var(--text3); text-transform: uppercase; letter-spacing: 1px; }
-  .timer-edit input[type=text] {
-    width: 100%;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    color: var(--text);
-    padding: 5px 8px;
-    border-radius: var(--radius-sm);
-    font-size: .8rem;
-    margin: 4px 0 8px;
-    outline: none;
+  .timer-edit label { font-size: .55rem; color: var(--text3); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; display: block; }
+  .timer-edit input[type="text"] {
+    width: 100%; background: var(--surface2); border: 1px solid var(--border);
+    color: var(--text); padding: 4px 8px; border-radius: var(--radius-sm);
+    font-size: .75rem; outline: none; margin-bottom: 6px;
   }
-  .timer-edit input[type=text]:focus { border-color: var(--accent); }
   .timer-set-row { display: flex; gap: 4px; align-items: center; }
-  .timer-set-row input[type=number] {
-    width: 40px;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    color: var(--yellow);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: .85rem;
-    padding: 4px;
-    border-radius: var(--radius-sm);
-    text-align: center;
-    outline: none;
+  .timer-set-row input { width: 36px; background: var(--surface2); border: 1px solid var(--border); color: var(--yellow); font-family: 'JetBrains Mono', monospace; font-size: .75rem; padding: 3px; border-radius: var(--radius-sm); text-align: center; outline: none; }
+  .timer-set-row span { color: var(--text3); font-size: .7rem; }
+  .timer-set-row button { margin-left: auto; background: var(--accent); border: none; color: #000; font-size: .6rem; font-weight: 700; padding: 3px 8px; border-radius: var(--radius-sm); cursor: pointer; }
+  .add-timer-btn {
+    background: var(--surface2); border: 1px solid var(--border);
+    color: var(--text3); padding: 6px 12px; border-radius: var(--radius);
+    cursor: pointer; font-size: .72rem; font-weight: 600;
+    transition: all var(--transition); white-space: nowrap; flex-shrink: 0;
   }
-  .timer-set-row input[type=number]:focus { border-color: var(--accent); }
-  .timer-set-row span { font-size: .7rem; color: var(--text3); }
-  .timer-set-row button {
-    background: var(--accent);
-    border: none;
-    color: #000;
-    padding: 4px 10px;
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    font-size: .65rem;
-    font-weight: 700;
-    margin-left: auto;
-  }
+  .add-timer-btn:hover { border-color: var(--border2); color: var(--text); }
 
   /* Master Section */
   .master-section {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     background: var(--surface2);
     border: 1px solid var(--border);
     border-radius: var(--radius);
@@ -268,25 +238,10 @@
     font-weight: 700;
     transition: all var(--transition);
   }
-  .master-mute.muted { color: var(--red); border-color: rgba(248,81,73,.4); background: var(--red-dim); }
+  .master-mute:hover { border-color: var(--border2); color: var(--text); }
+  .master-mute.muted { background: var(--red-dim); border-color: var(--red); color: var(--red); }
 
-  .add-timer-btn {
-    background: var(--surface2);
-    border: 1px dashed var(--border2);
-    color: var(--text3);
-    padding: 6px 12px;
-    border-radius: var(--radius);
-    cursor: pointer;
-    font-size: .7rem;
-    font-weight: 600;
-    transition: all var(--transition);
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-  }
-  .add-timer-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
-
+  /* Tool Buttons */
   .tool-btn {
     background: var(--surface2);
     border: 1px solid var(--border);
@@ -294,10 +249,11 @@
     padding: 6px 12px;
     border-radius: var(--radius);
     cursor: pointer;
-    font-size: .75rem;
+    font-size: .72rem;
     font-weight: 600;
     transition: all var(--transition);
     white-space: nowrap;
+    flex-shrink: 0;
   }
   .tool-btn:hover { color: var(--text); border-color: var(--border2); }
 
@@ -471,6 +427,26 @@
   .channel.muted-ch .led { background: var(--red); box-shadow: 0 0 6px var(--red); }
   @keyframes led-pulse { 0%,100% { opacity: 1; } 50% { opacity: .6; } }
 
+  /* Level Meter */
+  .level-meter {
+    width: 100%;
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    margin-bottom: 6px;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity var(--transition);
+  }
+  .channel.playing .level-meter { opacity: 1; }
+  .level-meter-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--green), var(--yellow), var(--red));
+    border-radius: 2px;
+    transition: width 50ms linear;
+  }
+
   /* Pad Button */
   .pad-btn {
     width: 100%;
@@ -498,8 +474,6 @@
   .pad-btn:active, .channel.playing .pad-btn {
     background: linear-gradient(160deg, rgba(63,185,80,.15) 0%, var(--surface2) 100%);
     border-color: var(--green);
-    transform: scale(.95);
-    box-shadow: inset 0 0 24px rgba(63,185,80,.08);
   }
   .pad-btn .pad-icon { font-size: clamp(1.5rem, 4vw, 2.2rem); line-height: 1; }
   .pad-btn .pad-name {
@@ -524,16 +498,28 @@
     padding: 1px 4px;
     border-radius: 3px;
   }
-  .pad-btn .pad-scene-tag {
+  .pad-btn .pad-duration {
     position: absolute;
-    top: 4px; left: 5px;
+    bottom: 4px; right: 5px;
     font-size: .45rem;
     font-family: 'JetBrains Mono', monospace;
-    color: var(--accent);
-    background: rgba(240,165,0,.1);
+    color: var(--text4);
+    background: var(--bg);
+    border: 1px solid var(--border);
     padding: 1px 4px;
     border-radius: 3px;
   }
+  .channel.playing .pad-btn .pad-duration { color: var(--green); border-color: var(--green); }
+
+  /* Loop indicator */
+  .loop-indicator {
+    position: absolute;
+    top: 4px; left: 5px;
+    font-size: .5rem;
+    opacity: 0;
+    transition: opacity var(--transition);
+  }
+  .channel.looping .loop-indicator { opacity: 1; }
 
   /* Fader */
   .ch-fader-row {
@@ -561,7 +547,7 @@
   /* Control Buttons */
   .ch-controls {
     display: flex;
-    gap: 4px;
+    gap: 3px;
     margin-top: 5px;
     width: 100%;
   }
@@ -572,7 +558,7 @@
     border-radius: var(--radius-sm);
     background: var(--surface2);
     color: var(--text3);
-    font-size: .55rem;
+    font-size: .5rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: .5px;
@@ -583,6 +569,31 @@
   .ch-btn:hover { color: var(--text2); border-color: var(--border2); background: var(--surface3); }
   .ch-btn.mute-btn.active { color: var(--red); border-color: rgba(248,81,73,.4); background: var(--red-dim); }
   .ch-btn.solo-btn.active { color: var(--yellow); border-color: rgba(210,153,34,.4); background: rgba(210,153,34,.1); }
+  .ch-btn.loop-btn.active { color: var(--blue); border-color: rgba(88,166,255,.4); background: rgba(88,166,255,.1); }
+  .ch-btn.pan-btn.active { color: var(--purple); border-color: rgba(188,140,255,.4); background: rgba(188,140,255,.1); }
+
+  /* Pan slider */
+  .ch-pan-row {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 3px;
+  }
+  .ch-pan {
+    flex: 1;
+    height: 3px;
+    accent-color: var(--purple);
+    cursor: pointer;
+    border-radius: 2px;
+  }
+  .ch-pan-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .45rem;
+    color: var(--text4);
+    min-width: 16px;
+    text-align: center;
+  }
 
   /* Delete / Edit */
   .ch-delete {
@@ -611,6 +622,109 @@
   }
   .empty-state .icon { font-size: 3rem; margin-bottom: 12px; }
   .empty-state p { font-size: .9rem; margin-bottom: 16px; }
+
+  /* ══════════════════════════════════════
+     KEY OVERLAY
+  ══════════════════════════════════════ */
+  .key-overlay {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,.85);
+    border: 2px solid var(--accent);
+    border-radius: 16px;
+    padding: 20px 40px;
+    z-index: 500;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 100ms;
+    text-align: center;
+  }
+  .key-overlay.show { opacity: 1; }
+  .key-overlay .key-char {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .key-overlay .key-cue {
+    font-size: .8rem;
+    color: var(--text2);
+    margin-top: 4px;
+  }
+
+  /* ══════════════════════════════════════
+     PRESETS BAR
+  ══════════════════════════════════════ */
+  .presets-bar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 6px 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .presets-bar::-webkit-scrollbar { display: none; }
+  .presets-label {
+    font-size: .6rem;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .preset-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text3);
+    padding: 3px 10px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: .65rem;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: all var(--transition);
+  }
+  .preset-btn:hover { border-color: var(--border2); color: var(--text); }
+  .preset-btn.active { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+
+  /* ══════════════════════════════════════
+     HISTORY BAR
+  ══════════════════════════════════════ */
+  .history-bar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 6px 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .history-bar::-webkit-scrollbar { display: none; }
+  .history-label {
+    font-size: .6rem;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .history-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text3);
+    padding: 2px 8px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: .6rem;
+    white-space: nowrap;
+    transition: all var(--transition);
+  }
+  .history-item:hover { border-color: var(--border2); color: var(--text); }
 
   /* ══════════════════════════════════════
      MODALS
@@ -801,6 +915,14 @@
   @media (min-width: 1025px) {
     :root { --pad-size: 140px; }
   }
+
+  /* Print styles for cue sheet */
+  @media print {
+    header, .nav-bar, .presets-bar, .history-bar, .ch-delete, .ch-edit, .ch-controls, .timer-section, .add-timer-btn { display: none !important; }
+    main { padding: 0; }
+    .channel { break-inside: avoid; page-break-inside: avoid; }
+    body { background: white; color: black; }
+  }
 </style>
 </head>
 <body>
@@ -830,8 +952,26 @@
     </div>
 
     <button class="tool-btn" onclick="openConfigModal()">⚙ Config</button>
+    <button class="tool-btn" onclick="exportCueSheet()">🖨 Export</button>
+    <button class="tool-btn" onclick="toggleTheme()">🌓 Theme</button>
   </div>
 </header>
+
+<!-- ═══ PRESETS BAR ═══ -->
+<div class="presets-bar" id="presetsBar">
+  <span class="presets-label">Presets:</span>
+  <button class="preset-btn active" data-preset="default" onclick="loadPreset('default')">Default</button>
+  <button class="preset-btn" data-preset="act1" onclick="loadPreset('act1')">Act 1</button>
+  <button class="preset-btn" data-preset="act2" onclick="loadPreset('act2')">Act 2</button>
+  <button class="preset-btn" data-preset="finale" onclick="loadPreset('finale')">Finale</button>
+  <button class="tool-btn" onclick="openPresetsModal()" style="margin-left:auto;font-size:.65rem;padding:3px 8px;">+ New</button>
+</div>
+
+<!-- ═══ HISTORY BAR ═══ -->
+<div class="history-bar" id="historyBar">
+  <span class="history-label">Recent:</span>
+  <span id="historyItems" style="display:flex;gap:4px;overflow-x:auto;flex:1;align-items:center;"></span>
+</div>
 
 <!-- ═══ NAV BAR ═══ -->
 <div class="nav-bar" id="catBar">
@@ -849,6 +989,12 @@
     <button class="btn btn-accent" onclick="openAddModal()">+ Add Cue</button>
   </div>
 </main>
+
+<!-- ═══ KEY OVERLAY ═══ -->
+<div class="key-overlay" id="keyOverlay">
+  <div class="key-char" id="keyChar"></div>
+  <div class="key-cue" id="keyCue"></div>
+</div>
 
 <!-- ═══ ADD/EDIT MODAL ═══ -->
 <div class="modal-overlay" id="addModal">
@@ -930,6 +1076,21 @@
   </div>
 </div>
 
+<!-- ═══ PRESETS MODAL ═══ -->
+<div class="modal-overlay" id="presetsModal">
+  <div class="modal">
+    <h2>💾 SAVE PRESET</h2>
+    <div class="form-group">
+      <label>Preset Name</label>
+      <input type="text" id="presetName" placeholder="e.g. Act 1 Setup">
+    </div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closePresetsModal()">Cancel</button>
+      <button class="btn btn-accent" onclick="savePreset()">Save Preset</button>
+    </div>
+  </div>
+</div>
+
 <!-- ═══ CONFIG MODAL ═══ -->
 <div class="modal-overlay" id="configModal">
   <div class="modal">
@@ -957,64 +1118,65 @@
 <div class="toast-container" id="toasts"></div>
 
 <script>
-const STORAGE_KEY = 'voicepro_v6';
+const STORAGE_KEY = 'voicepro_v7';
 const BASE = 'sfx/';
 
 // ═══════════════════════════════════════════════════
-// DEFAULT CONFIG — 43 cues organized by scene
+// DEFAULT CONFIG
 // ═══════════════════════════════════════════════════
 const DEFAULT_CONFIG = {
   masterVolume: 80,
   masterMuted: false,
   sounds: [
     // ── THUNDER (5) ──
-    { id:'t1',  name:"Close",              cat:'Thunder', icon:'⛈️', key:'F8', url:BASE+'sfx_thunder_01_close.mp3',  vol:90, mute:false, solo:false },
-    { id:'t2',  name:"Distant",            cat:'Thunder', icon:'🌩️', key:'F9', url:BASE+'sfx_thunder_02_distant.mp3',  vol:70, mute:false, solo:false },
-    { id:'t3',  name:"Rolling",            cat:'Thunder', icon:'🌧️', key:'F10',url:BASE+'sfx_thunder_03_rolling.mp3',  vol:75, mute:false, solo:false },
-    { id:'t4',  name:"Heavy",              cat:'Thunder', icon:'💢', key:'F11',url:BASE+'sfx_thunder_04_heavy.mp3',    vol:95, mute:false, solo:false },
-    { id:'t5',  name:"Storm",              cat:'Thunder', icon:'🌪️', key:'F12',url:BASE+'sfx_thunder_05_storm.mp3',    vol:85, mute:false, solo:false },
+    { id:'t1',  name:"Close",              cat:'Thunder', icon:'⛈️', key:'F8', url:BASE+'sfx_thunder_01_close.mp3',  vol:90, mute:false, solo:false, loop:false, pan:0 },
+    { id:'t2',  name:"Distant",            cat:'Thunder', icon:'🌩️', key:'F9', url:BASE+'sfx_thunder_02_distant.mp3',  vol:70, mute:false, solo:false, loop:false, pan:0 },
+    { id:'t3',  name:"Rolling",            cat:'Thunder', icon:'🌧️', key:'F10',url:BASE+'sfx_thunder_03_rolling.mp3',  vol:75, mute:false, solo:false, loop:false, pan:0 },
+    { id:'t4',  name:"Heavy",              cat:'Thunder', icon:'💢', key:'F11',url:BASE+'sfx_thunder_04_heavy.mp3',    vol:95, mute:false, solo:false, loop:false, pan:0 },
+    { id:'t5',  name:"Storm",              cat:'Thunder', icon:'🌪️', key:'F12',url:BASE+'sfx_thunder_05_storm.mp3',    vol:85, mute:false, solo:false, loop:false, pan:0 },
 
     // ── EXPLOSION (5) ──
-    { id:'e1',  name:"Debris",             cat:'Explosion', icon:'💥', key:'-',  url:BASE+'sfx_explosion_01_debris.mp3', vol:95, mute:false, solo:false },
-    { id:'e2',  name:"Huge",               cat:'Explosion', icon:'💣', key:'=',  url:BASE+'sfx_explosion_02_huge.mp3',   vol:95, mute:false, solo:false },
-    { id:'e3',  name:"Blast",              cat:'Explosion', icon:'🔥', key:'[',  url:BASE+'sfx_explosion_03_blast.mp3',   vol:90, mute:false, solo:false },
-    { id:'e4',  name:"Large",              cat:'Explosion', icon:'💫', key:']',  url:BASE+'sfx_explosion_04_large.mp3',   vol:90, mute:false, solo:false },
-    { id:'e5',  name:"Crisp",              cat:'Explosion', icon:'☄️', key:'\\', url:BASE+'sfx_explosion_05_crisp.mp3',   vol:85, mute:false, solo:false },
+    { id:'e1',  name:"Debris",             cat:'Explosion', icon:'💥', key:'-',  url:BASE+'sfx_explosion_01_debris.mp3', vol:95, mute:false, solo:false, loop:false, pan:0 },
+    { id:'e2',  name:"Huge",               cat:'Explosion', icon:'💣', key:'=',  url:BASE+'sfx_explosion_02_huge.mp3',   vol:95, mute:false, solo:false, loop:false, pan:0 },
+    { id:'e3',  name:"Blast",              cat:'Explosion', icon:'🔥', key:'[',  url:BASE+'sfx_explosion_03_blast.mp3',   vol:90, mute:false, solo:false, loop:false, pan:0 },
+    { id:'e4',  name:"Large",              cat:'Explosion', icon:'💫', key:']',  url:BASE+'sfx_explosion_04_large.mp3',   vol:90, mute:false, solo:false, loop:false, pan:0 },
+    { id:'e5',  name:"Crisp",              cat:'Explosion', icon:'☄️', key:'\\', url:BASE+'sfx_explosion_05_crisp.mp3',   vol:85, mute:false, solo:false, loop:false, pan:0 },
 
     // ── BATTLE (5) ──
-    { id:'b1',  name:"MG + Explosions",    cat:'Battle', icon:'🔫', key:';',  url:BASE+'sfx_battle_01_mg.mp3',    vol:80, mute:false, solo:false },
-    { id:'b2',  name:"Debris Fall",        cat:'Battle', icon:'🏚️', key:"'",  url:BASE+'sfx_battle_02_debris.mp3', vol:70, mute:false, solo:false },
-    { id:'b3',  name:"Wood/Sand",          cat:'Battle', icon:'🪵', key:',',  url:BASE+'sfx_battle_03_wood.mp3',   vol:70, mute:false, solo:false },
-    { id:'b4',  name:"MG High Quality",    cat:'Battle', icon:'⚡', key:'.',  url:BASE+'sfx_battle_04_mg_high.mp3',vol:85, mute:false, solo:false },
-    { id:'b5',  name:"Rapid Fire",         cat:'Battle', icon:'🎯', key:'/',  url:BASE+'sfx_battle_05_rapid.mp3',  vol:85, mute:false, solo:false },
+    { id:'b1',  name:"MG + Explosions",    cat:'Battle', icon:'🔫', key:';',  url:BASE+'sfx_battle_01_mg.mp3',    vol:80, mute:false, solo:false, loop:true, pan:0 },
+    { id:'b2',  name:"Debris Fall",        cat:'Battle', icon:'🏚️', key:"'",  url:BASE+'sfx_battle_02_debris.mp3', vol:70, mute:false, solo:false, loop:false, pan:0 },
+    { id:'b3',  name:"Wood/Sand",          cat:'Battle', icon:'🪵', key:',',  url:BASE+'sfx_battle_03_wood.mp3',   vol:70, mute:false, solo:false, loop:false, pan:0 },
+    { id:'b4',  name:"MG High Quality",    cat:'Battle', icon:'⚡', key:'.',  url:BASE+'sfx_battle_04_mg_high.mp3',vol:85, mute:false, solo:false, loop:false, pan:0 },
+    { id:'b5',  name:"Rapid Fire",         cat:'Battle', icon:'🎯', key:'/',  url:BASE+'sfx_battle_05_rapid.mp3',  vol:85, mute:false, solo:false, loop:true, pan:0 },
 
     // ── GUNFIRE (5) ──
-    { id:'g1',  name:"Pistol",             cat:'Gunfire', icon:'🔫', key:'Enter', url:BASE+'sfx_gun_cz.mp3',      vol:80, mute:false, solo:false },
-    { id:'g2',  name:"Rifle",              cat:'Gunfire', icon:'🎯', key:'Backspace', url:BASE+'sfx_gun_mosin.mp3', vol:85, mute:false, solo:false },
-    { id:'g3',  name:"SKS",                cat:'Gunfire', icon:'🔫', key:' ',      url:BASE+'sfx_gun_sks.mp3',     vol:80, mute:false, solo:false },
-    { id:'g4',  name:"Shotgun",            cat:'Gunfire', icon:'💥', key:'Tab',    url:BASE+'sfx_gun_shotty.mp3',  vol:90, mute:false, solo:false },
-    { id:'g5',  name:"Auto Rifle",         cat:'Gunfire', icon:'⚡', key:'Caps',   url:BASE+'sfx_gun_auto.mp3',    vol:85, mute:false, solo:false },
+    { id:'g1',  name:"Pistol",             cat:'Gunfire', icon:'🔫', key:'Enter', url:BASE+'sfx_gun_cz.mp3',      vol:80, mute:false, solo:false, loop:false, pan:0 },
+    { id:'g2',  name:"Rifle",              cat:'Gunfire', icon:'🎯', key:'Backspace', url:BASE+'sfx_gun_mosin.mp3', vol:85, mute:false, solo:false, loop:false, pan:0 },
+    { id:'g3',  name:"SKS",                cat:'Gunfire', icon:'🔫', key:' ',      url:BASE+'sfx_gun_sks.mp3',     vol:80, mute:false, solo:false, loop:false, pan:0 },
+    { id:'g4',  name:"Shotgun",            cat:'Gunfire', icon:'💥', key:'Tab',    url:BASE+'sfx_gun_shotty.mp3',  vol:90, mute:false, solo:false, loop:false, pan:0 },
+    { id:'g5',  name:"Auto Rifle",         cat:'Gunfire', icon:'⚡', key:'Caps',   url:BASE+'sfx_gun_auto.mp3',    vol:85, mute:false, solo:false, loop:false, pan:0 },
 
     // ── MAGIC (5) ──
-    { id:'m1',  name:"Earth",              cat:'Magic', icon:'🌍', key:'PageUp', url:BASE+'sfx_magic_earth.mp3', vol:75, mute:false, solo:false },
-    { id:'m2',  name:"Fire",               cat:'Magic', icon:'🔥', key:'PageDown',url:BASE+'sfx_magic_fire.mp3',  vol:80, mute:false, solo:false },
-    { id:'m3',  name:"Wind",               cat:'Magic', icon:'💨', key:'Home',   url:BASE+'sfx_magic_wind.mp3',  vol:75, mute:false, solo:false },
-    { id:'m4',  name:"Water",              cat:'Magic', icon:'💧', key:'End',    url:BASE+'sfx_magic_water.mp3', vol:70, mute:false, solo:false },
-    { id:'m5',  name:"Ice/Lightning",      cat:'Magic', icon:'❄️', key:'Insert', url:BASE+'sfx_magic_ice.mp3',   vol:80, mute:false, solo:false },
+    { id:'m1',  name:"Earth",              cat:'Magic', icon:'🌍', key:'PageUp', url:BASE+'sfx_magic_earth.mp3', vol:75, mute:false, solo:false, loop:false, pan:0 },
+    { id:'m2',  name:"Fire",               cat:'Magic', icon:'🔥', key:'PageDown',url:BASE+'sfx_magic_fire.mp3',  vol:80, mute:false, solo:false, loop:false, pan:0 },
+    { id:'m3',  name:"Wind",               cat:'Magic', icon:'💨', key:'Home',   url:BASE+'sfx_magic_wind.mp3',  vol:75, mute:false, solo:false, loop:true, pan:0 },
+    { id:'m4',  name:"Water",              cat:'Magic', icon:'💧', key:'End',    url:BASE+'sfx_magic_water.mp3', vol:70, mute:false, solo:false, loop:false, pan:0 },
+    { id:'m5',  name:"Ice/Lightning",      cat:'Magic', icon:'❄️', key:'Insert', url:BASE+'sfx_magic_ice.mp3',   vol:80, mute:false, solo:false, loop:false, pan:0 },
 
     // ── MUSIC (5) ──
-    { id:'mu1', name:"Tadhana Theme",      cat:'Music', icon:'🎵', key:'Delete',url:BASE+'sfx_music_tadhana.mp3', vol:70, mute:false, solo:false },
-    { id:'mu2', name:"Epic Battle",        cat:'Music', icon:'⚔️', key:'ScrollUp',url:BASE+'sfx_music_fast_fight.mp3',vol:80,mute:false,solo:false},
-    { id:'mu3', name:"Fanfare",            cat:'Music', icon:'🎺', key:'ScrollDn',url:BASE+'sfx_music_fanfare.mp3',  vol:85,mute:false,solo:false},
-    { id:'mu4', name:"Inspirational",      cat:'Music', icon:'🎶', key:'Pause',  url:BASE+'sfx_music_inspirational.mp3',vol:75,mute:false,solo:false},
-    { id:'mu5', name:"War Ambience",       cat:'Music', icon:'🎼', key:'Print',  url:BASE+'sfx_music_war.mp3',     vol:60,mute:false,solo:false},
+    { id:'mu1', name:"Tadhana Theme",      cat:'Music', icon:'🎵', key:'Delete',url:BASE+'sfx_music_tadhana.mp3', vol:70, mute:false, solo:false, loop:false, pan:0 },
+    { id:'mu2', name:"Epic Battle",        cat:'Music', icon:'⚔️', key:'ScrollUp',url:BASE+'sfx_music_fast_fight.mp3',vol:80,mute:false,solo:false,loop:false,pan:0},
+    { id:'mu3', name:"Fanfare",            cat:'Music', icon:'🎺', key:'ScrollDn',url:BASE+'sfx_music_fanfare.mp3',  vol:85,mute:false,solo:false,loop:false,pan:0},
+    { id:'mu4', name:"Inspirational",      cat:'Music', icon:'🎶', key:'Pause',  url:BASE+'sfx_music_inspirational.mp3',vol:75,mute:false,solo:false,loop:false,pan:0},
+    { id:'mu5', name:"War Ambience",       cat:'Music', icon:'🎼', key:'Print',  url:BASE+'sfx_music_war.mp3',     vol:60,mute:false,solo:false,loop:true,pan:0},
   ],
   timers: [
     { id:'t_show', label:'Show Runtime', type:'stopwatch', seconds:0, running:false, lastTick:0 },
     { id:'t_act2', label:'Act 2 Countdown', type:'countdown', seconds:900, running:false, lastTick:0, setSeconds:900 },
   ],
   categories: ['Thunder','Explosion','Battle','Gunfire','Magic','Music'],
-  pinnedKeys: ['Q','W','E','R','T','Y','U','I','O','P','1','2','3','4','5','6','7','8','9','0']
+  pinnedKeys: ['Q','W','E','R','T','Y','U','I','O','P','1','2','3','4','5','6','7','8','9','0'],
+  history: []
 };
 
 let config = loadConfig();
@@ -1025,6 +1187,27 @@ let searchQuery = '';
 let editingId = null;
 let pendingFiles = [];
 let editingTimerId = null;
+let currentPreset = 'default';
+let themeIndex = 0;
+const themes = ['dark', 'light'];
+
+// Web Audio API context
+let audioCtx = null;
+let masterGain = null;
+let analyser = null;
+
+function getAudioContext() {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    masterGain = audioCtx.createGain();
+    analyser = audioCtx.createAnalyser();
+    analyser.fftSize = 256;
+    masterGain.connect(analyser);
+    analyser.connect(audioCtx.destination);
+  }
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  return { ctx: audioCtx, gain: masterGain, analyser };
+}
 
 // ═══════════════════════════════════════════════════
 // STORAGE
@@ -1040,7 +1223,7 @@ function save() {
 }
 
 // ═══════════════════════════════════════════════════
-// AUDIO ENGINE
+// AUDIO ENGINE (with Web Audio API)
 // ═══════════════════════════════════════════════════
 function getChannelVol(id) {
   const s = config.sounds.find(x => x.id === id);
@@ -1064,29 +1247,268 @@ function playSound(id) {
     existing.audio.pause();
     existing.audio.currentTime = 0;
     activeAudios = activeAudios.filter(x => x.id !== id);
-    document.getElementById(`ch-${id}`)?.classList.remove('playing');
+    const el = document.getElementById(`ch-${id}`);
+    if (el) { el.classList.remove('playing'); el.querySelector('.level-meter-fill').style.width = '0%'; }
   }
 
   let a = audioCache[id];
-  if (!a) { a = new Audio(s.url); audioCache[id] = a; }
-  a.volume = getChannelVol(id);
+  if (!a) {
+    a = new Audio(s.url);
+    a.preload = 'auto';
+    audioCache[id] = a;
+  }
+
+  // Set volume with fade in
+  const vol = getChannelVol(id);
+  a.volume = 0;
   a.currentTime = 0;
+
+  // Set pan if supported
+  if (s.pan !== undefined && a.p ? true : false) {
+    // Pan is handled via Web Audio API below
+  }
+
+  // Use Web Audio API for better control
+  const { ctx, gain, analyser } = getAudioContext();
+
+  // Create source and gain node for this channel
+  if (!a._source) {
+    a._source = ctx.createMediaElementSource(a);
+    a._gain = ctx.createGain();
+    a._panner = ctx.createStereoPanner();
+    a._source.connect(a._gain);
+    a._gain.connect(a._panner);
+    a._panner.connect(gain);
+  }
+
+  // Apply volume fade in
+  const now = ctx.currentTime;
+  a._gain.gain.setValueAtTime(0, now);
+  a._gain.gain.linearRampToValueAtTime(vol, now + 0.05);
+
+  // Apply pan
+  if (s.pan !== undefined) {
+    a._panner.pan.value = s.pan;
+  }
+
   a.play().catch(() => showToast('Tap anywhere first to enable audio'));
 
   activeAudios.push({ id, audio: a });
   const el = document.getElementById(`ch-${id}`);
-  if (el) el.classList.add('playing');
+  if (el) {
+    el.classList.add('playing');
+    // Start level meter animation
+    startLevelMeter(id);
+  }
+
+  // Add to history
+  addToHistory(s.name, id);
 
   a.addEventListener('ended', () => {
-    activeAudios = activeAudios.filter(x => x.id !== id);
-    document.getElementById(`ch-${id}`)?.classList.remove('playing');
+    if (s.loop) {
+      a.currentTime = 0;
+      a.play();
+    } else {
+      activeAudios = activeAudios.filter(x => x.id !== id);
+      const el = document.getElementById(`ch-${id}`);
+      if (el) { el.classList.remove('playing'); const meter = el.querySelector('.level-meter-fill'); if (meter) meter.style.width = '0%'; }
+    }
   });
+
+  // Update duration display
+  updateDurationDisplay(id, a);
+}
+
+function updateDurationDisplay(id, audio) {
+  const el = document.getElementById(`ch-${id}`);
+  if (!el) return;
+  const durEl = el.querySelector('.pad-duration');
+  if (!durEl) return;
+
+  function update() {
+    if (!audio.duration || isNaN(audio.duration)) return;
+    const remaining = audio.duration - audio.currentTime;
+    if (remaining <= 0) return;
+    const m = Math.floor(remaining / 60);
+    const s = Math.floor(remaining % 60);
+    durEl.textContent = `${m}:${String(s).padStart(2,'0')}`;
+  }
+
+  audio.addEventListener('loadedmetadata', update);
+  audio.addEventListener('timeupdate', update);
+}
+
+function startLevelMeter(id) {
+  const el = document.getElementById(`ch-${id}`);
+  if (!el) return;
+  const meter = el.querySelector('.level-meter-fill');
+  if (!meter) return;
+
+  const { analyser } = getAudioContext();
+  const bufferLength = analyser.frequencyBinCount;
+  const dataArray = new Uint8Array(bufferLength);
+
+  function updateMeter() {
+    const playing = activeAudios.find(x => x.id === id);
+    if (!playing) return;
+
+    analyser.getByteFrequencyData(dataArray);
+    // Calculate average level
+    let sum = 0;
+    for (let i = 0; i < bufferLength; i++) sum += dataArray[i];
+    const avg = sum / bufferLength;
+    const percent = Math.min(100, (avg / 128) * 100);
+    meter.style.width = percent + '%';
+
+    requestAnimationFrame(updateMeter);
+  }
+  updateMeter();
 }
 
 function stopAll() {
-  activeAudios.forEach(({ audio }) => { audio.pause(); audio.currentTime = 0; });
+  activeAudios.forEach(({ audio }) => {
+    audio.pause();
+    audio.currentTime = 0;
+  });
   activeAudios = [];
-  document.querySelectorAll('.channel.playing').forEach(p => p.classList.remove('playing'));
+  document.querySelectorAll('.channel.playing').forEach(p => {
+    p.classList.remove('playing');
+    const meter = p.querySelector('.level-meter-fill');
+    if (meter) meter.style.width = '0%';
+  });
+}
+
+// ═══════════════════════════════════════════════════
+// HISTORY
+// ═══════════════════════════════════════════════════
+function addToHistory(name, id) {
+  // Remove duplicate
+  config.history = config.history.filter(h => h.id !== id);
+  // Add to front
+  config.history.unshift({ name, id, time: Date.now() });
+  // Keep only last 20
+  config.history = config.history.slice(0, 20);
+  renderHistory();
+}
+
+function renderHistory() {
+  const container = document.getElementById('historyItems');
+  if (!container) return;
+  container.innerHTML = config.history.slice(0, 10).map(h =>
+    `<button class="history-item" onclick="playSound('${h.id}')" title="${escHtml(h.name)}">${escHtml(h.name)}</button>`
+  ).join('');
+}
+
+// ═══════════════════════════════════════════════════
+// THEMES
+// ═══════════════════════════════════════════════════
+function toggleTheme() {
+  themeIndex = (themeIndex + 1) % themes.length;
+  document.body.setAttribute('data-theme', themes[themeIndex]);
+  localStorage.setItem('voicepro_theme', themes[themeIndex]);
+  showToast(`Theme: ${themes[themeIndex]}`);
+}
+
+// Load saved theme
+const savedTheme = localStorage.getItem('voicepro_theme');
+if (savedTheme) {
+  document.body.setAttribute('data-theme', savedTheme);
+  themeIndex = themes.indexOf(savedTheme);
+}
+
+// ═══════════════════════════════════════════════════
+// PRESETS
+// ═══════════════════════════════════════════════════
+function loadPreset(name) {
+  const key = `voicepro_preset_${name}`;
+  const saved = localStorage.getItem(key);
+  if (saved) {
+    try {
+      const preset = JSON.parse(saved);
+      config.sounds = preset.sounds || config.sounds;
+      config.timers = preset.timers || config.timers;
+      config.categories = preset.categories || config.categories;
+      currentPreset = name;
+      renderPresetsBar();
+      save();
+      audioCache = {};
+      activeAudios = [];
+      render();
+      showToast(`Loaded preset: ${name}`);
+    } catch(e) { showToast('Failed to load preset'); }
+  } else {
+    showToast('No saved preset for this slot');
+  }
+}
+
+function savePreset() {
+  const name = document.getElementById('presetName').value.trim().toLowerCase().replace(/\s+/g, '_');
+  if (!name) { showToast('Enter a preset name'); return; }
+  const key = `voicepro_preset_${name}`;
+  localStorage.setItem(key, JSON.stringify({
+    sounds: config.sounds,
+    timers: config.timers,
+    categories: config.categories
+  }));
+  closePresetsModal();
+  renderPresetsBar();
+  showToast(`Preset "${name}" saved`);
+}
+
+function renderPresetsBar() {
+  const bar = document.getElementById('presetsBar');
+  const buttons = bar.querySelectorAll('.preset-btn');
+  buttons.forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.preset === currentPreset);
+  });
+}
+
+function openPresetsModal() {
+  document.getElementById('presetName').value = '';
+  document.getElementById('presetsModal').classList.add('open');
+}
+function closePresetsModal() { document.getElementById('presetsModal').classList.remove('open'); }
+
+// ═══════════════════════════════════════════════════
+// CUE SHEET EXPORT
+// ═══════════════════════════════════════════════════
+function exportCueSheet() {
+  const printWindow = window.open('', '_blank');
+  let html = `<!DOCTYPE html><html><head><title>Cue Sheet - VoicePro</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 40px; }
+    h1 { text-align: center; margin-bottom: 30px; }
+    .category { margin-bottom: 20px; }
+    .category h2 { border-bottom: 2px solid #333; padding-bottom: 5px; }
+    table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    th, td { border: 1px solid #ddd; padding: 6px 10px; text-align: left; }
+    th { background: #f5f5f5; font-weight: bold; }
+    .key { font-family: monospace; background: #f0f0f0; padding: 2px 6px; border-radius: 3px; }
+  </style></head><body>
+  <h1>🎛️ VoicePro — Cue Sheet</h1>`;
+
+  const grouped = {};
+  config.sounds.forEach(s => {
+    const cat = s.cat || 'Uncategorized';
+    if (!grouped[cat]) grouped[cat] = [];
+    grouped[cat].push(s);
+  });
+
+  Object.entries(grouped).forEach(([cat, items]) => {
+    html += `<div class="category"><h2>${cat} (${items.length})</h2>
+      <table><tr><th>#</th><th>Icon</th><th>Name</th><th>Key</th><th>File</th></tr>`;
+    items.forEach((s, i) => {
+      html += `<tr><td>${i+1}</td><td>${s.icon||''}</td><td>${escHtml(s.name)}</td>
+        <td><span class="key">${escHtml(s.key||'-')}</span></td>
+        <td style="font-size:10px;color:#666">${escHtml(s.url.replace(BASE,''))}</td></tr>`;
+    });
+    html += `</table></div>`;
+  });
+
+  html += `<p style="text-align:center;color:#999;font-size:10px;margin-top:40px">Generated by VoicePro — ${new Date().toLocaleString()}</p></body></html>`;
+  printWindow.document.write(html);
+  printWindow.document.close();
+  printWindow.print();
 }
 
 // ═══════════════════════════════════════════════════
@@ -1212,7 +1634,6 @@ function applyTimerEdit(id) {
 
 function openAddTimerModal() {
   editingTimerId = null;
-  document.getElementById('timerModalTitle').textContent = 'ADD TIMER';
   document.getElementById('timerLabel').value = '';
   document.getElementById('timerType').value = 'countdown';
   document.getElementById('timerH').value = 0;
@@ -1248,6 +1669,7 @@ function render() {
   renderChannels();
   renderCatDatalist();
   updateMasterFader();
+  renderHistory();
 }
 
 function renderCategories() {
@@ -1343,24 +1765,36 @@ function renderChannels() {
 function renderChannel(s, i) {
   const cueNum = String(i + 1).padStart(2, '0');
   const playing = activeAudios.find(x => x.id === s.id);
+  const loopActive = s.loop ? 'loop-btn active' : 'loop-btn';
+  const panValue = s.pan !== undefined ? s.pan : 0;
   return `
-    <div class="channel ${playing?'playing':''} ${s.mute?'muted-ch':''}" id="ch-${s.id}">
+    <div class="channel ${playing?'playing':''} ${s.mute?'muted-ch':''} ${s.loop?'looping':''}" id="ch-${s.id}">
       <button class="ch-delete" onclick="deleteSound('${s.id}')" title="Delete">✕</button>
       <button class="ch-edit" onclick="openEditModal('${s.id}')" title="Edit">✎</button>
+      <span class="loop-indicator">🔁</span>
       <div class="led"></div>
+      <div class="level-meter"><div class="level-meter-fill"></div></div>
       <div class="pad-btn" ontouchstart="handleTouch(event,'${s.id}')" onclick="playSound('${s.id}')">
         <span class="pad-key">${escHtml(s.key||'')}</span>
         <span class="pad-icon">${escHtml(s.icon||'🔊')}</span>
         <span class="pad-name">${escHtml(s.name)}</span>
+        <span class="pad-duration">--:--</span>
       </div>
       <div class="ch-fader-row">
         <input type="range" class="ch-fader" min="0" max="100" value="${s.vol??80}"
           oninput="setChVol('${s.id}',this.value)" orient="horizontal">
         <span class="ch-vol-label">${s.vol??80}</span>
       </div>
+      <div class="ch-pan-row">
+        <span class="ch-pan-label">L</span>
+        <input type="range" class="ch-pan" min="-1" max="1" step="0.1" value="${panValue}"
+          oninput="setChPan('${s.id}',this.value)" orient="horizontal">
+        <span class="ch-pan-label">R</span>
+      </div>
       <div class="ch-controls">
         <button class="ch-btn mute-btn ${s.mute?'active':''}" onclick="toggleMute('${s.id}')">M</button>
         <button class="ch-btn solo-btn ${s.solo?'active':''}" onclick="toggleSolo('${s.id}')">S</button>
+        <button class="ch-btn ${loopActive}" onclick="toggleLoop('${s.id}')">L</button>
         <button class="ch-btn" onclick="remapKey('${s.id}')" title="Remap key">${escHtml(s.key||'K')}</button>
       </div>
     </div>
@@ -1386,12 +1820,26 @@ function setChVol(id, val) {
   const s = config.sounds.find(x => x.id === id);
   if (s) { s.vol = parseInt(val); save(); }
   const a = audioCache[id];
-  if (a) a.volume = getChannelVol(id);
+  if (a && a._gain) {
+    const { ctx } = getAudioContext();
+    a._gain.gain.setTargetAtTime(getChannelVol(id), ctx.currentTime, 0.02);
+  }
 }
+
+function setChPan(id, val) {
+  const s = config.sounds.find(x => x.id === id);
+  if (s) { s.pan = parseFloat(val); save(); }
+  const a = audioCache[id];
+  if (a && a._panner) {
+    a._panner.pan.value = parseFloat(val);
+  }
+}
+
 function toggleMute(id) {
   const s = config.sounds.find(x => x.id === id);
   if (s) { s.mute = !s.mute; save(); renderChannels(); }
 }
+
 function toggleSolo(id) {
   const s = config.sounds.find(x => x.id === id);
   if (s) {
@@ -1400,11 +1848,25 @@ function toggleSolo(id) {
     save(); renderChannels();
   }
 }
+
+function toggleLoop(id) {
+  const s = config.sounds.find(x => x.id === id);
+  if (s) {
+    s.loop = !s.loop;
+    // If currently playing, toggle loop on the audio element
+    const a = audioCache[id];
+    if (a) a.loop = s.loop;
+    save(); renderChannels();
+    showToast(s.loop ? 'Loop ON' : 'Loop OFF');
+  }
+}
+
 function toggleMasterMute() {
   config.masterMuted = !config.masterMuted;
   save(); updateMasterFader();
   document.querySelectorAll('.channel.playing').forEach(el => el.classList.toggle('muted-ch', config.masterMuted));
 }
+
 function deleteSound(id) {
   if (!confirm('Delete this cue?')) return;
   config.sounds = config.sounds.filter(s => s.id !== id);
@@ -1461,7 +1923,7 @@ function saveSound() {
     const s = config.sounds.find(x => x.id === editingId);
     if (s) { s.name=name; s.cat=cat; s.icon=icon; s.key=key; s.url=url; }
   } else {
-    config.sounds.push({ id:'c_'+Date.now()+'_'+Math.random().toString(36).slice(2,6), name, cat, icon, key, url, vol:80, mute:false, solo:false });
+    config.sounds.push({ id:'c_'+Date.now()+'_'+Math.random().toString(36).slice(2,6), name, cat, icon, key, url, vol:80, mute:false, solo:false, loop:false, pan:0 });
   }
   if (cat && !config.categories.includes(cat)) config.categories.push(cat);
   save(); closeAddModal(); render(); showToast(editingId ? 'Cue updated' : 'Cue added');
@@ -1502,7 +1964,7 @@ function saveConfig() {
   try {
     const parsed = JSON.parse(document.getElementById('configEdit').value);
     if (!parsed.sounds || !Array.isArray(parsed.sounds)) throw new Error('Need sounds array');
-    parsed.sounds.forEach(s => { s.vol=s.vol??80; s.mute=s.mute??false; s.solo=s.solo??false; });
+    parsed.sounds.forEach(s => { s.vol=s.vol??80; s.mute=s.mute??false; s.solo=s.solo??false; s.loop=s.loop??false; s.pan=s.pan??0; });
     config = parsed;
     save(); audioCache={}; activeAudios=[]; render(); closeConfigModal(); showToast('Config saved');
   } catch(e) { showToast('Invalid JSON: '+e.message); }
@@ -1519,6 +1981,7 @@ function importConfig(event) {
     try {
       const parsed = JSON.parse(e.target.result);
       if (!parsed.sounds) throw new Error('No sounds array');
+      parsed.sounds.forEach(s => { s.loop=s.loop??false; s.pan=s.pan??0; });
       config = parsed; save(); audioCache={}; activeAudios=[]; render(); closeConfigModal(); showToast('Config imported');
     } catch(err) { showToast('Import failed: '+err.message); }
   };
@@ -1526,13 +1989,16 @@ function importConfig(event) {
 }
 function clearAll() {
   if (!confirm('Delete ALL cues and timers? This cannot be undone.')) return;
-  config.sounds=[]; config.timers=[]; config.categories=[];
+  config.sounds=[]; config.timers=[]; config.categories=[]; config.history=[];
   save(); audioCache={}; activeAudios=[]; render(); closeConfigModal(); showToast('All cleared');
 }
 
 // ═══════════════════════════════════════════════════
 // KEYBOARD
 // ═══════════════════════════════════════════════════
+const keyOverlay = document.getElementById('keyOverlay');
+let keyOverlayTimeout;
+
 document.addEventListener('keydown', e => {
   if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
   if (e.code === 'Space') { e.preventDefault(); stopAll(); return; }
@@ -1543,12 +2009,37 @@ document.addEventListener('keydown', e => {
   }
   const key = e.key;
   const sound = config.sounds.find(s => s.key === key);
-  if (sound) { e.preventDefault(); playSound(sound.id); }
+  if (sound) {
+    e.preventDefault();
+    playSound(sound.id);
+    // Show key overlay
+    showKeyOverlay(key, sound.name);
+  }
 });
+
+function showKeyOverlay(key, cueName) {
+  document.getElementById('keyChar').textContent = key;
+  document.getElementById('keyCue').textContent = cueName;
+  keyOverlay.classList.add('show');
+  clearTimeout(keyOverlayTimeout);
+  keyOverlayTimeout = setTimeout(() => keyOverlay.classList.remove('show'), 800);
+}
 
 // ═══════════════════════════════════════════════════
 // SEARCH
 // ═══════════════════════════════════════════════════
+const searchInput = document.createElement('input');
+searchInput.type = 'text';
+searchInput.placeholder = 'Search...';
+searchInput.id = 'searchInput';
+searchInput.style.cssText = 'width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:5px 10px 5px 30px;border-radius:20px;font-size:.8rem;outline:none;transition:all var(--transition);';
+document.addEventListener('DOMContentLoaded', () => {
+  const navBar = document.getElementById('catBar');
+  const searchBox = document.createElement('div');
+  searchBox.className = 'search-box';
+  searchBox.appendChild(searchInput);
+  navBar.appendChild(searchBox);
+});
 document.getElementById('searchInput')?.addEventListener('input', e => {
   searchQuery = e.target.value.trim();
   renderChannels();
@@ -1560,7 +2051,12 @@ document.getElementById('searchInput')?.addEventListener('input', e => {
 document.getElementById('masterFader').addEventListener('input', e => {
   config.masterVolume = parseInt(e.target.value);
   save(); updateMasterFader();
-  activeAudios.forEach(({id, audio}) => { audio.volume = getChannelVol(id); });
+  activeAudios.forEach(({id, audio}) => {
+    if (audio._gain) {
+      const { ctx } = getAudioContext();
+      audio._gain.gain.setTargetAtTime(getChannelVol(id), ctx.currentTime, 0.02);
+    }
+  });
 });
 
 // ═══════════════════════════════════════════════════
