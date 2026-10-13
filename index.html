@@ -976,6 +976,7 @@
     </div>
 
     <button class="tool-btn" onclick="openConfigModal()" ontouchstart="event.preventDefault(); openConfigModal()">⚙ Config</button>
+    <button class="tool-btn" onclick="flushLocalStorage()" ontouchstart="event.preventDefault(); flushLocalStorage()">⟳ Reset</button>
     <button class="tool-btn" onclick="exportCueSheet()" ontouchstart="event.preventDefault(); exportCueSheet()">🖨 Export</button>
     <button class="tool-btn" onclick="toggleTheme()" ontouchstart="event.preventDefault(); toggleTheme()">🌓 Theme</button>
   </div>
@@ -1270,7 +1271,16 @@ function createAudioNode(buffer, id) {
 // STORAGE
 // ═══════════════════════════════════════════════════
 function loadConfig() {
-  try { const raw = localStorage.getItem(STORAGE_KEY); if (raw) return JSON.parse(raw); } catch(e) {}
+  try { 
+    const raw = localStorage.getItem(STORAGE_KEY); 
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      // Validate config has sounds array with items
+      if (parsed.sounds && Array.isArray(parsed.sounds) && parsed.sounds.length > 0) {
+        return parsed;
+      }
+    }
+  } catch(e) {}
   return JSON.parse(JSON.stringify(DEFAULT_CONFIG));
 }
 function save() {
