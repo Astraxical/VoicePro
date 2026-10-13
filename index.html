@@ -970,8 +970,8 @@
 
     <div class="master-section">
       <span class="master-label">Master</span>
-      <input type="range" class="master-fader" id="masterFader" min="0" max="100" value="80">
-      <span class="master-val" id="masterVal">80</span>
+      <input type="range" class="master-fader" id="masterFader" min="0" max="200" value="100">
+      <span class="master-val" id="masterVal">100</span>
       <button class="master-mute" id="masterMuteBtn" onclick="toggleMasterMute()">M</button>
     </div>
 
@@ -1131,6 +1131,8 @@
       <button class="btn" onclick="document.getElementById('importFile').click()">📥 Import</button>
       <input type="file" id="importFile" accept=".json" style="display:none" onchange="importConfig(event)">
       <button class="btn btn-danger" onclick="clearAll()">🗑 Clear All</button>
+      <button class="btn btn-danger" onclick="flushLocalStorage()">🗑 Flush Storage</button>
+      <button class="btn" onclick="preloadAssets()">⏬ Preload All</button>
     </div>
     <div class="modal-actions">
       <button class="btn" onclick="closeConfigModal()">Close</button>
@@ -1204,8 +1206,7 @@ const DEFAULT_CONFIG = {
 };
 
 let config = loadConfig();
-let audioCache = {};
-let activeAudios = [];
+let activeNodes = new Map();
 let currentCat = 'all';
 let searchQuery = '';
 let editingId = null;
@@ -1215,8 +1216,9 @@ let currentPreset = 'default';
 let themeIndex = 0;
 const themes = ['dark', 'light'];
 
-// Web Audio API for level meter only
+// Web Audio API for gain, pan, and real level metering
 let audioCtx = null;
+let audioBuffers = {};
 
 function getAudioContext() {
   if (!audioCtx) {
@@ -1226,6 +1228,42 @@ function getAudioContext() {
     audioCtx.resume();
   }
   return audioCtx;
+}
+
+async function loadAudioBuffer(url) {
+  if (audioBuffers[url]) return audioBuffers[url];
+  const ctx = getAudioContext();
+  try {
+    const response = await fetch(url);
+    const arrayBuffer = await response.arrayBuffer();
+    const buffer = await ctx.decodeAudioData(arrayBuffer);
+    audioBuffers[url] = buffer;
+    return buffer;
+  } catch (e) {
+    console.error('Failed to load audio buffer:', url, e);
+    throw e;
+  }
+}
+
+function createAudioNode(buffer, id) {
+  const ctx = getAudioContext();
+  const source = ctx.createBufferSource();
+  source.buffer = buffer;
+
+  const gainNode = ctx.createGain();
+  const panNode = ctx.createStereoPanner();
+
+  const s = config.sounds.find(x => x.id === id);
+  gainNode.gain.value = getChannelVol(id);
+  panNode.pan.value = (s && s.pan !== undefined) ? s.pan : 0;
+
+  source.connect(gainNode).connect(panNode).connect(ctx.destination);
+
+  const analyser = ctx.createAnalyser();
+  analyser.fftSize = 256;
+  gainNode.connect(analyser);
+
+  return { source, gainNode, panNode, analyser, buffer };
 }
 
 // ═══════════════════════════════════════════════════
@@ -1242,12 +1280,12 @@ function save() {
 }
 
 // ═══════════════════════════════════════════════════
-// AUDIO ENGINE (Simple & Reliable)
+// AUDIO ENGINE (Web Audio API)
 // ═══════════════════════════════════════════════════
 function getChannelVol(id) {
   const s = config.sounds.find(x => x.id === id);
   if (!s) return 0;
-  let vol = (s.vol ?? 80) / 100;
+  let vol = (s.vol ?? 100) / 100;
   if (s.mute) vol = 0;
   if (config.masterMuted) vol = 0;
   const anySolo = config.sounds.some(x => x.solo);
@@ -1256,119 +1294,104 @@ function getChannelVol(id) {
   return vol;
 }
 
-function playSound(id) {
+const activeNodes = new Map();
+
+async function playSound(id) {
   const s = config.sounds.find(x => x.id === id);
   if (!s || !s.url) return;
 
-  // Check if currently playing this sound
-  const existing = activeAudios.find(x => x.id === id);
-  if (existing && !existing.audio.paused) {
-    // Stop completely (reset to beginning)
-    existing.audio.pause();
-    existing.audio.currentTime = 0;
-    activeAudios = activeAudios.filter(x => x.id !== id);
+  if (activeNodes.has(id)) {
+    const node = activeNodes.get(id);
+    node.source.stop();
+    activeNodes.delete(id);
     const el = document.getElementById(`ch-${id}`);
     if (el) { el.classList.remove('playing'); const meter = el.querySelector('.level-meter-fill'); if (meter) meter.style.width = '0%'; }
     return;
   }
 
-  let a = audioCache[id];
-  // Create new audio element with cache-busting to prevent stale files
-  const url = s.url + '?v=' + Date.now();
-  a = new Audio(url);
-  a.preload = 'auto';
-  audioCache[id] = a;
-
-  // Play from beginning
-  a.volume = getChannelVol(id);
-  a.currentTime = 0;
-  a.loop = s.loop || false;
-
-  a.play().then(() => {
-    activeAudios.push({ id, audio: a });
+  try {
+    const buffer = await loadAudioBuffer(s.url);
+    const node = createAudioNode(buffer, id);
+    
+    node.source.loop = s.loop || false;
+    node.source.start(0);
+    
+    activeNodes.set(id, node);
+    
     const el = document.getElementById(`ch-${id}`);
     if (el) {
       el.classList.add('playing');
-      startLevelMeter(id);
+      startRealLevelMeter(id, node.analyser);
     }
     addToHistory(s.name, id);
-    updateDurationDisplay(id, a);
-  }).catch(e => {
+    updateDurationDisplay(id, node.source, buffer.duration);
+  } catch (e) {
     console.error('Play failed:', e);
     showToast('Tap page first to enable audio');
-  });
+  }
 }
 
 function stopAll() {
-  activeAudios.forEach(({ audio }) => {
-    audio.pause();
-    audio.currentTime = 0;
+  activeNodes.forEach((node, id) => {
+    try { node.source.stop(); } catch(e) {}
+    const el = document.getElementById(`ch-${id}`);
+    if (el) { el.classList.remove('playing'); const meter = el.querySelector('.level-meter-fill'); if (meter) meter.style.width = '0%'; }
   });
-  activeAudios = [];
-  document.querySelectorAll('.channel.playing').forEach(p => {
-    p.classList.remove('playing');
-    const meter = p.querySelector('.level-meter-fill');
-    if (meter) meter.style.width = '0%';
-  });
+  activeNodes.clear();
 }
 
-function updateDurationDisplay(id, audio) {
+function updateDurationDisplay(id, source, duration) {
   const el = document.getElementById(`ch-${id}`);
   if (!el) return;
   const durEl = el.querySelector('.pad-duration');
   if (!durEl) return;
 
   function update() {
-    if (!audio.duration || isNaN(audio.duration)) return;
-    const remaining = audio.duration - audio.currentTime;
+    if (!duration || isNaN(duration)) return;
+    const currentTime = source.context.currentTime - source.startTime;
+    const remaining = duration - currentTime;
     if (remaining <= 0) return;
     const m = Math.floor(remaining / 60);
     const s = Math.floor(remaining % 60);
     durEl.textContent = `${m}:${String(s).padStart(2,'0')}`;
   }
 
-  audio.addEventListener('loadedmetadata', update);
-  audio.addEventListener('timeupdate', update);
+  source.startTime = source.context.currentTime;
+  const interval = setInterval(update, 500);
+  source.addEventListener('ended', () => clearInterval(interval));
 }
 
-function startLevelMeter(id) {
+function startRealLevelMeter(id, analyser) {
   const el = document.getElementById(`ch-${id}`);
   if (!el) return;
   const meter = el.querySelector('.level-meter-fill');
   if (!meter) return;
 
-  // Simple animated level meter (not real-time, just visual feedback)
-  let frame = 0;
+  const dataArray = new Uint8Array(analyser.frequencyBinCount);
+
   function updateMeter() {
-    const playing = activeAudios.find(x => x.id === id);
-    if (!playing || playing.paused) {
+    const node = activeNodes.get(id);
+    if (!node) {
       meter.style.width = '0%';
       return;
     }
 
-    // Create a fake waveform animation
-    frame++;
-    const base = 30 + Math.sin(frame * 0.1) * 20;
-    const peak = 60 + Math.sin(frame * 0.15) * 25 + Math.random() * 15;
-    meter.style.width = Math.min(100, peak) + '%';
+    analyser.getByteFrequencyData(dataArray);
+    let sum = 0;
+    for (let i = 0; i < dataArray.length; i++) {
+      sum += dataArray[i];
+    }
+    const average = sum / dataArray.length;
+    const level = Math.min(100, (average / 128) * 100);
+    meter.style.width = level + '%';
 
     requestAnimationFrame(updateMeter);
   }
   updateMeter();
 }
 
-function stopAll() {
-  activeAudios.forEach(({ audio }) => {
-    audio.pause();
-    audio.currentTime = 0;
-  });
-  activeAudios = [];
-  document.querySelectorAll('.channel.playing').forEach(p => {
-    p.classList.remove('playing');
-    const meter = p.querySelector('.level-meter-fill');
-    if (meter) meter.style.width = '0%';
-  });
-}
+// Keep old name for compatibility
+const startLevelMeter = startRealLevelMeter;
 
 // ═══════════════════════════════════════════════════
 // HISTORY
@@ -1423,8 +1446,8 @@ function loadPreset(name) {
       currentPreset = name;
       renderPresetsBar();
       save();
-      audioCache = {};
-      activeAudios = [];
+      stopAll();
+      audioBuffers = {};
       render();
       showToast(`Loaded preset: ${name}`);
     } catch(e) { showToast('Failed to load preset'); }
@@ -1756,7 +1779,7 @@ function renderChannels() {
 
 function renderChannel(s, i) {
   const cueNum = String(i + 1).padStart(2, '0');
-  const playing = activeAudios.find(x => x.id === s.id);
+  const playing = activeNodes.has(s.id);
   const loopActive = s.loop ? 'loop-btn active' : 'loop-btn';
   const panValue = s.pan !== undefined ? s.pan : 0;
   return `
@@ -1773,9 +1796,9 @@ function renderChannel(s, i) {
         <span class="pad-duration">--:--</span>
       </div>
       <div class="ch-fader-row">
-        <input type="range" class="ch-fader" min="0" max="100" value="${s.vol??80}"
+        <input type="range" class="ch-fader" min="0" max="200" value="${s.vol??100}"
           oninput="setChVol('${s.id}',this.value)" orient="horizontal">
-        <span class="ch-vol-label">${s.vol??80}</span>
+        <span class="ch-vol-label">${s.vol??100}</span>
       </div>
       <div class="ch-pan-row">
         <span class="ch-pan-label">L</span>
@@ -1811,19 +1834,22 @@ function updateMasterFader() {
 function setChVol(id, val) {
   const s = config.sounds.find(x => x.id === id);
   if (s) { s.vol = parseInt(val); save(); }
-  const a = audioCache[id];
-  if (a) a.volume = getChannelVol(id);
+  const node = activeNodes.get(id);
+  if (node) node.gainNode.gain.value = getChannelVol(id);
 }
 
 function setChPan(id, val) {
   const s = config.sounds.find(x => x.id === id);
   if (s) { s.pan = parseFloat(val); save(); }
-  // Pan not supported in basic Audio API, but saved for future
+  const node = activeNodes.get(id);
+  if (node) node.panNode.pan.value = s.pan;
 }
 
 function toggleMute(id) {
   const s = config.sounds.find(x => x.id === id);
   if (s) { s.mute = !s.mute; save(); renderChannels(); }
+  const node = activeNodes.get(id);
+  if (node) node.gainNode.gain.value = getChannelVol(id);
 }
 
 function toggleSolo(id) {
@@ -1832,6 +1858,10 @@ function toggleSolo(id) {
     s.solo = !s.solo;
     if (s.solo) config.sounds.forEach(x => { if (x.id !== id) x.solo = false; });
     save(); renderChannels();
+    // Update all active nodes
+    activeNodes.forEach((node, nid) => {
+      node.gainNode.gain.value = getChannelVol(nid);
+    });
   }
 }
 
@@ -1839,9 +1869,8 @@ function toggleLoop(id) {
   const s = config.sounds.find(x => x.id === id);
   if (s) {
     s.loop = !s.loop;
-    // If currently playing, toggle loop on the audio element
-    const a = audioCache[id];
-    if (a) a.loop = s.loop;
+    const node = activeNodes.get(id);
+    if (node) node.source.loop = s.loop;
     save(); renderChannels();
     showToast(s.loop ? 'Loop ON' : 'Loop OFF');
   }
@@ -1850,16 +1879,19 @@ function toggleLoop(id) {
 function toggleMasterMute() {
   config.masterMuted = !config.masterMuted;
   save(); updateMasterFader();
-  document.querySelectorAll('.channel.playing').forEach(el => el.classList.toggle('muted-ch', config.masterMuted));
+  activeNodes.forEach((node, id) => {
+    node.gainNode.gain.value = getChannelVol(id);
+  });
 }
 
 function deleteSound(id) {
   if (!confirm('Delete this cue?')) return;
   config.sounds = config.sounds.filter(s => s.id !== id);
-  const a = activeAudios.find(x => x.id === id);
-  if (a) { a.audio.pause(); a.audio.currentTime = 0; }
-  activeAudios = activeAudios.filter(x => x.id !== id);
-  delete audioCache[id];
+  const node = activeNodes.get(id);
+  if (node) {
+    try { node.source.stop(); } catch(e) {}
+    activeNodes.delete(id);
+  }
   save(); render(); showToast('Cue deleted');
 }
 
@@ -1950,9 +1982,9 @@ function saveConfig() {
   try {
     const parsed = JSON.parse(document.getElementById('configEdit').value);
     if (!parsed.sounds || !Array.isArray(parsed.sounds)) throw new Error('Need sounds array');
-    parsed.sounds.forEach(s => { s.vol=s.vol??80; s.mute=s.mute??false; s.solo=s.solo??false; s.loop=s.loop??false; s.pan=s.pan??0; });
+    parsed.sounds.forEach(s => { s.vol=s.vol??100; s.mute=s.mute??false; s.solo=s.solo??false; s.loop=s.loop??false; s.pan=s.pan??0; });
     config = parsed;
-    save(); audioCache={}; activeAudios=[]; render(); closeConfigModal(); showToast('Config saved');
+    stopAll(); audioBuffers={}; render(); closeConfigModal(); showToast('Config saved');
   } catch(e) { showToast('Invalid JSON: '+e.message); }
 }
 function exportConfig() {
@@ -1967,8 +1999,8 @@ function importConfig(event) {
     try {
       const parsed = JSON.parse(e.target.result);
       if (!parsed.sounds) throw new Error('No sounds array');
-      parsed.sounds.forEach(s => { s.loop=s.loop??false; s.pan=s.pan??0; });
-      config = parsed; save(); audioCache={}; activeAudios=[]; render(); closeConfigModal(); showToast('Config imported');
+      parsed.sounds.forEach(s => { s.vol=s.vol??100; s.loop=s.loop??false; s.pan=s.pan??0; });
+      config = parsed; save(); stopAll(); audioBuffers={}; render(); closeConfigModal(); showToast('Config imported');
     } catch(err) { showToast('Import failed: '+err.message); }
   };
   reader.readAsText(file); event.target.value='';
@@ -1976,7 +2008,7 @@ function importConfig(event) {
 function clearAll() {
   if (!confirm('Delete ALL cues and timers? This cannot be undone.')) return;
   config.sounds=[]; config.timers=[]; config.categories=[]; config.history=[];
-  save(); audioCache={}; activeAudios=[]; render(); closeConfigModal(); showToast('All cleared');
+  save(); stopAll(); audioBuffers={}; render(); closeConfigModal(); showToast('All cleared');
 }
 
 // ═══════════════════════════════════════════════════
@@ -2037,8 +2069,8 @@ document.getElementById('searchInput')?.addEventListener('input', e => {
 document.getElementById('masterFader').addEventListener('input', e => {
   config.masterVolume = parseInt(e.target.value);
   save(); updateMasterFader();
-  activeAudios.forEach(({audio}) => {
-    audio.volume = getChannelVol(audio.id);
+  activeNodes.forEach((node, id) => {
+    node.gainNode.gain.value = getChannelVol(id);
   });
 });
 
@@ -2069,8 +2101,69 @@ function escHtml(str) {
 }
 
 // ═══════════════════════════════════════════════════
+// PRELOAD ASSETS
+// ═══════════════════════════════════════════════════
+async function preloadAssets() {
+  const urls = config.sounds.map(s => s.url).filter(Boolean);
+  const uniqueUrls = [...new Set(urls)];
+  let loaded = 0;
+  
+  showToast(`Preloading ${uniqueUrls.length} sounds...`);
+  
+  await Promise.all(uniqueUrls.map(async (url) => {
+    try {
+      await loadAudioBuffer(url);
+      loaded++;
+    } catch (e) {
+      console.warn('Failed to preload:', url, e);
+    }
+  }));
+  
+  showToast(`Preloaded ${loaded}/${uniqueUrls.length} sounds`);
+}
+
+// ═══════════════════════════════════════════════════
+// FLUSH LOCALSTORAGE
+// ═══════════════════════════════════════════════════
+function flushLocalStorage() {
+  if (!confirm('This will clear ALL saved data (cues, timers, presets, theme). Continue?')) return;
+  localStorage.clear();
+  audioBuffers = {};
+  stopAll();
+  config = JSON.parse(JSON.stringify(DEFAULT_CONFIG));
+  render();
+  showToast('LocalStorage flushed, reset to defaults');
+}
+
+// ═══════════════════════════════════════════════════
+// SERVICE WORKER (Offline Support)
+// ═══════════════════════════════════════════════════
+async function registerServiceWorker() {
+  if ('serviceWorker' in navigator) {
+    try {
+      const reg = await navigator.serviceWorker.register('/sw.js');
+      console.log('Service Worker registered:', reg.scope);
+    } catch (e) {
+      console.warn('Service Worker registration failed:', e);
+    }
+  }
+}
+
+// ═══════════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════════
+// Resume AudioContext on first user interaction (required by browsers)
+let audioContextResumed = false;
+function resumeAudioContext() {
+  if (!audioContextResumed) {
+    getAudioContext();
+    audioContextResumed = true;
+  }
+}
+document.body.addEventListener('click', resumeAudioContext, { once: true });
+document.body.addEventListener('keydown', resumeAudioContext, { once: true });
+document.body.addEventListener('touchstart', resumeAudioContext, { once: true });
+
 updateMasterFader();
 render();
 
@@ -2084,6 +2177,12 @@ config.timers.forEach(t => {
     t.lastTick = Date.now();
   }
 });
+
+// Preload all audio assets
+preloadAssets();
+
+// Register service worker for offline support
+registerServiceWorker();
 
 setInterval(() => { tickAllTimers(); }, 250);
 setInterval(() => { save(); }, 5000);
