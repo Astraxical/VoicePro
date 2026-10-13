@@ -1215,22 +1215,17 @@ let currentPreset = 'default';
 let themeIndex = 0;
 const themes = ['dark', 'light'];
 
-// Web Audio API context
+// Web Audio API for level meter only
 let audioCtx = null;
-let masterGain = null;
-let analyser = null;
 
 function getAudioContext() {
   if (!audioCtx) {
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    masterGain = audioCtx.createGain();
-    analyser = audioCtx.createAnalyser();
-    analyser.fftSize = 256;
-    masterGain.connect(analyser);
-    analyser.connect(audioCtx.destination);
   }
-  if (audioCtx.state === 'suspended') audioCtx.resume();
-  return { ctx: audioCtx, gain: masterGain, analyser };
+  if (audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+  return audioCtx;
 }
 
 // ═══════════════════════════════════════════════════
@@ -1247,7 +1242,7 @@ function save() {
 }
 
 // ═══════════════════════════════════════════════════
-// AUDIO ENGINE (with Web Audio API)
+// AUDIO ENGINE (Simple & Reliable)
 // ═══════════════════════════════════════════════════
 function getChannelVol(id) {
   const s = config.sounds.find(x => x.id === id);
@@ -1265,15 +1260,28 @@ function playSound(id) {
   const s = config.sounds.find(x => x.id === id);
   if (!s || !s.url) return;
 
-  // Stop existing instance
+  // Check if currently playing this sound
   const existing = activeAudios.find(x => x.id === id);
-  if (existing) {
+  if (existing && !existing.audio.paused) {
+    // Pause if already playing
     existing.audio.pause();
-    existing.audio.currentTime = 0;
-    activeAudios = activeAudios.filter(x => x.id !== id);
+    existing.paused = true;
     const el = document.getElementById(`ch-${id}`);
-    if (el) { el.classList.remove('playing'); el.querySelector('.level-meter-fill').style.width = '0%'; }
+    if (el) { el.classList.remove('playing'); const meter = el.querySelector('.level-meter-fill'); if (meter) meter.style.width = '0%'; }
+    return;
   }
+
+  // Resume if paused
+  if (existing && existing.paused) {
+    existing.audio.play();
+    existing.paused = false;
+    const el = document.getElementById(`ch-${id}`);
+    if (el) { el.classList.add('playing'); startLevelMeter(id); }
+    return;
+  }
+
+  // Stop any other playing sounds first (optional - remove if you want multiple)
+  // stopAll();
 
   let a = audioCache[id];
   if (!a) {
@@ -1282,65 +1290,37 @@ function playSound(id) {
     audioCache[id] = a;
   }
 
-  // Set volume with fade in
-  const vol = getChannelVol(id);
-  a.volume = 0;
+  // Reset and play
+  a.volume = getChannelVol(id);
   a.currentTime = 0;
+  a.loop = s.loop || false;
 
-  // Set pan if supported
-  if (s.pan !== undefined && a.p ? true : false) {
-    // Pan is handled via Web Audio API below
-  }
-
-  // Use Web Audio API for better control
-  const { ctx, gain, analyser } = getAudioContext();
-
-  // Create source and gain node for this channel
-  if (!a._source) {
-    a._source = ctx.createMediaElementSource(a);
-    a._gain = ctx.createGain();
-    a._panner = ctx.createStereoPanner();
-    a._source.connect(a._gain);
-    a._gain.connect(a._panner);
-    a._panner.connect(gain);
-  }
-
-  // Apply volume fade in
-  const now = ctx.currentTime;
-  a._gain.gain.setValueAtTime(0, now);
-  a._gain.gain.linearRampToValueAtTime(vol, now + 0.05);
-
-  // Apply pan
-  if (s.pan !== undefined) {
-    a._panner.pan.value = s.pan;
-  }
-
-  a.play().catch(() => showToast('Tap anywhere first to enable audio'));
-
-  activeAudios.push({ id, audio: a });
-  const el = document.getElementById(`ch-${id}`);
-  if (el) {
-    el.classList.add('playing');
-    // Start level meter animation
-    startLevelMeter(id);
-  }
-
-  // Add to history
-  addToHistory(s.name, id);
-
-  a.addEventListener('ended', () => {
-    if (s.loop) {
-      a.currentTime = 0;
-      a.play();
-    } else {
-      activeAudios = activeAudios.filter(x => x.id !== id);
-      const el = document.getElementById(`ch-${id}`);
-      if (el) { el.classList.remove('playing'); const meter = el.querySelector('.level-meter-fill'); if (meter) meter.style.width = '0%'; }
+  a.play().then(() => {
+    activeAudios.push({ id, audio: a, paused: false });
+    const el = document.getElementById(`ch-${id}`);
+    if (el) {
+      el.classList.add('playing');
+      startLevelMeter(id);
     }
+    addToHistory(s.name, id);
+    updateDurationDisplay(id, a);
+  }).catch(e => {
+    console.error('Play failed:', e);
+    showToast('Tap page first to enable audio');
   });
+}
 
-  // Update duration display
-  updateDurationDisplay(id, a);
+function stopAll() {
+  activeAudios.forEach(({ audio }) => {
+    audio.pause();
+    audio.currentTime = 0;
+  });
+  activeAudios = [];
+  document.querySelectorAll('.channel.playing').forEach(p => {
+    p.classList.remove('playing');
+    const meter = p.querySelector('.level-meter-fill');
+    if (meter) meter.style.width = '0%';
+  });
 }
 
 function updateDurationDisplay(id, audio) {
@@ -1368,21 +1348,20 @@ function startLevelMeter(id) {
   const meter = el.querySelector('.level-meter-fill');
   if (!meter) return;
 
-  const { analyser } = getAudioContext();
-  const bufferLength = analyser.frequencyBinCount;
-  const dataArray = new Uint8Array(bufferLength);
-
+  // Simple animated level meter (not real-time, just visual feedback)
+  let frame = 0;
   function updateMeter() {
     const playing = activeAudios.find(x => x.id === id);
-    if (!playing) return;
+    if (!playing || playing.paused) {
+      meter.style.width = '0%';
+      return;
+    }
 
-    analyser.getByteFrequencyData(dataArray);
-    // Calculate average level
-    let sum = 0;
-    for (let i = 0; i < bufferLength; i++) sum += dataArray[i];
-    const avg = sum / bufferLength;
-    const percent = Math.min(100, (avg / 128) * 100);
-    meter.style.width = percent + '%';
+    // Create a fake waveform animation
+    frame++;
+    const base = 30 + Math.sin(frame * 0.1) * 20;
+    const peak = 60 + Math.sin(frame * 0.15) * 25 + Math.random() * 15;
+    meter.style.width = Math.min(100, peak) + '%';
 
     requestAnimationFrame(updateMeter);
   }
@@ -1844,19 +1823,13 @@ function setChVol(id, val) {
   const s = config.sounds.find(x => x.id === id);
   if (s) { s.vol = parseInt(val); save(); }
   const a = audioCache[id];
-  if (a && a._gain) {
-    const { ctx } = getAudioContext();
-    a._gain.gain.setTargetAtTime(getChannelVol(id), ctx.currentTime, 0.02);
-  }
+  if (a) a.volume = getChannelVol(id);
 }
 
 function setChPan(id, val) {
   const s = config.sounds.find(x => x.id === id);
   if (s) { s.pan = parseFloat(val); save(); }
-  const a = audioCache[id];
-  if (a && a._panner) {
-    a._panner.pan.value = parseFloat(val);
-  }
+  // Pan not supported in basic Audio API, but saved for future
 }
 
 function toggleMute(id) {
@@ -2075,11 +2048,8 @@ document.getElementById('searchInput')?.addEventListener('input', e => {
 document.getElementById('masterFader').addEventListener('input', e => {
   config.masterVolume = parseInt(e.target.value);
   save(); updateMasterFader();
-  activeAudios.forEach(({id, audio}) => {
-    if (audio._gain) {
-      const { ctx } = getAudioContext();
-      audio._gain.gain.setTargetAtTime(getChannelVol(id), ctx.currentTime, 0.02);
-    }
+  activeAudios.forEach(({audio}) => {
+    audio.volume = getChannelVol(audio.id);
   });
 });
 
