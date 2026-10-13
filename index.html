@@ -1304,8 +1304,6 @@ function getChannelVol(id) {
   return vol;
 }
 
-const activeNodes = new Map();
-
 async function playSound(id) {
   const s = config.sounds.find(x => x.id === id);
   if (!s || !s.url) return;
