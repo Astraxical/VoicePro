@@ -1368,7 +1368,7 @@ function renderChannels() {
 
   let html = '';
   Object.entries(grouped).forEach(([cat, items]) => {
-    const sceneMatch = cat.match(/Scene (\d+)[ —](.+)/);
+    const sceneMatch = cat.match(/Scene\s*(\d+)\s*[-—]\s*(.+)/);
     const sceneNum = sceneMatch ? sceneMatch[1] : '';
     const sceneLabel = sceneMatch ? sceneMatch[2] : cat;
 
