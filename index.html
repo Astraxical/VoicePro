@@ -1263,25 +1263,17 @@ function playSound(id) {
   // Check if currently playing this sound
   const existing = activeAudios.find(x => x.id === id);
   if (existing && !existing.audio.paused) {
-    // Pause if already playing
+    // Stop completely (pause + reset to beginning)
     existing.audio.pause();
-    existing.paused = true;
+    existing.audio.currentTime = 0;
+    activeAudios = activeAudios.filter(x => x.id !== id);
     const el = document.getElementById(`ch-${id}`);
     if (el) { el.classList.remove('playing'); const meter = el.querySelector('.level-meter-fill'); if (meter) meter.style.width = '0%'; }
     return;
   }
 
-  // Resume if paused
-  if (existing && existing.paused) {
-    existing.audio.play();
-    existing.paused = false;
-    const el = document.getElementById(`ch-${id}`);
-    if (el) { el.classList.add('playing'); startLevelMeter(id); }
-    return;
-  }
-
-  // Stop any other playing sounds first (optional - remove if you want multiple)
-  // stopAll();
+  // Stop any other playing sounds first
+  stopAll();
 
   let a = audioCache[id];
   if (!a) {
@@ -1290,13 +1282,13 @@ function playSound(id) {
     audioCache[id] = a;
   }
 
-  // Reset and play
+  // Play from beginning
   a.volume = getChannelVol(id);
   a.currentTime = 0;
   a.loop = s.loop || false;
 
   a.play().then(() => {
-    activeAudios.push({ id, audio: a, paused: false });
+    activeAudios.push({ id, audio: a });
     const el = document.getElementById(`ch-${id}`);
     if (el) {
       el.classList.add('playing');
