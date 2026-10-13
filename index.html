@@ -967,89 +967,66 @@ const DEFAULT_CONFIG = {
   masterVolume: 80,
   masterMuted: false,
   sounds: [
-    // ── SCENE 1: INTRO ──
-    { id:'s1',  name:"Cassiopeia Calls",         cat:'Scene 1 — Intro', icon:'👁️', key:'1', url:BASE+'vo_02_cassiopeia.mp3', vol:85, mute:false, solo:false },
-    { id:'s2',  name:"Sang'gre Intro — Tadhana", cat:'Scene 1 — Intro', icon:'🎵', key:'2', url:BASE+'sfx_music_tadhana.mp3',  vol:70, mute:false, solo:false },
-    { id:'s3',  name:"Intro Audio",              cat:'Scene 1 — Intro', icon:'🎬', key:'3', url:BASE+'vo_01_intro.mp3',         vol:80, mute:false, solo:false },
-    { id:'s4',  name:"Teleportation SFX",        cat:'Scene 1 — Intro', icon:'🌀', key:'4', url:BASE+'sfx_magic_wind.mp3',     vol:80, mute:false, solo:false },
+    // ── VOICEOVERS (11) ──
+    { id:'v1',  name:"Intro",              cat:'Voice', icon:'🎬', key:'1', url:BASE+'vo_01_intro.mp3',        vol:80, mute:false, solo:false },
+    { id:'v2',  name:"Cassiopeia #1",      cat:'Voice', icon:'👁️', key:'2', url:BASE+'vo_02_cassiopeia.mp3',   vol:85, mute:false, solo:false },
+    { id:'v3',  name:"Lupa",               cat:'Voice', icon:'🌍', key:'3', url:BASE+'vo_03_lupa.mp3',         vol:80, mute:false, solo:false },
+    { id:'v4',  name:"Hangin",             cat:'Voice', icon:'💨', key:'4', url:BASE+'vo_04_hangin.mp3',       vol:80, mute:false, solo:false },
+    { id:'v5',  name:"Apoy",               cat:'Voice', icon:'🔥', key:'5', url:BASE+'vo_05_apoy.mp3',         vol:80, mute:false, solo:false },
+    { id:'v6',  name:"War Scene",          cat:'Voice', icon:'⚔️', key:'6', url:BASE+'vo_06_war.mp3',          vol:80, mute:false, solo:false },
+    { id:'v7',  name:"Magsasaka",          cat:'Voice', icon:'🌾', key:'7', url:BASE+'vo_07_magsasaka.mp3',    vol:80, mute:false, solo:false },
+    { id:'v8',  name:"Ramon",              cat:'Voice', icon:'📜', key:'8', url:BASE+'vo_08_ramon.mp3',        vol:80, mute:false, solo:false },
+    { id:'v9',  name:"Estrada",            cat:'Voice', icon:'😈', key:'9', url:BASE+'vo_09_estrada.mp3',      vol:80, mute:false, solo:false },
+    { id:'v10', name:"Cassiopeia #2",      cat:'Voice', icon:'🎙️', key:'0', url:BASE+'vo_10_cassiopeia2.mp3',  vol:80, mute:false, solo:false },
+    { id:'v11', name:"Ending",             cat:'Voice', icon:'🙏', key:'-',   url:BASE+'vo_11_ending.mp3',       vol:80, mute:false, solo:false },
 
-    // ── SCENE 2: WWII BATTLE ──
-    { id:'s5',  name:"WWII Battle Ambience",     cat:'Scene 2 — War',   icon:'💣', key:'5', url:BASE+'sfx_battle_01_mg.mp3',     vol:75, mute:false, solo:false },
-    { id:'s6',  name:"Explosion / Bomb",         cat:'Scene 2 — War',   icon:'💥', key:'6', url:BASE+'sfx_explosion_01_debris.mp3', vol:95, mute:false, solo:false },
-    { id:'s7',  name:"Battle Music — Fight",     cat:'Scene 2 — War',   icon:'⚔️', key:'7', url:BASE+'sfx_music_fast_fight.mp3',  vol:80, mute:false, solo:false },
-    { id:'s8',  name:"Machine Gun Barrage",      cat:'Scene 2 — War',   icon:'🔫', key:'8', url:BASE+'sfx_battle_05_rapid.mp3',   vol:85, mute:false, solo:false },
-    { id:'s9',  name:"Fast Fight Music",         cat:'Scene 2 — War',   icon:'🏃', key:'9', url:BASE+'sfx_music_fast_fight.mp3',  vol:85, mute:false, solo:false },
-    { id:'s10', name:"CZ-52 Pistol Shot",        cat:'Scene 2 — War',   icon:'🔫', key:'0', url:BASE+'sfx_gun_cz.mp3',              vol:80, mute:false, solo:false },
-    { id:'s11', name:"Mosin Nagant Rifle",       cat:'Scene 2 — War',   icon:'🎯', key:'Q', url:BASE+'sfx_gun_mosin.mp3',           vol:85, mute:false, solo:false },
-    { id:'s12', name:"SKS Rifle Shot",           cat:'Scene 2 — War',   icon:'🎯', key:'W', url:BASE+'sfx_gun_sks.mp3',             vol:80, mute:false, solo:false },
-    { id:'s13', name:"Shotgun Blast",            cat:'Scene 2 — War',   icon:'💥', key:'E', url:BASE+'sfx_gun_shotty.mp3',          vol:90, mute:false, solo:false },
-    { id:'s14', name:"Auto Rifle",               cat:'Scene 2 — War',   icon:'⚡', key:'R', url:BASE+'sfx_gun_auto.mp3',             vol:85, mute:false, solo:false },
-    { id:'s15', name:"Grenade Explosion",        cat:'Scene 2 — War',   icon:'💣', key:'T', url:BASE+'sfx_explosion_03_blast.mp3',  vol:95, mute:false, solo:false },
-    { id:'s16', name:"Big Explosion",            cat:'Scene 2 — War',   icon:'☄️', key:'Y', url:BASE+'sfx_explosion_04_large.mp3',  vol:90, mute:false, solo:false },
+    // ── THUNDER (5) ──
+    { id:'t1',  name:"Close",              cat:'Thunder', icon:'⛈️', key:'F8', url:BASE+'sfx_thunder_01_close.mp3',  vol:90, mute:false, solo:false },
+    { id:'t2',  name:"Distant",            cat:'Thunder', icon:'🌩️', key:'F9', url:BASE+'sfx_thunder_02_distant.mp3',  vol:70, mute:false, solo:false },
+    { id:'t3',  name:"Rolling",            cat:'Thunder', icon:'🌧️', key:'F10',url:BASE+'sfx_thunder_03_rolling.mp3',  vol:75, mute:false, solo:false },
+    { id:'t4',  name:"Heavy",              cat:'Thunder', icon:'💢', key:'F11',url:BASE+'sfx_thunder_04_heavy.mp3',    vol:95, mute:false, solo:false },
+    { id:'t5',  name:"Storm",              cat:'Thunder', icon:'🌪️', key:'F12',url:BASE+'sfx_thunder_05_storm.mp3',    vol:85, mute:false, solo:false },
 
-    // ── SCENE 4: RAMON ENTRANCE ──
-    { id:'s17', name:"Ramon Dramatic Entrance",  cat:'Scene 4 — Ramon', icon:'🎩', key:'U', url:BASE+'sfx_music_fanfare.mp3',   vol:90, mute:false, solo:false },
-    { id:'s18', name:"Ramon VO",                 cat:'Scene 4 — Ramon', icon:'📜', key:'I', url:BASE+'vo_08_ramon.mp3',       vol:80, mute:false, solo:false },
+    // ── EXPLOSION (5) ──
+    { id:'e1',  name:"Debris",             cat:'Explosion', icon:'💥', key:'-',  url:BASE+'sfx_explosion_01_debris.mp3', vol:95, mute:false, solo:false },
+    { id:'e2',  name:"Huge",               cat:'Explosion', icon:'💣', key:'=',  url:BASE+'sfx_explosion_02_huge.mp3',   vol:95, mute:false, solo:false },
+    { id:'e3',  name:"Blast",              cat:'Explosion', icon:'🔥', key:'[',  url:BASE+'sfx_explosion_03_blast.mp3',   vol:90, mute:false, solo:false },
+    { id:'e4',  name:"Large",              cat:'Explosion', icon:'💫', key:']',  url:BASE+'sfx_explosion_04_large.mp3',   vol:90, mute:false, solo:false },
+    { id:'e5',  name:"Crisp",              cat:'Explosion', icon:'☄️', key:'\\', url:BASE+'sfx_explosion_05_crisp.mp3',   vol:85, mute:false, solo:false },
 
-    // ── SCENE 5: ESTRADA ──
-    { id:'s19', name:"Thunder Clap — Estrada",   cat:'Scene 5 — Villain', icon:'⛈️', key:'O', url:BASE+'sfx_thunder_01_close.mp3', vol:95, mute:false, solo:false },
-    { id:'s20', name:"Estrada Challenge Music",  cat:'Scene 5 — Villain', icon:'😈', key:'P', url:BASE+'sfx_battle_04_mg_high.mp3',  vol:80, mute:false, solo:false },
-    { id:'s21', name:"Estrada VO",               cat:'Scene 5 — Villain', icon:'🎙️', key:'F2',url:BASE+'vo_09_estrada.mp3',      vol:80, mute:false, solo:false },
+    // ── BATTLE (5) ──
+    { id:'b1',  name:"MG + Explosions",    cat:'Battle', icon:'🔫', key:';',  url:BASE+'sfx_battle_01_mg.mp3',    vol:80, mute:false, solo:false },
+    { id:'b2',  name:"Debris Fall",        cat:'Battle', icon:'🏚️', key:"'",  url:BASE+'sfx_battle_02_debris.mp3', vol:70, mute:false, solo:false },
+    { id:'b3',  name:"Wood/Sand",          cat:'Battle', icon:'🪵', key:',',  url:BASE+'sfx_battle_03_wood.mp3',   vol:70, mute:false, solo:false },
+    { id:'b4',  name:"MG High Quality",    cat:'Battle', icon:'⚡', key:'.',  url:BASE+'sfx_battle_04_mg_high.mp3',vol:85, mute:false, solo:false },
+    { id:'b5',  name:"Rapid Fire",         cat:'Battle', icon:'🎯', key:'/',  url:BASE+'sfx_battle_05_rapid.mp3',  vol:85, mute:false, solo:false },
 
-    // ── SCENE 6: ENDING ──
-    { id:'s22', name:"Mystical Magic Sound",     cat:'Scene 6 — Ending', icon:'✨', key:'F3',url:BASE+'sfx_magic_earth.mp3',      vol:75, mute:false, solo:false },
-    { id:'s23', name:"Fire Spell — Apoy",        cat:'Scene 6 — Ending', icon:'🔥', key:'F4',url:BASE+'sfx_magic_fire.mp3',      vol:80, mute:false, solo:false },
-    { id:'s24', name:"Flight / Teleport Out",    cat:'Scene 6 — Ending', icon:'🌀', key:'F5',url:BASE+'sfx_magic_wind.mp3',      vol:80, mute:false, solo:false },
-    { id:'s25', name:"Inspirational Outro",      cat:'Scene 6 — Ending', icon:'🎶', key:'F6',url:BASE+'sfx_music_inspirational.mp3',vol:75, mute:false, solo:false },
-    { id:'s26', name:"Ending VO",                cat:'Scene 6 — Ending', icon:'🙏', key:'F7',url:BASE+'vo_11_ending.mp3',        vol:80, mute:false, solo:false },
+    // ── GUNFIRE (5) ──
+    { id:'g1',  name:"Pistol",             cat:'Gunfire', icon:'🔫', key:'Enter', url:BASE+'sfx_gun_cz.mp3',      vol:80, mute:false, solo:false },
+    { id:'g2',  name:"Rifle",              cat:'Gunfire', icon:'🎯', key:'Backspace', url:BASE+'sfx_gun_mosin.mp3', vol:85, mute:false, solo:false },
+    { id:'g3',  name:"SKS",                cat:'Gunfire', icon:'🔫', key:' ',      url:BASE+'sfx_gun_sks.mp3',     vol:80, mute:false, solo:false },
+    { id:'g4',  name:"Shotgun",            cat:'Gunfire', icon:'💥', key:'Tab',    url:BASE+'sfx_gun_shotty.mp3',  vol:90, mute:false, solo:false },
+    { id:'g5',  name:"Auto Rifle",         cat:'Gunfire', icon:'⚡', key:'Caps',   url:BASE+'sfx_gun_auto.mp3',    vol:85, mute:false, solo:false },
 
-    // ── THUNDER LIBRARY (5) ──
-    { id:'t1',  name:"Thunder Close",            cat:'Thunder', icon:'⛈️', key:'F8', url:BASE+'sfx_thunder_01_close.mp3',  vol:90, mute:false, solo:false },
-    { id:'t2',  name:"Thunder Distant",          cat:'Thunder', icon:'🌩️', key:'F9', url:BASE+'sfx_thunder_02_distant.mp3',  vol:70, mute:false, solo:false },
-    { id:'t3',  name:"Thunder Rolling",          cat:'Thunder', icon:'🌧️', key:'F10',url:BASE+'sfx_thunder_03_rolling.mp3',  vol:75, mute:false, solo:false },
-    { id:'t4',  name:"Thunder Heavy",            cat:'Thunder', icon:'💢', key:'F11',url:BASE+'sfx_thunder_04_heavy.mp3',    vol:95, mute:false, solo:false },
-    { id:'t5',  name:"Thunder Storm",            cat:'Thunder', icon:'🌪️', key:'F12',url:BASE+'sfx_thunder_05_storm.mp3',    vol:85, mute:false, solo:false },
+    // ── MAGIC (5) ──
+    { id:'m1',  name:"Earth",              cat:'Magic', icon:'🌍', key:'PageUp', url:BASE+'sfx_magic_earth.mp3', vol:75, mute:false, solo:false },
+    { id:'m2',  name:"Fire",               cat:'Magic', icon:'🔥', key:'PageDown',url:BASE+'sfx_magic_fire.mp3',  vol:80, mute:false, solo:false },
+    { id:'m3',  name:"Wind",               cat:'Magic', icon:'💨', key:'Home',   url:BASE+'sfx_magic_wind.mp3',  vol:75, mute:false, solo:false },
+    { id:'m4',  name:"Water",              cat:'Magic', icon:'💧', key:'End',    url:BASE+'sfx_magic_water.mp3', vol:70, mute:false, solo:false },
+    { id:'m5',  name:"Ice/Lightning",      cat:'Magic', icon:'❄️', key:'Insert', url:BASE+'sfx_magic_ice.mp3',   vol:80, mute:false, solo:false },
 
-    // ── EXPLOSION LIBRARY (5) ──
-    { id:'e1',  name:"Explosion Debris",         cat:'Explosion', icon:'💥', key:'-',  url:BASE+'sfx_explosion_01_debris.mp3', vol:95, mute:false, solo:false },
-    { id:'e2',  name:"Explosion Huge",           cat:'Explosion', icon:'💣', key:'=',  url:BASE+'sfx_explosion_02_huge.mp3',   vol:95, mute:false, solo:false },
-    { id:'e3',  name:"Explosion Blast",          cat:'Explosion', icon:'🔥', key:'[',  url:BASE+'sfx_explosion_03_blast.mp3',   vol:90, mute:false, solo:false },
-    { id:'e4',  name:"Explosion Large",          cat:'Explosion', icon:'💫', key:']',  url:BASE+'sfx_explosion_04_large.mp3',   vol:90, mute:false, solo:false },
-    { id:'e5',  name:"Explosion Crisp",          cat:'Explosion', icon:'☄️', key:'\\', url:BASE+'sfx_explosion_05_crisp.mp3',   vol:85, mute:false, solo:false },
-
-    // ── BATTLE LIBRARY (5) ──
-    { id:'b1',  name:"Battle MG + Explosions",   cat:'Battle',   icon:'🔫', key:';',  url:BASE+'sfx_battle_01_mg.mp3',    vol:80, mute:false, solo:false },
-    { id:'b2',  name:"Battle Debris Fall",       cat:'Battle',   icon:'🏚️', key:"'",  url:BASE+'sfx_battle_02_debris.mp3', vol:70, mute:false, solo:false },
-    { id:'b3',  name:"Battle Wood/Sand",         cat:'Battle',   icon:'🪵', key:',',  url:BASE+'sfx_battle_03_wood.mp3',   vol:70, mute:false, solo:false },
-    { id:'b4',  name:"Battle MG High Quality",   cat:'Battle',   icon:'⚡', key:'.',  url:BASE+'sfx_battle_04_mg_high.mp3',vol:85, mute:false, solo:false },
-    { id:'b5',  name:"Battle Rapid Fire",        cat:'Battle',   icon:'🎯', key:'/',  url:BASE+'sfx_battle_05_rapid.mp3',  vol:85, mute:false, solo:false },
-
-    // ── GUNFIRE LIBRARY (5) ──
-    { id:'g1',  name:"Pistol Shot",              cat:'Gunfire',  icon:'🔫', key:'Enter', url:BASE+'sfx_gun_cz.mp3',      vol:80, mute:false, solo:false },
-    { id:'g2',  name:"Rifle Shot",               cat:'Gunfire',  icon:'🎯', key:'Backspace', url:BASE+'sfx_gun_mosin.mp3', vol:85, mute:false, solo:false },
-    { id:'g3',  name:"SKS Rifle",                cat:'Gunfire',  icon:'🔫', key:' ',      url:BASE+'sfx_gun_sks.mp3',     vol:80, mute:false, solo:false },
-    { id:'g4',  name:"Shotgun Blast",            cat:'Gunfire',  icon:'💥', key:'Tab',    url:BASE+'sfx_gun_shotty.mp3',  vol:90, mute:false, solo:false },
-    { id:'g5',  name:"Auto Rifle",               cat:'Gunfire',  icon:'⚡', key:'Caps',   url:BASE+'sfx_gun_auto.mp3',    vol:85, mute:false, solo:false },
-
-    // ── MAGIC LIBRARY (5) ──
-    { id:'m1',  name:"Earth Magic",              cat:'Magic',    icon:'🌍', key:'PageUp', url:BASE+'sfx_magic_earth.mp3', vol:75, mute:false, solo:false },
-    { id:'m2',  name:"Fire Spell",               cat:'Magic',    icon:'🔥', key:'PageDown',url:BASE+'sfx_magic_fire.mp3',  vol:80, mute:false, solo:false },
-    { id:'m3',  name:"Wind Spell",               cat:'Magic',    icon:'💨', key:'Home',   url:BASE+'sfx_magic_wind.mp3',  vol:75, mute:false, solo:false },
-    { id:'m4',  name:"Water Spell",              cat:'Magic',    icon:'💧', key:'End',    url:BASE+'sfx_magic_water.mp3', vol:70, mute:false, solo:false },
-    { id:'m5',  name:"Ice / Lightning",          cat:'Magic',    icon:'❄️', key:'Insert', url:BASE+'sfx_magic_ice.mp3',   vol:80, mute:false, solo:false },
-
-    // ── MUSIC LIBRARY (5) ──
-    { id:'mu1', name:"Tadhana — Sang'gre Theme", cat:'Music',    icon:'🎵', key:'Delete',url:BASE+'sfx_music_tadhana.mp3', vol:70, mute:false, solo:false },
-    { id:'mu2', name:"Epic Battle Music",        cat:'Music',    icon:'⚔️', key:'ScrollUp',url:BASE+'sfx_music_fast_fight.mp3',vol:80,mute:false,solo:false},
-    { id:'mu3', name:"Dramatic Fanfare",         cat:'Music',    icon:'🎺', key:'ScrollDn',url:BASE+'sfx_music_fanfare.mp3',  vol:85,mute:false,solo:false},
-    { id:'mu4', name:"Inspirational Outro",      cat:'Music',    icon:'🎶', key:'Pause',  url:BASE+'sfx_music_inspirational.mp3',vol:75,mute:false,solo:false},
-    { id:'mu5', name:"War Ambience",             cat:'Music',    icon:'🎼', key:'Print',  url:BASE+'sfx_music_war.mp3',     vol:60,mute:false,solo:false},
-
-    // ── THUNDER LIBRARY (5) ──
+    // ── MUSIC (5) ──
+    { id:'mu1', name:"Tadhana Theme",      cat:'Music', icon:'🎵', key:'Delete',url:BASE+'sfx_music_tadhana.mp3', vol:70, mute:false, solo:false },
+    { id:'mu2', name:"Epic Battle",        cat:'Music', icon:'⚔️', key:'ScrollUp',url:BASE+'sfx_music_fast_fight.mp3',vol:80,mute:false,solo:false},
+    { id:'mu3', name:"Fanfare",            cat:'Music', icon:'🎺', key:'ScrollDn',url:BASE+'sfx_music_fanfare.mp3',  vol:85,mute:false,solo:false},
+    { id:'mu4', name:"Inspirational",      cat:'Music', icon:'🎶', key:'Pause',  url:BASE+'sfx_music_inspirational.mp3',vol:75,mute:false,solo:false},
+    { id:'mu5', name:"War Ambience",       cat:'Music', icon:'🎼', key:'Print',  url:BASE+'sfx_music_war.mp3',     vol:60,mute:false,solo:false},
+  ],
+  timers: [
     { id:'t_show', label:'Show Runtime', type:'stopwatch', seconds:0, running:false, lastTick:0 },
     { id:'t_act2', label:'Act 2 Countdown', type:'countdown', seconds:900, running:false, lastTick:0, setSeconds:900 },
   ],
-  categories: ['Scene 1 — Intro','Scene 2 — War','Scene 4 — Ramon','Scene 5 — Villain','Scene 6 — Ending','Thunder','Explosion','Battle','Gunfire','Magic','Music'],
+  categories: ['Voice','Thunder','Explosion','Battle','Gunfire','Magic','Music'],
   pinnedKeys: ['Q','W','E','R','T','Y','U','I','O','P','1','2','3','4','5','6','7','8','9','0']
 };
 
