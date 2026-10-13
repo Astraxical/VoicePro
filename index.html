@@ -1263,7 +1263,7 @@ function playSound(id) {
   // Check if currently playing this sound
   const existing = activeAudios.find(x => x.id === id);
   if (existing && !existing.audio.paused) {
-    // Stop completely (pause + reset to beginning)
+    // Stop completely (reset to beginning)
     existing.audio.pause();
     existing.audio.currentTime = 0;
     activeAudios = activeAudios.filter(x => x.id !== id);
@@ -1272,15 +1272,12 @@ function playSound(id) {
     return;
   }
 
-  // Stop any other playing sounds first
-  stopAll();
+  // Clear old cached audio to prevent mismatched sounds
+  delete audioCache[id];
 
-  let a = audioCache[id];
-  if (!a) {
-    a = new Audio(s.url);
-    a.preload = 'auto';
-    audioCache[id] = a;
-  }
+  let a = new Audio(s.url);
+  a.preload = 'auto';
+  audioCache[id] = a;
 
   // Play from beginning
   a.volume = getChannelVol(id);
