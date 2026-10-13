@@ -1272,10 +1272,13 @@ function playSound(id) {
     return;
   }
 
-  // Clear old cached audio to prevent mismatched sounds
-  delete audioCache[id];
+  // Stop any other playing sounds
+  stopAll();
 
-  let a = new Audio(s.url);
+  let a = audioCache[id];
+  // Create new audio element with cache-busting to prevent stale files
+  const url = s.url + '?v=' + Date.now();
+  a = new Audio(url);
   a.preload = 'auto';
   audioCache[id] = a;
 
