@@ -398,6 +398,8 @@
     transition: all var(--transition);
     user-select: none;
     -webkit-user-select: none;
+    overflow: hidden;
+    min-height: 0;
   }
   .channel:hover {
     border-color: var(--border2);
@@ -497,6 +499,11 @@
     border: 1px solid var(--border);
     padding: 1px 4px;
     border-radius: 3px;
+    z-index: 2;
+    max-width: 36px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   .pad-btn .pad-duration {
     position: absolute;
@@ -508,6 +515,11 @@
     border: 1px solid var(--border);
     padding: 1px 4px;
     border-radius: 3px;
+    z-index: 2;
+    max-width: 40px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   .channel.playing .pad-btn .pad-duration { color: var(--green); border-color: var(--green); }
 
@@ -518,16 +530,20 @@
     font-size: .5rem;
     opacity: 0;
     transition: opacity var(--transition);
+    z-index: 2;
+    line-height: 1;
   }
   .channel.looping .loop-indicator { opacity: 1; }
 
   /* Fader */
   .ch-fader-row {
     width: 100%;
+    max-width: 100%;
     display: flex;
     align-items: center;
     gap: 5px;
     margin-top: 7px;
+    overflow: hidden;
   }
   .ch-fader {
     flex: 1;
@@ -535,6 +551,7 @@
     accent-color: var(--accent);
     cursor: pointer;
     border-radius: 2px;
+    min-width: 0;
   }
   .ch-vol-label {
     font-family: 'JetBrains Mono', monospace;
@@ -575,10 +592,12 @@
   /* Pan slider */
   .ch-pan-row {
     width: 100%;
+    max-width: 100%;
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 3px;
     margin-top: 3px;
+    overflow: hidden;
   }
   .ch-pan {
     flex: 1;
@@ -586,6 +605,7 @@
     accent-color: var(--purple);
     cursor: pointer;
     border-radius: 2px;
+    min-width: 0;
   }
   .ch-pan-label {
     font-family: 'JetBrains Mono', monospace;
@@ -601,6 +621,8 @@
     background: none; border: none; color: var(--text4);
     cursor: pointer; font-size: .6rem; opacity: 0;
     transition: opacity var(--transition); padding: 2px;
+    z-index: 2;
+    line-height: 1;
   }
   .channel:hover .ch-delete { opacity: 1; }
   .ch-delete:hover { color: var(--red); }
@@ -610,6 +632,8 @@
     background: none; border: none; color: var(--text4);
     cursor: pointer; font-size: .55rem; opacity: 0;
     transition: opacity var(--transition); padding: 2px;
+    z-index: 2;
+    line-height: 1;
   }
   .channel:hover .ch-edit { opacity: 1; }
   .ch-edit:hover { color: var(--accent); }
