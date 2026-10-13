@@ -14,7 +14,7 @@ Soundboard pre-loaded with SFX for **"Ang Mga Sang'gre sa Mundo ng mga Tao"** pl
 | Key | Cue | Scene | SFX Source | License |
 |-----|-----|-------|-----------|---------|
 | **1** | 👁️ Cassiopeia Calls | Scene 1 — Intro | `01_magic_teleport.mp3` | CC0 ✅ |
-| **2** | 🎵 Sang'gre Intro Song | Scene 1 — Intro | *(add your own)* | — |
+| **2** | 🎵 Sang'gre Intro — Tadhana | Scene 1 — Intro | `10_sanggre_intro.mp3` (6.9M) | ✅ DOWNLOADED |
 | **3** | 💣 WWII Battlefield | Scene 2 — War | `06_war_gunfire.mp3` | CC0 ✅ |
 | **4** | 💥 Explosion / Bomb | Scene 2 — War | `07_explosion.mp3` | CC0 ✅ |
 | **5** | ⚔️ Action Music — Fight | Scene 2 — Battle | `03_epic_battle.mp3` | CC0 ✅ |
