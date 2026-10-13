@@ -1198,7 +1198,7 @@ function renderTimers() {
           ${formatTime(isOver ? (t.setSeconds||0) : t.seconds)}
         </div>
         <div class="timer-btns">
-          <button class="t-btn ${isActive?'play':'reset'}" onclick="toggleTimer('${t.id}')">${isActive?'⏸':'▶'</button>
+          <button class="t-btn ${isActive?'play':'reset'}" onclick="toggleTimer('${t.id}')">${isActive?'⏸':'▶'}</button>
           <button class="t-btn reset" onclick="resetTimer('${t.id}')">↺</button>
           <button class="t-btn del" onclick="deleteTimer('${t.id}')">✕</button>
         </div>
