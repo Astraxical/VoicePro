@@ -20,7 +20,7 @@
     --text: #d0d8e8;
     --text-dim: #5a6577;
     --radius: 4px;
-    --pad-size: min(120px, 20vw);
+    --pad-size: min(115px, 19vw);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -35,7 +35,6 @@
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
   }
-
   /* TOP BAR */
   .top-bar {
     background: var(--panel);
@@ -69,7 +68,6 @@
     color: var(--text-dim);
     text-transform: uppercase;
   }
-
   /* TIMER DOCK */
   .timer-dock {
     display: flex;
@@ -195,8 +193,7 @@
     font-weight: 700;
     margin-left: auto;
   }
-
-  /* MASTER SECTION */
+  /* MASTER */
   .master-section {
     background: var(--panel-inner);
     border: 1px solid var(--border);
@@ -246,7 +243,6 @@
     letter-spacing: 1px;
   }
   .master-mute.muted { color: var(--red); border-color: rgba(255,32,32,.4); background: rgba(255,32,32,.1); }
-
   .add-timer-btn {
     background: var(--panel-inner);
     border: 1px dashed var(--border-light);
@@ -267,8 +263,7 @@
     gap: 4px;
   }
   .add-timer-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
-
-  /* CATEGORY BAR */
+  /* CAT BAR */
   .cat-bar {
     display: flex;
     gap: 6px;
@@ -293,7 +288,6 @@
   }
   .cat-pill:hover { border-color: var(--border-light); color: var(--text); }
   .cat-pill.active { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
-
   .search-wrap {
     padding: 8px 16px;
     display: flex;
@@ -312,8 +306,7 @@
     outline: none;
   }
   .search-wrap input:focus { border-color: var(--accent); }
-
-  /* CHANNEL STRIPS */
+  /* MAIN */
   main {
     flex: 1;
     padding: 16px;
@@ -346,7 +339,6 @@
     box-shadow: 0 0 15px rgba(57,255,20,.2), inset 0 0 15px rgba(57,255,20,.05);
   }
   .channel.muted-ch { opacity: .4; }
-
   .led {
     width: 6px; height: 6px; border-radius: 50%;
     background: var(--border-light); margin-bottom: 6px; flex-shrink: 0;
@@ -354,7 +346,6 @@
   }
   .channel.playing .led { background: var(--green); box-shadow: 0 0 6px var(--green); }
   .channel.muted-ch .led { background: var(--red); box-shadow: 0 0 6px var(--red); }
-
   .pad-btn {
     width: 100%; aspect-ratio: 1;
     border: 2px solid var(--border);
@@ -383,9 +374,9 @@
     transform: scale(.96);
     box-shadow: inset 0 0 20px rgba(57,255,20,.1);
   }
-  .pad-btn .pad-icon { font-size: clamp(1.4rem, 4vw, 2rem); line-height: 1; }
+  .pad-btn .pad-icon { font-size: clamp(1.3rem, 3.5vw, 1.8rem); line-height: 1; }
   .pad-btn .pad-name {
-    font-size: clamp(.5rem, 1.5vw, .7rem);
+    font-size: clamp(.48rem, 1.4vw, .68rem);
     font-weight: 600;
     color: var(--text);
     text-align: center;
@@ -397,23 +388,21 @@
   }
   .pad-btn .pad-cue {
     position: absolute; top: 3px; right: 4px;
-    font-size: .5rem; font-family: 'Courier New', monospace;
+    font-size: .48rem; font-family: 'Courier New', monospace;
     color: var(--text-dim); background: var(--bg);
     padding: 1px 3px; border-radius: 2px;
   }
   .pad-btn .pad-scene {
     position: absolute; top: 3px; left: 4px;
-    font-size: .45rem; font-family: monospace;
+    font-size: .42rem; font-family: monospace;
     color: var(--accent); background: rgba(240,165,0,.1);
     padding: 1px 3px; border-radius: 2px;
   }
-
   .ch-fader-row {
     width: 100%; display: flex; align-items: center; gap: 4px; margin-top: 6px;
   }
   .ch-fader { flex: 1; height: 4px; accent-color: var(--accent); cursor: pointer; }
   .ch-vol-label { font-size: .5rem; color: var(--text-dim); font-family: monospace; min-width: 24px; text-align: right; }
-
   .ch-controls { display: flex; gap: 4px; margin-top: 5px; width: 100%; }
   .ch-btn {
     flex: 1; padding: 3px 0;
@@ -425,7 +414,6 @@
   }
   .ch-btn.mute-btn.active { color: var(--red); border-color: rgba(255,32,32,.4); background: rgba(255,32,32,.1); }
   .ch-btn.solo-btn.active { color: var(--yellow); border-color: rgba(255,204,0,.4); background: rgba(255,204,0,.1); }
-
   .ch-delete {
     position: absolute; top: 4px; left: 4px;
     background: none; border: none; color: var(--text-dim);
@@ -434,7 +422,6 @@
   }
   .channel:hover .ch-delete { opacity: 1; }
   .ch-delete:hover { color: var(--red); }
-
   .ch-edit {
     position: absolute; top: 4px; right: 4px;
     background: none; border: none; color: var(--text-dim);
@@ -443,13 +430,11 @@
   }
   .channel:hover .ch-edit { opacity: 1; }
   .ch-edit:hover { color: var(--accent); }
-
   .empty-state {
     text-align: center; padding: 60px 20px; color: var(--text-dim);
   }
   .empty-state .icon { font-size: 3rem; margin-bottom: 12px; }
   .empty-state p { font-size: .9rem; margin-bottom: 16px; }
-
   /* MODALS */
   .modal-overlay {
     display: none;
@@ -522,7 +507,6 @@
   .btn-accent:hover { background: #d49400; }
   .btn-danger { border-color: rgba(255,32,32,.4); color: var(--red); }
   .btn-danger:hover { background: rgba(255,32,32,.15); }
-
   .drop-zone {
     border: 2px dashed var(--border);
     border-radius: var(--radius);
@@ -554,7 +538,6 @@
     cursor: pointer;
     font-size: .75rem;
   }
-
   .config-panel pre {
     background: var(--bg);
     border: 1px solid var(--border);
@@ -569,8 +552,6 @@
   }
   .import-row { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
   .import-row input[type=file] { flex: 1; font-size: .75rem; }
-
-  /* TOAST */
   .toast-container {
     position: fixed;
     bottom: 16px;
@@ -594,8 +575,6 @@
     from { transform: translateX(100%); opacity: 0; }
     to { transform: translateX(0); opacity: 1; }
   }
-
-  /* RESPONSIVE */
   @media (max-width: 480px) {
     :root { --pad-size: 46vw; }
     .top-bar { padding: 8px 10px; gap: 8px; }
@@ -615,17 +594,13 @@
 </head>
 <body>
 
-<!-- TOP BAR -->
 <header class="top-bar">
   <div class="logo-wrap">
     <div class="logo-title">VOICE<span style="color:var(--text-dim)">PRO</span></div>
     <div class="logo-sub">Sang'gre Board</div>
   </div>
-
   <div class="timer-dock" id="timerDock"></div>
-
   <button class="add-timer-btn" onclick="openAddTimerModal()">+ TIMER</button>
-
   <div class="master-section">
     <div class="master-label">Master</div>
     <div class="master-fader-wrap">
@@ -634,26 +609,22 @@
     </div>
     <button class="master-mute" id="masterMuteBtn" onclick="toggleMasterMute()">M</button>
   </div>
-
   <button class="tool-btn" onclick="openConfigModal()" style="background:var(--panel-inner);border:1px solid var(--border);color:var(--text-dim);padding:6px 10px;border-radius:var(--radius);cursor:pointer;font-size:.75rem;white-space:nowrap;">⚙ CONFIG</button>
 </header>
 
-<!-- CATEGORY BAR -->
 <div class="cat-bar" id="catBar">
   <button class="cat-pill active" data-cat="all">ALL</button>
 </div>
 
-<!-- SEARCH -->
 <div class="search-wrap">
   <input type="text" id="searchInput" placeholder="Search cues...">
 </div>
 
-<!-- MAIN CHANNEL GRID -->
 <main>
   <div class="channel-stripes" id="channelGrid"></div>
   <div class="empty-state" id="emptyState" style="display:none">
     <div class="icon">🎛️</div>
-    <p>No cues yet — add your first sound</p>
+    <p>No cues yet</p>
     <button class="btn btn-accent" onclick="openAddModal()">+ ADD CUE</button>
   </div>
 </main>
@@ -662,23 +633,10 @@
 <div class="modal-overlay" id="addModal">
   <div class="modal">
     <h2 id="modalTitle">ADD CUE</h2>
-    <div class="form-group">
-      <label>Cue Name</label>
-      <input type="text" id="soundName" placeholder="e.g. Cassiopeia Calls">
-    </div>
-    <div class="form-group">
-      <label>Category</label>
-      <input type="text" id="soundCat" placeholder="e.g. Scene 1, Combat" list="catSuggestions">
-      <datalist id="catSuggestions"></datalist>
-    </div>
-    <div class="form-group">
-      <label>Icon</label>
-      <input type="text" id="soundIcon" placeholder="👁️" maxlength="4">
-    </div>
-    <div class="form-group">
-      <label>Keyboard Key</label>
-      <input type="text" id="soundKey" placeholder="e.g. Q, 1, F1" maxlength="6">
-    </div>
+    <div class="form-group"><label>Cue Name</label><input type="text" id="soundName" placeholder="e.g. Cassiopeia Calls"></div>
+    <div class="form-group"><label>Category</label><input type="text" id="soundCat" placeholder="e.g. Thunder, Explosion" list="catSuggestions"><datalist id="catSuggestions"></datalist></div>
+    <div class="form-group"><label>Icon</label><input type="text" id="soundIcon" placeholder="⛈️" maxlength="4"></div>
+    <div class="form-group"><label>Keyboard Key</label><input type="text" id="soundKey" placeholder="e.g. Q, 1, F1" maxlength="6"></div>
     <div class="form-group">
       <label>Audio File</label>
       <div class="drop-zone" id="dropZone">
@@ -688,10 +646,7 @@
       </div>
       <div id="fileList"></div>
     </div>
-    <div class="form-group">
-      <label>Or URL</label>
-      <input type="url" id="soundUrl" placeholder="https://example.com/sound.mp3">
-    </div>
+    <div class="form-group"><label>Or URL</label><input type="url" id="soundUrl" placeholder="https://example.com/sound.mp3"></div>
     <div class="modal-actions">
       <button class="btn" onclick="closeAddModal()">Cancel</button>
       <button class="btn btn-accent" onclick="saveSound()">Save Cue</button>
@@ -703,26 +658,14 @@
 <div class="modal-overlay" id="timerModal">
   <div class="modal">
     <h2 id="timerModalTitle">ADD TIMER</h2>
-    <div class="form-group">
-      <label>Label</label>
-      <input type="text" id="timerLabel" placeholder="e.g. Act 2, Entrance">
-    </div>
-    <div class="form-group">
-      <label>Type</label>
-      <select id="timerType">
-        <option value="countdown">⏳ Countdown</option>
-        <option value="stopwatch">⏱ Stopwatch</option>
-      </select>
-    </div>
+    <div class="form-group"><label>Label</label><input type="text" id="timerLabel" placeholder="e.g. Act 2, Entrance"></div>
+    <div class="form-group"><label>Type</label><select id="timerType"><option value="countdown">⏳ Countdown</option><option value="stopwatch">⏱ Stopwatch</option></select></div>
     <div class="form-group" id="countdownInputs">
       <label>Duration</label>
       <div style="display:flex;gap:6px;align-items:center">
-        <div style="flex:1"><label style="font-size:.55rem">Hours</label>
-        <input type="number" id="timerH" min="0" max="23" value="0" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--yellow);font-family:monospace;font-size:.9rem;padding:6px;border-radius:var(--radius);text-align:center;outline:none"></div>
-        <div style="flex:1"><label style="font-size:.55rem">Minutes</label>
-        <input type="number" id="timerM" min="0" max="59" value="15" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--yellow);font-family:monospace;font-size:.9rem;padding:6px;border-radius:var(--radius);text-align:center;outline:none"></div>
-        <div style="flex:1"><label style="font-size:.55rem">Seconds</label>
-        <input type="number" id="timerS" min="0" max="59" value="0" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--yellow);font-family:monospace;font-size:.9rem;padding:6px;border-radius:var(--radius);text-align:center;outline:none"></div>
+        <div style="flex:1"><label style="font-size:.55rem">H</label><input type="number" id="timerH" min="0" max="23" value="0" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--yellow);font-family:monospace;font-size:.9rem;padding:6px;border-radius:var(--radius);text-align:center;outline:none"></div>
+        <div style="flex:1"><label style="font-size:.55rem">M</label><input type="number" id="timerM" min="0" max="59" value="15" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--yellow);font-family:monospace;font-size:.9rem;padding:6px;border-radius:var(--radius);text-align:center;outline:none"></div>
+        <div style="flex:1"><label style="font-size:.55rem">S</label><input type="number" id="timerS" min="0" max="59" value="0" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--yellow);font-family:monospace;font-size:.9rem;padding:6px;border-radius:var(--radius);text-align:center;outline:none"></div>
       </div>
     </div>
     <div class="modal-actions">
@@ -737,10 +680,7 @@
   <div class="modal">
     <h2>CONFIGURATION</h2>
     <div class="config-panel"><pre id="configPreview"></pre></div>
-    <div class="form-group" style="margin-top:12px">
-      <label>Edit JSON</label>
-      <textarea id="configEdit" rows="6"></textarea>
-    </div>
+    <div class="form-group" style="margin-top:12px"><label>Edit JSON</label><textarea id="configEdit" rows="6"></textarea></div>
     <div class="import-row">
       <button class="btn btn-accent" onclick="exportConfig()">📤 Export</button>
       <button class="btn" onclick="document.getElementById('importFile').click()">📥 Import</button>
@@ -757,61 +697,87 @@
 <div class="toast-container" id="toasts"></div>
 
 <script>
-const STORAGE_KEY = 'voicepro_sanggre_v3';
+const STORAGE_KEY = 'voicepro_sanggre_v4';
+const BASE = 'sfx/';
 
 const DEFAULT_CONFIG = {
   masterVolume: 80,
   masterMuted: false,
   sounds: [
-    // ── SCENE 1: INTRO ──
-    { id:'s1',  name:"Cassiopeia Calls",          cat:'Scene 1', icon:'👁️', key:'1', url:'sfx/01_thunder.mp3',      vol:85, mute:false, solo:false },
-    { id:'s2',  name:"Sang'gre Intro — Tadhana",  cat:'Scene 1', icon:'🎵', key:'2', url:'sfx/07_sanggre_intro.mp3',vol:70, mute:false, solo:false },
-    { id:'s3',  name:"Teleportation SFX",          cat:'Scene 1', icon:'🌀', key:'3', url:'sfx/15_magic_descend.mp3',vol:80, mute:false, solo:false },
+    // ═══════════════════════════════════════════════════
+    // THUNDER — 5 variants
+    // ═══════════════════════════════════════════════════
+    { id:'t1', name:'Thunder Close',           cat:'Thunder',  icon:'⛈️', key:'1', url:BASE+'sfx_thunder_01_close.mp3',   vol:90, mute:false, solo:false },
+    { id:'t2', name:'Thunder Distant',         cat:'Thunder',  icon:'🌩️', key:'2', url:BASE+'sfx_thunder_02_distant.mp3',  vol:70, mute:false, solo:false },
+    { id:'t3', name:'Thunder Rolling',         cat:'Thunder',  icon:'🌧️', key:'3', url:BASE+'sfx_thunder_03_rolling.mp3',  vol:75, mute:false, solo:false },
+    { id:'t4', name:'Thunder Heavy',           cat:'Thunder',  icon:'💢', key:'4', url:BASE+'sfx_thunder_04_heavy.mp3',    vol:95, mute:false, solo:false },
+    { id:'t5', name:'Thunder Storm',           cat:'Thunder',  icon:'🌪️', key:'5', url:BASE+'sfx_thunder_05_storm.mp3',    vol:85, mute:false, solo:false },
 
-    // ── SCENE 2: WWII BATTLE ──
-    { id:'s4',  name:"WWII Battle Ambience",       cat:'Scene 2', icon:'💣', key:'4', url:'sfx/08_war_ambience.mp3', vol:75, mute:false, solo:false },
-    { id:'s5',  name:"Explosion / Bomb",           cat:'Scene 2', icon:'💥', key:'5', url:'sfx/04_explosion.mp3',    vol:95, mute:false, solo:false },
-    { id:'s6',  name:"Battle Music — Fight",       cat:'Scene 2', icon:'⚔️', key:'6', url:'sfx/02_epic_battle.mp3',  vol:80, mute:false, solo:false },
-    { id:'s7',  name:"Machine Gun Barrage",        cat:'Scene 2', icon:'🔫', key:'7', url:'sfx/09_battle_mg.mp3',    vol:85, mute:false, solo:false },
-    { id:'s8',  name:"Fast Fight Music",           cat:'Scene 2', icon:'🏃', key:'8', url:'sfx/10_fast_fight.mp3',   vol:85, mute:false, solo:false },
-    { id:'s9',  name:"CZ-52 Pistol Shot",          cat:'Scene 2', icon:'🔫', key:'9', url:'sfx/cz.mp3',              vol:80, mute:false, solo:false },
-    { id:'s10', name:"Mosin Nagant Rifle",         cat:'Scene 2', icon:'🎯', key:'0', url:'sfx/mosin.mp3',           vol:85, mute:false, solo:false },
-    { id:'s11', name:"SKS Rifle Shot",             cat:'Scene 2', icon:'🎯', key:'Q', url:'sfx/sks.mp3',             vol:80, mute:false, solo:false },
-    { id:'s12', name:"Shotgun Blast",              cat:'Scene 2', icon:'💥', key:'W', url:'sfx/shotty.mp3',          vol:90, mute:false, solo:false },
-    { id:'s13', name:"Grenade Explosion",          cat:'Scene 2', icon:'💣', key:'E', url:'sfx/12_grenade.mp3',      vol:95, mute:false, solo:false },
-    { id:'s14', name:"Big Explosion w/ Debris",    cat:'Scene 2', icon:'💥', key:'R', url:'sfx/21_explosion2.mp3',   vol:90, mute:false, solo:false },
+    // ═══════════════════════════════════════════════════
+    // EXPLOSION — 5 variants
+    // ═══════════════════════════════════════════════════
+    { id:'e1', name:'Explosion Debris',        cat:'Explosion', icon:'💥', key:'6', url:BASE+'sfx_explosion_01_debris.mp3', vol:95, mute:false, solo:false },
+    { id:'e2', name:'Explosion Huge',          cat:'Explosion', icon:'💣', key:'7', url:BASE+'sfx_explosion_02_huge.mp3',   vol:95, mute:false, solo:false },
+    { id:'e3', name:'Explosion Blast',         cat:'Explosion', icon:'🔥', key:'8', url:BASE+'sfx_explosion_03_blast.mp3',   vol:90, mute:false, solo:false },
+    { id:'e4', name:'Explosion Large',         cat:'Explosion', icon:'💫', key:'9', url:BASE+'sfx_explosion_04_large.mp3',   vol:90, mute:false, solo:false },
+    { id:'e5', name:'Explosion Crisp',         cat:'Explosion', icon:'☄️', key:'0', url:BASE+'sfx_explosion_05_crisp.mp3',   vol:85, mute:false, solo:false },
 
-    // ── SCENE 4: RAMON ENTRANCE ──
-    { id:'s15', name:"Ramon Dramatic Entrance",    cat:'Scene 4', icon:'🎩', key:'T', url:'sfx/06_fanfare.mp3',      vol:90, mute:false, solo:false },
+    // ═══════════════════════════════════════════════════
+    // BATTLE AMBIENCE — 5 variants
+    // ═══════════════════════════════════════════════════
+    { id:'b1', name:'Battle MG + Explosions',  cat:'Battle',   icon:'🔫', key:'Q', url:BASE+'sfx_battle_01_mg.mp3',     vol:80, mute:false, solo:false },
+    { id:'b2', name:'Battle Debris Fall',      cat:'Battle',   icon:'🏚️', key:'W', url:BASE+'sfx_battle_02_debris.mp3',   vol:70, mute:false, solo:false },
+    { id:'b3', name:'Battle Wood/Sand',        cat:'Battle',   icon:'🪵', key:'E', url:BASE+'sfx_battle_03_wood.mp3',     vol:70, mute:false, solo:false },
+    { id:'b4', name:'Battle MG High Quality',  cat:'Battle',   icon:'⚡', key:'R', url:BASE+'sfx_battle_04_mg_high.mp3',  vol:85, mute:false, solo:false },
+    { id:'b5', name:'Battle Rapid Fire',       cat:'Battle',   icon:'🎯', key:'T', url:BASE+'sfx_battle_05_rapid.mp3',    vol:85, mute:false, solo:false },
 
-    // ── SCENE 5: ESTRADA ──
-    { id:'s16', name:"Thunder Clap — Estrada",     cat:'Scene 5', icon:'⛈️', key:'Y', url:'sfx/01_thunder.mp3',      vol:95, mute:false, solo:false },
-    { id:'s17', name:"Estrada Challenge Music",    cat:'Scene 5', icon:'😈', key:'U', url:'sfx/03_battle_theme.mp3', vol:80, mute:false, solo:false },
+    // ═══════════════════════════════════════════════════
+    // GUNFIRE — 5 variants
+    // ═══════════════════════════════════════════════════
+    { id:'g1', name:'Pistol Shot',             cat:'Gunfire',  icon:'🔫', key:'Y', url:BASE+'sfx_gun_pistol.mp3',       vol:80, mute:false, solo:false },
+    { id:'g2', name:'Rifle Shot',              cat:'Gunfire',  icon:'🎯', key:'U', url:BASE+'sfx_gun_rifle.mp3',        vol:85, mute:false, solo:false },
+    { id:'g3', name:'SKS Rifle',               cat:'Gunfire',  icon:'🔫', key:'I', url:BASE+'sfx_gun_sks.mp3',          vol:80, mute:false, solo:false },
+    { id:'g4', name:'Shotgun Blast',           cat:'Gunfire',  icon:'💥', key:'O', url:BASE+'sfx_gun_shotgun.mp3',      vol:90, mute:false, solo:false },
+    { id:'g5', name:'Automatic Fire',          cat:'Gunfire',  icon:'⚡', key:'P', url:BASE+'sfx_gun_automatic.mp3',    vol:85, mute:false, solo:false },
 
-    // ── SCENE 6: ENDING ──
-    { id:'s18', name:"Mystical Magic Sound",       cat:'Scene 6', icon:'✨', key:'I', url:'sfx/11_earth_magic.mp3',  vol:75, mute:false, solo:false },
-    { id:'s19', name:"Fire Spell — Apoy",          cat:'Scene 6', icon:'🔥', key:'O', url:'sfx/18_fire_spell2.mp3',  vol:80, mute:false, solo:false },
-    { id:'s20', name:"Flight / Teleport Out",      cat:'Scene 6', icon:'🌀', key:'P', url:'sfx/20_flight_spell.mp3', vol:80, mute:false, solo:false },
-    { id:'s21', name:"Inspirational Outro",        cat:'Scene 6', icon:'🎶', key:'F1',url:'sfx/05_inspirational.mp3',vol:75, mute:false, solo:false },
+    // ═══════════════════════════════════════════════════
+    // MAGIC/ELEMENTAL — 5 variants
+    // ═══════════════════════════════════════════════════
+    { id:'m1', name:'Earth Magic',             cat:'Magic',    icon:'🌍', key:'F2',url:BASE+'sfx_magic_earth.mp3',      vol:75, mute:false, solo:false },
+    { id:'m2', name:'Fire Spell',              cat:'Magic',    icon:'🔥', key:'F3',url:BASE+'sfx_magic_fire.mp3',     vol:80, mute:false, solo:false },
+    { id:'m3', name:'Wind Spell',              cat:'Magic',    icon:'💨', key:'F4',url:BASE+'sfx_magic_wind.mp3',     vol:75, mute:false, solo:false },
+    { id:'m4', name:'Water Spell',             cat:'Magic',    icon:'💧', key:'F5',url:BASE+'sfx_magic_water.mp3',    vol:70, mute:false, solo:false },
+    { id:'m5', name:'Ice/Lightning Spell',     cat:'Magic',    icon:'❄️', key:'F6',url:BASE+'sfx_magic_ice.mp3',      vol:80, mute:false, solo:false },
 
-    // ── VOICEOVERS ──
-    { id:'s22', name:"Intro Audio",                cat:'Voice',   icon:'🎬', key:'F2',url:'sfx/vo_01_intro.mp3',      vol:80, mute:false, solo:false },
-    { id:'s23', name:"Cassiopeia VO #1",           cat:'Voice',   icon:'🎙️', key:'F3',url:'sfx/vo_02_cassiopeia.mp3', vol:80, mute:false, solo:false },
-    { id:'s24', name:"Sang'gre ng Lupa VO",         cat:'Voice',   icon:'🌍', key:'F4',url:'sfx/vo_03_lupa.mp3',       vol:80, mute:false, solo:false },
-    { id:'s25', name:"Sang'gre ng Hangin VO",       cat:'Voice',   icon:'💨', key:'F5',url:'sfx/vo_04_hangin.mp3',     vol:80, mute:false, solo:false },
-    { id:'s26', name:"Sang'gre ng Apoy VO",         cat:'Voice',   icon:'🔥', key:'F6',url:'sfx/vo_05_apoy.mp3',       vol:80, mute:false, solo:false },
-    { id:'s27', name:"War Scene VO",               cat:'Voice',   icon:'⚔️', key:'F7',url:'sfx/vo_06_war.mp3',        vol:80, mute:false, solo:false },
-    { id:'s28', name:"Magsasaka VO",               cat:'Voice',   icon:'🌾', key:'F8',url:'sfx/vo_07_magsasaka.mp3',   vol:80, mute:false, solo:false },
-    { id:'s29', name:"Ramon VO",                   cat:'Voice',   icon:'📜', key:'F9',url:'sfx/vo_08_ramon.mp3',        vol:80, mute:false, solo:false },
-    { id:'s30', name:"Estrada VO",                 cat:'Voice',   icon:'😈', key:'F10',url:'sfx/vo_09_estrada.mp3',    vol:80, mute:false, solo:false },
-    { id:'s31', name:"Cassiopeia VO #2",           cat:'Voice',   icon:'🎙️', key:'F11',url:'sfx/vo_10_cassiopeia2.mp3',vol:80, mute:false, solo:false },
-    { id:'s32', name:"Ending VO",                  cat:'Voice',   icon:'🙏', key:'F12',url:'sfx/vo_11_ending.mp3',     vol:80, mute:false, solo:false },
+    // ═══════════════════════════════════════════════════
+    // MUSIC — 5 variants
+    // ═══════════════════════════════════════════════════
+    { id:'mu1',name:"Sang'gre Intro — Tadhana",cat:'Music',    icon:'🎵', key:'F7',url:BASE+'sfx_music_tadhana.mp3',  vol:70, mute:false, solo:false },
+    { id:'mu2',name:'Epic Battle Music',       cat:'Music',    icon:'⚔️', key:'F8',url:BASE+'sfx_music_fast_fight.mp3',vol:80, mute:false, solo:false },
+    { id:'mu3',name:'Dramatic Fanfare',        cat:'Music',    icon:'🎺', key:'F9',url:BASE+'sfx_music_fanfare.mp3',   vol:85, mute:false, solo:false },
+    { id:'mu4',name:'Inspirational Outro',     cat:'Music',    icon:'🎶', key:'F10',url:BASE+'sfx_music_inspirational.mp3',vol:75,mute:false,solo:false},
+    { id:'mu5',name:'War Ambience',            cat:'Music',    icon:'🎼', key:'F11',url:BASE+'sfx_music_war.mp3',      vol:60, mute:false, solo:false },
+
+    // ═══════════════════════════════════════════════════
+    // VOICEOVERS — 11 cues
+    // ═══════════════════════════════════════════════════
+    { id:'v1', name:"Intro Audio",            cat:'Voice',  icon:'🎬', key:'F12',url:BASE+'vo_01_intro.mp3',        vol:80, mute:false, solo:false },
+    { id:'v2', name:"Cassiopeia VO #1",       cat:'Voice',  icon:'🎙️', key:'-',  url:BASE+'vo_02_cassiopeia.mp3',     vol:80, mute:false, solo:false },
+    { id:'v3', name:"Lupa VO",                cat:'Voice',  icon:'🌍', key:'=',  url:BASE+'vo_03_lupa.mp3',           vol:80, mute:false, solo:false },
+    { id:'v4', name:"Hangin VO",              cat:'Voice',  icon:'💨', key:'[',  url:BASE+'vo_04_hangin.mp3',         vol:80, mute:false, solo:false },
+    { id:'v5', name:"Apoy VO",                cat:'Voice',  icon:'🔥', key:']',  url:BASE+'vo_05_apoy.mp3',           vol:80, mute:false, solo:false },
+    { id:'v6', name:"War Scene VO",           cat:'Voice',  icon:'⚔️', key:'\\', url:BASE+'vo_06_war.mp3',            vol:80, mute:false, solo:false },
+    { id:'v7', name:"Magsasaka VO",           cat:'Voice',  icon:'🌾', key:';',  url:BASE+'vo_07_magsasaka.mp3',      vol:80, mute:false, solo:false },
+    { id:'v8', name:"Ramon VO",               cat:'Voice',  icon:'📜', key:'\'',url:BASE+'vo_08_ramon.mp3',          vol:80, mute:false, solo:false },
+    { id:'v9', name:"Estrada VO",             cat:'Voice',  icon:'😈', key:',',  url:BASE+'vo_09_estrada.mp3',        vol:80, mute:false, solo:false },
+    { id:'v10',name:"Cassiopeia VO #2",       cat:'Voice',  icon:'🎙️', key：'.', url:BASE+'vo_10_cassiopeia2.mp3',    vol:80, mute:false, solo:false },
+    { id:'v11',name:"Ending VO",              cat:'Voice',  icon:'🙏', key:'/',  url:BASE+'vo_11_ending.mp3',         vol:80, mute:false, solo:false },
   ],
   timers: [
     { id:'t_show', label:'Show Runtime', type:'stopwatch', seconds:0, running:false, lastTick:0 },
     { id:'t_act2', label:'Act 2 Countdown', type:'countdown', seconds:900, running:false, lastTick:0, setSeconds:900 },
   ],
-  categories: ['Scene 1','Scene 2','Scene 4','Scene 5','Scene 6','Voice'],
+  categories: ['Thunder','Explosion','Battle','Gunfire','Magic','Music','Voice'],
   pinnedKeys: ['Q','W','E','R','T','Y','U','I','O','P','1','2','3','4','5','6','7','8','9','0']
 };
 
@@ -835,7 +801,7 @@ function save() {
 }
 
 // ═══════════════════════════════════════════════════
-// AUDIO ENGINE — FIXED: stops previous instance on re-click
+// AUDIO ENGINE — FIXED: stops previous instance
 // ═══════════════════════════════════════════════════
 function getChannelVol(id) {
   const s = config.sounds.find(x => x.id === id);
@@ -852,8 +818,6 @@ function getChannelVol(id) {
 function playSound(id) {
   const s = config.sounds.find(x => x.id === id);
   if (!s || !s.url) return;
-
-  // FIX: Stop existing instance of this cue before playing again
   const existing = activeAudios.find(x => x.id === id);
   if (existing) {
     existing.audio.pause();
@@ -861,17 +825,14 @@ function playSound(id) {
     activeAudios = activeAudios.filter(x => x.id !== id);
     document.getElementById(`ch-${id}`)?.classList.remove('playing');
   }
-
   let a = audioCache[id];
   if (!a) { a = new Audio(s.url); audioCache[id] = a; }
   a.volume = getChannelVol(id);
   a.currentTime = 0;
   a.play().catch(() => showToast('Tap anywhere first to enable audio'));
-
   activeAudios.push({ id, audio: a });
   const el = document.getElementById(`ch-${id}`);
   if (el) el.classList.add('playing');
-
   a.addEventListener('ended', () => {
     activeAudios = activeAudios.filter(x => x.id !== id);
     document.getElementById(`ch-${id}`)?.classList.remove('playing');
@@ -1332,7 +1293,6 @@ function escHtml(str) {
 updateMasterFader();
 render();
 
-// Resume running timers from previous session
 config.timers.forEach(t => {
   if (t.running && config._timerRuntime?.[t.id]) {
     const saved = config._timerRuntime[t.id];
