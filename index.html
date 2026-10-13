@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>VoicePro — Sound Board</title>
+<title>VoicePro — Sang'gre Sound Board</title>
 <style>
   :root {
     --bg: #0a0c10;
@@ -20,7 +20,7 @@
     --text: #d0d8e8;
     --text-dim: #5a6577;
     --radius: 4px;
-    --pad-size: min(110px, 18vw);
+    --pad-size: min(120px, 20vw);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -36,9 +36,7 @@
     touch-action: manipulation;
   }
 
-  /* ══════════════════════════════════════
-     TOP BAR
-  ══════════════════════════════════════ */
+  /* TOP BAR */
   .top-bar {
     background: var(--panel);
     border-bottom: 2px solid var(--border);
@@ -52,9 +50,7 @@
     z-index: 100;
     box-shadow: 0 4px 20px rgba(0,0,0,.5);
   }
-
-  /* Logo */
-  .logo {
+  .logo-wrap {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -74,7 +70,7 @@
     text-transform: uppercase;
   }
 
-  /* ── Timer Dock ── */
+  /* TIMER DOCK */
   .timer-dock {
     display: flex;
     gap: 6px;
@@ -84,7 +80,6 @@
     scrollbar-width: none;
   }
   .timer-dock::-webkit-scrollbar { display: none; }
-
   .timer-unit {
     background: #080a0e;
     border: 1px solid var(--border);
@@ -101,9 +96,8 @@
   }
   .timer-unit:hover { border-color: var(--border-light); }
   .timer-unit.active { border-color: var(--green); box-shadow: 0 0 8px rgba(57,255,20,.15); }
-  .timer-unit.over { border-color: var(--red); animation: blink 0.5s infinite; }
+  .timer-unit.over { border-color: var(--red); animation: blink .5s infinite; }
   @keyframes blink { 50% { opacity: .5; } }
-
   .timer-label {
     font-size: .55rem;
     text-transform: uppercase;
@@ -125,7 +119,6 @@
   }
   .timer-display.countdown { color: var(--yellow); text-shadow: 0 0 8px rgba(255,204,0,.4); }
   .timer-display.over { color: var(--red); text-shadow: 0 0 8px rgba(255,32,32,.4); }
-
   .timer-ctrls {
     display: flex;
     gap: 3px;
@@ -150,14 +143,11 @@
   .t-btn.stop { color: var(--yellow); border-color: rgba(255,204,0,.3); }
   .t-btn.del { color: var(--red); border-color: rgba(255,32,32,.2); }
   .t-btn.del:hover { background: rgba(255,32,32,.15); }
-
-  /* Timer edit overlay inside unit */
   .timer-edit {
     display: none;
     position: absolute;
     bottom: calc(100% + 6px);
-    left: 0;
-    right: 0;
+    left: 0; right: 0;
     background: var(--panel);
     border: 1px solid var(--border-light);
     border-radius: var(--radius);
@@ -166,12 +156,7 @@
     box-shadow: 0 -4px 16px rgba(0,0,0,.5);
   }
   .timer-edit.show { display: block; }
-  .timer-edit label {
-    font-size: .55rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--text-dim);
-  }
+  .timer-edit label { font-size: .55rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); }
   .timer-edit input[type=text] {
     width: 100%;
     background: var(--bg);
@@ -184,11 +169,7 @@
     outline: none;
   }
   .timer-edit input[type=text]:focus { border-color: var(--accent); }
-  .timer-set-row {
-    display: flex;
-    gap: 4px;
-    align-items: center;
-  }
+  .timer-set-row { display: flex; gap: 4px; align-items: center; }
   .timer-set-row input[type=number] {
     width: 36px;
     background: var(--bg);
@@ -215,7 +196,7 @@
     margin-left: auto;
   }
 
-  /* ── Master Section ── */
+  /* MASTER SECTION */
   .master-section {
     background: var(--panel-inner);
     border: 1px solid var(--border);
@@ -266,7 +247,6 @@
   }
   .master-mute.muted { color: var(--red); border-color: rgba(255,32,32,.4); background: rgba(255,32,32,.1); }
 
-  /* ── Add Timer Button ── */
   .add-timer-btn {
     background: var(--panel-inner);
     border: 1px dashed var(--border-light);
@@ -288,9 +268,7 @@
   }
   .add-timer-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
 
-  /* ══════════════════════════════════════
-     CATEGORY BAR
-  ══════════════════════════════════════ */
+  /* CATEGORY BAR */
   .cat-bar {
     display: flex;
     gap: 6px;
@@ -316,7 +294,6 @@
   .cat-pill:hover { border-color: var(--border-light); color: var(--text); }
   .cat-pill.active { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
 
-  /* Search */
   .search-wrap {
     padding: 8px 16px;
     display: flex;
@@ -336,9 +313,7 @@
   }
   .search-wrap input:focus { border-color: var(--accent); }
 
-  /* ══════════════════════════════════════
-     CHANNEL STRIPS
-  ══════════════════════════════════════ */
+  /* CHANNEL STRIPS */
   main {
     flex: 1;
     padding: 16px;
@@ -426,6 +401,12 @@
     color: var(--text-dim); background: var(--bg);
     padding: 1px 3px; border-radius: 2px;
   }
+  .pad-btn .pad-scene {
+    position: absolute; top: 3px; left: 4px;
+    font-size: .45rem; font-family: monospace;
+    color: var(--accent); background: rgba(240,165,0,.1);
+    padding: 1px 3px; border-radius: 2px;
+  }
 
   .ch-fader-row {
     width: 100%; display: flex; align-items: center; gap: 4px; margin-top: 6px;
@@ -469,9 +450,7 @@
   .empty-state .icon { font-size: 3rem; margin-bottom: 12px; }
   .empty-state p { font-size: .9rem; margin-bottom: 16px; }
 
-  /* ══════════════════════════════════════
-     MODALS
-  ══════════════════════════════════════ */
+  /* MODALS */
   .modal-overlay {
     display: none;
     position: fixed;
@@ -591,7 +570,7 @@
   .import-row { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
   .import-row input[type=file] { flex: 1; font-size: .75rem; }
 
-  /* Toast */
+  /* TOAST */
   .toast-container {
     position: fixed;
     bottom: 16px;
@@ -616,11 +595,10 @@
     to { transform: translateX(0); opacity: 1; }
   }
 
-  /* Responsive */
+  /* RESPONSIVE */
   @media (max-width: 480px) {
     :root { --pad-size: 46vw; }
     .top-bar { padding: 8px 10px; gap: 8px; }
-    .timer-unit { min-width: 60px; padding: 5px 6px; }
     .timer-display { font-size: 1rem; }
     .master-fader { width: 70px; }
     .logo { display: none; }
@@ -637,20 +615,17 @@
 </head>
 <body>
 
-<!-- ═══ TOP BAR ═══ -->
+<!-- TOP BAR -->
 <header class="top-bar">
-  <div class="logo">
+  <div class="logo-wrap">
     <div class="logo-title">VOICE<span style="color:var(--text-dim)">PRO</span></div>
-    <div class="logo-sub">Sound Board</div>
+    <div class="logo-sub">Sang'gre Board</div>
   </div>
 
-  <!-- Timer Dock -->
   <div class="timer-dock" id="timerDock"></div>
 
-  <!-- Add Timer -->
   <button class="add-timer-btn" onclick="openAddTimerModal()">+ TIMER</button>
 
-  <!-- Master -->
   <div class="master-section">
     <div class="master-label">Master</div>
     <div class="master-fader-wrap">
@@ -663,17 +638,17 @@
   <button class="tool-btn" onclick="openConfigModal()" style="background:var(--panel-inner);border:1px solid var(--border);color:var(--text-dim);padding:6px 10px;border-radius:var(--radius);cursor:pointer;font-size:.75rem;white-space:nowrap;">⚙ CONFIG</button>
 </header>
 
-<!-- Category Filter -->
+<!-- CATEGORY BAR -->
 <div class="cat-bar" id="catBar">
   <button class="cat-pill active" data-cat="all">ALL</button>
 </div>
 
-<!-- Search -->
+<!-- SEARCH -->
 <div class="search-wrap">
   <input type="text" id="searchInput" placeholder="Search cues...">
 </div>
 
-<!-- ═══ CHANNEL STRIPS ═══ -->
+<!-- MAIN CHANNEL GRID -->
 <main>
   <div class="channel-stripes" id="channelGrid"></div>
   <div class="empty-state" id="emptyState" style="display:none">
@@ -683,22 +658,22 @@
   </div>
 </main>
 
-<!-- ═══ ADD / EDIT CUE MODAL ═══ -->
+<!-- ADD/EDIT MODAL -->
 <div class="modal-overlay" id="addModal">
   <div class="modal">
     <h2 id="modalTitle">ADD CUE</h2>
     <div class="form-group">
       <label>Cue Name</label>
-      <input type="text" id="soundName" placeholder="e.g. Door Slam, Enemy Roar">
+      <input type="text" id="soundName" placeholder="e.g. Cassiopeia Calls">
     </div>
     <div class="form-group">
       <label>Category</label>
-      <input type="text" id="soundCat" placeholder="e.g. Combat, Ambient, FX" list="catSuggestions">
+      <input type="text" id="soundCat" placeholder="e.g. Scene 1, Combat" list="catSuggestions">
       <datalist id="catSuggestions"></datalist>
     </div>
     <div class="form-group">
       <label>Icon</label>
-      <input type="text" id="soundIcon" placeholder="🔊" maxlength="4">
+      <input type="text" id="soundIcon" placeholder="👁️" maxlength="4">
     </div>
     <div class="form-group">
       <label>Keyboard Key</label>
@@ -724,13 +699,13 @@
   </div>
 </div>
 
-<!-- ═══ ADD TIMER MODAL ═══ -->
+<!-- TIMER MODAL -->
 <div class="modal-overlay" id="timerModal">
   <div class="modal">
     <h2 id="timerModalTitle">ADD TIMER</h2>
     <div class="form-group">
       <label>Label</label>
-      <input type="text" id="timerLabel" placeholder="e.g. Act 2, Entrance, Combat start">
+      <input type="text" id="timerLabel" placeholder="e.g. Act 2, Entrance">
     </div>
     <div class="form-group">
       <label>Type</label>
@@ -742,18 +717,12 @@
     <div class="form-group" id="countdownInputs">
       <label>Duration</label>
       <div style="display:flex;gap:6px;align-items:center">
-        <div style="flex:1">
-          <label style="font-size:.55rem">Hours</label>
-          <input type="number" id="timerH" min="0" max="23" value="0" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--yellow);font-family:monospace;font-size:.9rem;padding:6px;border-radius:var(--radius);text-align:center;outline:none">
-        </div>
-        <div style="flex:1">
-          <label style="font-size:.55rem">Minutes</label>
-          <input type="number" id="timerM" min="0" max="59" value="15" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--yellow);font-family:monospace;font-size:.9rem;padding:6px;border-radius:var(--radius);text-align:center;outline:none">
-        </div>
-        <div style="flex:1">
-          <label style="font-size:.55rem">Seconds</label>
-          <input type="number" id="timerS" min="0" max="59" value="0" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--yellow);font-family:monospace;font-size:.9rem;padding:6px;border-radius:var(--radius);text-align:center;outline:none">
-        </div>
+        <div style="flex:1"><label style="font-size:.55rem">Hours</label>
+        <input type="number" id="timerH" min="0" max="23" value="0" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--yellow);font-family:monospace;font-size:.9rem;padding:6px;border-radius:var(--radius);text-align:center;outline:none"></div>
+        <div style="flex:1"><label style="font-size:.55rem">Minutes</label>
+        <input type="number" id="timerM" min="0" max="59" value="15" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--yellow);font-family:monospace;font-size:.9rem;padding:6px;border-radius:var(--radius);text-align:center;outline:none"></div>
+        <div style="flex:1"><label style="font-size:.55rem">Seconds</label>
+        <input type="number" id="timerS" min="0" max="59" value="0" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--yellow);font-family:monospace;font-size:.9rem;padding:6px;border-radius:var(--radius);text-align:center;outline:none"></div>
       </div>
     </div>
     <div class="modal-actions">
@@ -763,13 +732,11 @@
   </div>
 </div>
 
-<!-- ═══ CONFIG MODAL ═══ -->
+<!-- CONFIG MODAL -->
 <div class="modal-overlay" id="configModal">
   <div class="modal">
     <h2>CONFIGURATION</h2>
-    <div class="config-panel">
-      <pre id="configPreview"></pre>
-    </div>
+    <div class="config-panel"><pre id="configPreview"></pre></div>
     <div class="form-group" style="margin-top:12px">
       <label>Edit JSON</label>
       <textarea id="configEdit" rows="6"></textarea>
@@ -790,38 +757,42 @@
 <div class="toast-container" id="toasts"></div>
 
 <script>
-// ═══════════════════════════════════════════════════════════
-//  VOICEPRO — Theater Sound Board with Multi-Timer
-// ═══════════════════════════════════════════════════════════
+const STORAGE_KEY = 'voicepro_sanggre_v3';
 
-const STORAGE_KEY = 'voicepro_config_v2';
 const DEFAULT_CONFIG = {
   masterVolume: 80,
   masterMuted: false,
   sounds: [
-    // Scene 1 — Intro / Teleportation
-    { id:'s1', name:'Cassiopeia Calls', cat:'Scene 1', icon:'👁️', key:'1', url:'sfx/01_magic_teleport.mp3', vol:85, mute:false, solo:false },
-    { id:'s2', name:'Sang\'gre Intro — Tadhana', cat:'Scene 1', icon:'🎵', key:'2', url:'sfx/10_sanggre_intro.mp3', vol:75, mute:false, solo:false },
+    // ── SCENE 1: INTRO ──
+    { id:'s1',  name:"Cassiopeia Calls",          cat:'Scene 1', icon:'👁️', key:'1', url:'sfx/01_thunder.mp3',      vol:85, mute:false, solo:false },
+    { id:'s2',  name:"Sang'gre Intro — Tadhana",  cat:'Scene 1', icon:'🎵', key:'2', url:'sfx/07_sanggre_intro.mp3',vol:70, mute:false, solo:false },
+    { id:'s3',  name:"Teleportation SFX",          cat:'Scene 1', icon:'🌀', key:'3', url:'sfx/15_magic_descend.mp3',vol:80, mute:false, solo:false },
 
-    // Scene 2 — WWII
-    { id:'s3', name:'WWII Battlefield', cat:'Scene 2', icon:'💣', key:'3', url:'sfx/06_war_gunfire.mp3', vol:90, mute:false, solo:false },
-    { id:'s4', name:'Explosion / Bomb', cat:'Scene 2', icon:'💥', key:'4', url:'sfx/07_explosion.mp3', vol:95, mute:false, solo:false },
-    { id:'s5', name:'Action Music — Fight', cat:'Scene 2', icon:'⚔️', key:'5', url:'sfx/03_epic_battle.mp3', vol:80, mute:false, solo:false },
-    { id:'s6', name:'Gunshot', cat:'Scene 2', icon:'🔫', key:'6', url:'sfx/06_war_gunfire.mp3', vol:85, mute:false, solo:false },
-    { id:'s7', name:'Laser Shot', cat:'Scene 2', icon:'⚡', key:'7', url:'sfx/07b_laser_shot.mp3', vol:75, mute:false, solo:false },
-    { id:'s8', name:'Hit / Impact', cat:'Scene 2', icon:'💢', key:'8', url:'sfx/07c_hit.mp3', vol:80, mute:false, solo:false },
+    // ── SCENE 2: WWII BATTLE ──
+    { id:'s4',  name:"WWII Battle Ambience",       cat:'Scene 2', icon:'💣', key:'4', url:'sfx/08_war_ambience.mp3', vol:75, mute:false, solo:false },
+    { id:'s5',  name:"Explosion / Bomb",           cat:'Scene 2', icon:'💥', key:'5', url:'sfx/04_explosion.mp3',    vol:95, mute:false, solo:false },
+    { id:'s6',  name:"Battle Music — Fight",       cat:'Scene 2', icon:'⚔️', key:'6', url:'sfx/02_epic_battle.mp3',  vol:80, mute:false, solo:false },
+    { id:'s7',  name:"Machine Gun Barrage",        cat:'Scene 2', icon:'🔫', key:'7', url:'sfx/09_battle_mg.mp3',    vol:85, mute:false, solo:false },
+    { id:'s8',  name:"Fast Fight Music",           cat:'Scene 2', icon:'🏃', key:'8', url:'sfx/10_fast_fight.mp3',   vol:85, mute:false, solo:false },
+    { id:'s9',  name:"CZ-52 Pistol Shot",          cat:'Scene 2', icon:'🔫', key:'9', url:'sfx/cz.mp3',              vol:80, mute:false, solo:false },
+    { id:'s10', name:"Mosin Nagant Rifle",         cat:'Scene 2', icon:'🎯', key:'0', url:'sfx/mosin.mp3',           vol:85, mute:false, solo:false },
+    { id:'s11', name:"SKS Rifle Shot",             cat:'Scene 2', icon:'🎯', key:'Q', url:'sfx/sks.mp3',             vol:80, mute:false, solo:false },
+    { id:'s12', name:"Shotgun Blast",              cat:'Scene 2', icon:'💥', key:'W', url:'sfx/shotty.mp3',          vol:90, mute:false, solo:false },
+    { id:'s13', name:"Grenade Explosion",          cat:'Scene 2', icon:'💣', key:'E', url:'sfx/12_grenade.mp3',      vol:95, mute:false, solo:false },
+    { id:'s14', name:"Big Explosion w/ Debris",    cat:'Scene 2', icon:'💥', key:'R', url:'sfx/21_explosion2.mp3',   vol:90, mute:false, solo:false },
 
-    // Scene 4 — Ramon Entrance
-    { id:'s9', name:'Ramon Dramatic Entrance', cat:'Scene 4', icon:'🎩', key:'9', url:'sfx/02_victory_fanfare.mp3', vol:90, mute:false, solo:false },
+    // ── SCENE 4: RAMON ENTRANCE ──
+    { id:'s15', name:"Ramon Dramatic Entrance",    cat:'Scene 4', icon:'🎩', key:'T', url:'sfx/06_fanfare.mp3',      vol:90, mute:false, solo:false },
 
-    // Scene 5 — Estrada
-    { id:'s10', name:'Thunder Clap — Estrada', cat:'Scene 5', icon:'⛈️', key:'0', url:'sfx/05_thunder.mp3', vol:95, mute:false, solo:false },
-    { id:'s11', name:'Estrada Challenge Music', cat:'Scene 5', icon:'😈', key:'Q', url:'sfx/05_thunder.mp3', vol:85, mute:false, solo:false },
+    // ── SCENE 5: ESTRADA ──
+    { id:'s16', name:"Thunder Clap — Estrada",     cat:'Scene 5', icon:'⛈️', key:'Y', url:'sfx/01_thunder.mp3',      vol:95, mute:false, solo:false },
+    { id:'s17', name:"Estrada Challenge Music",    cat:'Scene 5', icon:'😈', key:'U', url:'sfx/03_battle_theme.mp3', vol:80, mute:false, solo:false },
 
-    // Scene 6 — Ending
-    { id:'s12', name:'Mystical Magic Sound', cat:'Scene 6', icon:'✨', key:'W', url:'sfx/09_mystical_powerup.mp3', vol:80, mute:false, solo:false },
-    { id:'s13', name:'Teleport Out', cat:'Scene 6', icon:'🌀', key:'E', url:'sfx/08_teleport_2.mp3', vol:85, mute:false, solo:false },
-    { id:'s14', name:'Inspirational Outro', cat:'Scene 6', icon:'🎶', key:'R', url:'sfx/04_epilogue.mp3', vol:75, mute:false, solo:false },
+    // ── SCENE 6: ENDING ──
+    { id:'s18', name:"Mystical Magic Sound",       cat:'Scene 6', icon:'✨', key:'I', url:'sfx/11_earth_magic.mp3',  vol:75, mute:false, solo:false },
+    { id:'s19', name:"Fire Spell — Apoy",          cat:'Scene 6', icon:'🔥', key:'O', url:'sfx/18_fire_spell2.mp3',  vol:80, mute:false, solo:false },
+    { id:'s20', name:"Flight / Teleport Out",      cat:'Scene 6', icon:'🌀', key:'P', url:'sfx/20_flight_spell.mp3', vol:80, mute:false, solo:false },
+    { id:'s21', name:"Inspirational Outro",        cat:'Scene 6', icon:'🎶', key:'F1',url:'sfx/05_inspirational.mp3',vol:75, mute:false, solo:false },
   ],
   timers: [
     { id:'t_show', label:'Show Runtime', type:'stopwatch', seconds:0, running:false, lastTick:0 },
@@ -840,33 +811,18 @@ let editingId = null;
 let pendingFiles = [];
 let editingTimerId = null;
 
-// ── Storage (persistent across sessions) ──
 function loadConfig() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) return JSON.parse(raw);
-  } catch(e) {}
+  try { const raw = localStorage.getItem(STORAGE_KEY); if (raw) return JSON.parse(raw); } catch(e) {}
   return JSON.parse(JSON.stringify(DEFAULT_CONFIG));
 }
 function save() {
-  // Persist timer running states so they survive page reload
-  persistTimers();
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(config));
-}
-function persistTimers() {
-  // Store which timers are running for resume on reload
   config._timerRuntime = {};
-  document.querySelectorAll('[data-timer-id]').forEach(el => {
-    const tid = el.dataset.timerId;
-    const t = config.timers.find(x => x.id === tid);
-    if (t && t.running) {
-      config._timerRuntime[tid] = { seconds: t.seconds, lastTick: Date.now(), type: t.type };
-    }
-  });
+  config.timers.forEach(t => { if (t.running) config._timerRuntime[t.id] = { seconds:t.seconds, lastTick:Date.now(), type:t.type }; });
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(config));
 }
 
 // ═══════════════════════════════════════════════════
-//  AUDIO ENGINE
+// AUDIO ENGINE — FIXED: stops previous instance on re-click
 // ═══════════════════════════════════════════════════
 function getChannelVol(id) {
   const s = config.sounds.find(x => x.id === id);
@@ -883,19 +839,30 @@ function getChannelVol(id) {
 function playSound(id) {
   const s = config.sounds.find(x => x.id === id);
   if (!s || !s.url) return;
+
+  // FIX: Stop existing instance of this cue before playing again
+  const existing = activeAudios.find(x => x.id === id);
+  if (existing) {
+    existing.audio.pause();
+    existing.audio.currentTime = 0;
+    activeAudios = activeAudios.filter(x => x.id !== id);
+    document.getElementById(`ch-${id}`)?.classList.remove('playing');
+  }
+
   let a = audioCache[id];
   if (!a) { a = new Audio(s.url); audioCache[id] = a; }
   a.volume = getChannelVol(id);
   a.currentTime = 0;
   a.play().catch(() => showToast('Tap anywhere first to enable audio'));
-  if (!activeAudios.find(x => x.id === id)) {
-    activeAudios.push({ id, audio: a });
-    a.addEventListener('ended', () => {
-      activeAudios = activeAudios.filter(x => x.id !== id);
-      document.getElementById(`ch-${id}`)?.classList.remove('playing');
-    });
-  }
-  document.getElementById(`ch-${id}`)?.classList.add('playing');
+
+  activeAudios.push({ id, audio: a });
+  const el = document.getElementById(`ch-${id}`);
+  if (el) el.classList.add('playing');
+
+  a.addEventListener('ended', () => {
+    activeAudios = activeAudios.filter(x => x.id !== id);
+    document.getElementById(`ch-${id}`)?.classList.remove('playing');
+  });
 }
 
 function stopAll() {
@@ -905,7 +872,7 @@ function stopAll() {
 }
 
 // ═══════════════════════════════════════════════════
-//  MULTI-TIMER ENGINE
+// TIMERS
 // ═══════════════════════════════════════════════════
 function formatTime(totalSec) {
   const h = Math.floor(totalSec / 3600);
@@ -922,13 +889,11 @@ function tickAllTimers() {
     const delta = Math.floor((now - t.lastTick) / 1000);
     if (delta < 1) return;
     t.lastTick = now;
-
     if (t.type === 'countdown') {
       t.seconds = Math.max(0, t.seconds - delta);
       if (t.seconds === 0) {
         t.running = false;
         showToast(`⏰ "${t.label}" time's up!`);
-        // Vibrate if supported
         if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
       }
     } else {
@@ -947,7 +912,6 @@ function renderTimers() {
     const isCountdown = t.type === 'countdown';
     return `
       <div class="timer-unit ${isActive?'active':''} ${isOver?'over':''}" data-timer-id="${escHtml(t.id)}">
-        <!-- Edit overlay -->
         <div class="timer-edit" id="edit-${t.id}">
           <label>Label</label>
           <input type="text" id="edit-label-${t.id}" value="${escHtml(t.label)}">
@@ -974,13 +938,10 @@ function renderTimers() {
       </div>
     `;
   }).join('');
-
-  // Click label to open edit overlay
   config.timers.forEach(t => {
     const unit = document.querySelector(`[data-timer-id="${t.id}"]`);
     if (!unit) return;
-    const label = unit.querySelector('.timer-label');
-    label.addEventListener('click', e => {
+    unit.querySelector('.timer-label').addEventListener('click', e => {
       e.stopPropagation();
       closeAllTimerEdits(t.id);
       document.getElementById(`edit-${t.id}`).classList.toggle('show');
@@ -989,53 +950,31 @@ function renderTimers() {
 }
 
 function closeAllTimerEdits(exceptId) {
-  config.timers.forEach(t => {
-    if (t.id !== exceptId) {
-      document.getElementById(`edit-${t.id}`)?.classList.remove('show');
-    }
-  });
+  config.timers.forEach(t => { if (t.id !== exceptId) document.getElementById(`edit-${t.id}`)?.classList.remove('show'); });
 }
 
 function toggleTimer(id) {
   const t = config.timers.find(x => x.id === id);
   if (!t) return;
-  if (t.running) {
-    t.running = false;
-    t.lastTick = 0;
-  } else {
-    // If countdown reached 0, reset first
-    if (t.type === 'countdown' && t.seconds === 0) {
-      t.seconds = t.setSeconds || 0;
-    }
-    if (t.type === 'countdown' && t.seconds === 0) return; // nothing to start
-    t.running = true;
-    t.lastTick = Date.now();
+  if (t.running) { t.running = false; t.lastTick = 0; }
+  else {
+    if (t.type === 'countdown' && t.seconds === 0) { t.seconds = t.setSeconds || 0; }
+    if (t.type === 'countdown' && t.seconds === 0) return;
+    t.running = true; t.lastTick = Date.now();
   }
-  save();
-  renderTimers();
+  save(); renderTimers();
 }
-
 function resetTimer(id) {
   const t = config.timers.find(x => x.id === id);
   if (!t) return;
-  t.running = false;
-  t.lastTick = 0;
-  if (t.type === 'countdown') {
-    t.seconds = t.setSeconds || 0;
-  } else {
-    t.seconds = 0;
-  }
-  save();
-  renderTimers();
+  t.running = false; t.lastTick = 0;
+  t.seconds = t.type === 'countdown' ? (t.setSeconds || 0) : 0;
+  save(); renderTimers();
 }
-
 function deleteTimer(id) {
   config.timers = config.timers.filter(t => t.id !== id);
-  save();
-  renderTimers();
-  showToast('Timer removed');
+  save(); renderTimers(); showToast('Timer removed');
 }
-
 function applyTimerEdit(id) {
   const t = config.timers.find(x => x.id === id);
   if (!t) return;
@@ -1045,18 +984,12 @@ function applyTimerEdit(id) {
     const h = parseInt(document.getElementById(`edit-h-${id}`)?.value) || 0;
     const m = parseInt(document.getElementById(`edit-m-${id}`)?.value) || 0;
     const s = parseInt(document.getElementById(`edit-s-${id}`)?.value) || 0;
-    t.setSeconds = h * 3600 + m * 60 + s;
+    t.setSeconds = h*3600+m*60+s;
     t.seconds = t.setSeconds;
-    if (t.seconds === 0) {
-      showToast('Set a time > 0');
-      return;
-    }
+    if (t.seconds === 0) { showToast('Set a time > 0'); return; }
   }
-  // Close overlay
   document.getElementById(`edit-${id}`)?.classList.remove('show');
-  save();
-  renderTimers();
-  showToast('Timer updated');
+  save(); renderTimers(); showToast('Timer updated');
 }
 
 function openAddTimerModal() {
@@ -1069,42 +1002,27 @@ function openAddTimerModal() {
   document.getElementById('timerS').value = 0;
   document.getElementById('timerModal').classList.add('open');
 }
-
-function closeTimerModal() {
-  document.getElementById('timerModal').classList.remove('open');
-  editingTimerId = null;
-}
-
+function closeTimerModal() { document.getElementById('timerModal').classList.remove('open'); editingTimerId = null; }
 function saveTimer() {
   const label = document.getElementById('timerLabel').value.trim() || 'Untitled';
   const type = document.getElementById('timerType').value;
   const h = parseInt(document.getElementById('timerH').value) || 0;
   const m = parseInt(document.getElementById('timerM').value) || 0;
   const s = parseInt(document.getElementById('timerS').value) || 0;
-  const setSeconds = type === 'countdown' ? (h*3600 + m*60 + s) : 0;
-
-  if (type === 'countdown' && setSeconds === 0) {
-    showToast('Set a duration > 0');
-    return;
-  }
-
+  const setSeconds = type === 'countdown' ? (h*3600+m*60+s) : 0;
+  if (type === 'countdown' && setSeconds === 0) { showToast('Set a duration > 0'); return; }
   config.timers.push({
-    id: 't_' + Date.now() + '_' + Math.random().toString(36).slice(2,6),
-    label, type, seconds: setSeconds, running: false, lastTick: 0, setSeconds
+    id:'t_'+Date.now()+'_'+Math.random().toString(36).slice(2,6),
+    label, type, seconds:setSeconds, running:false, lastTick:0, setSeconds
   });
-  save();
-  closeTimerModal();
-  renderTimers();
-  showToast('Timer added');
+  save(); closeTimerModal(); renderTimers(); showToast('Timer added');
 }
-
-// Timer type toggle
 document.getElementById('timerType').addEventListener('change', e => {
   document.getElementById('countdownInputs').style.display = e.target.value === 'countdown' ? 'block' : 'none';
 });
 
 // ═══════════════════════════════════════════════════
-//  RENDER
+// RENDER
 // ═══════════════════════════════════════════════════
 function render() {
   renderTimers();
@@ -1120,11 +1038,7 @@ function renderCategories() {
   bar.innerHTML = `<button class="cat-pill ${currentCat==='all'?'active':''}" data-cat="all">ALL</button>` +
     cats.map(c => `<button class="cat-pill ${currentCat===c?'active':''}" data-cat="${escHtml(c)}">${escHtml(c)}</button>`).join('');
   bar.querySelectorAll('.cat-pill').forEach(btn => {
-    btn.addEventListener('click', () => {
-      currentCat = btn.dataset.cat;
-      renderCategories();
-      renderChannels();
-    });
+    btn.addEventListener('click', () => { currentCat = btn.dataset.cat; renderCategories(); renderChannels(); });
   });
 }
 
@@ -1158,6 +1072,7 @@ function renderChannels() {
         <div class="led"></div>
         <div class="pad-btn" ontouchstart="handleTouch(event,'${s.id}')" onclick="playSound('${s.id}')">
           <span class="pad-cue">C${cueNum}</span>
+          <span class="pad-scene">${escHtml(s.cat||'')}</span>
           <span class="pad-icon">${escHtml(s.icon||'🔊')}</span>
           <span class="pad-name">${escHtml(s.name)}</span>
         </div>
@@ -1189,7 +1104,7 @@ function updateMasterFader() {
 }
 
 // ═══════════════════════════════════════════════════
-//  CHANNEL ACTIONS
+// CHANNEL ACTIONS
 // ═══════════════════════════════════════════════════
 function setChVol(id, val) {
   const s = config.sounds.find(x => x.id === id);
@@ -1225,7 +1140,7 @@ function deleteSound(id) {
 }
 
 // ═══════════════════════════════════════════════════
-//  TOUCH
+// TOUCH
 // ═══════════════════════════════════════════════════
 function handleTouch(e, id) {
   e.preventDefault();
@@ -1234,7 +1149,7 @@ function handleTouch(e, id) {
 }
 
 // ═══════════════════════════════════════════════════
-//  ADD / EDIT CUE
+// ADD / EDIT CUE
 // ═══════════════════════════════════════════════════
 function openAddModal() {
   editingId = null; pendingFiles = [];
@@ -1257,10 +1172,7 @@ function openEditModal(id) {
     ? `<div class="file-info">🎵 ${escHtml(s.name)} <button onclick="clearFile()">✕</button></div>` : '';
   document.getElementById('addModal').classList.add('open');
 }
-function closeAddModal() {
-  document.getElementById('addModal').classList.remove('open');
-  editingId = null; pendingFiles = [];
-}
+function closeAddModal() { document.getElementById('addModal').classList.remove('open'); editingId = null; pendingFiles = []; }
 function saveSound() {
   const name = document.getElementById('soundName').value.trim();
   const cat = document.getElementById('soundCat').value.trim();
@@ -1280,7 +1192,6 @@ function saveSound() {
 }
 function clearFile() { pendingFiles=[]; document.getElementById('fileList').innerHTML=''; document.getElementById('soundUrl').value=''; }
 
-// ── File handling ──
 const dropZone = document.getElementById('dropZone');
 const fileInput = document.getElementById('fileInput');
 dropZone.addEventListener('click', () => fileInput.click());
@@ -1293,17 +1204,17 @@ function handleFiles(files) {
     if (!file.type.startsWith('audio/')) return;
     pendingFiles.push({ name: file.name, url: URL.createObjectURL(file) });
   });
+  renderFileList();
+}
+function renderFileList() {
   document.getElementById('fileList').innerHTML = pendingFiles.map((f,i) =>
     `<div class="file-info">🎵 ${escHtml(f.name)} <button onclick="removePending(${i})">✕</button></div>`
   ).join('');
 }
-function removePending(i) { pendingFiles.splice(i,1); document.getElementById('fileList').innerHTML = pendingFiles.map((f,j) =>
-    `<div class="file-info">🎵 ${escHtml(f.name)} <button onclick="removePending(${j})">✕</button></div>`
-  ).join('');
-}
+function removePending(i) { pendingFiles.splice(i,1); renderFileList(); }
 
 // ═══════════════════════════════════════════════════
-//  CONFIG
+// CONFIG
 // ═══════════════════════════════════════════════════
 function openConfigModal() {
   document.getElementById('configPreview').textContent = JSON.stringify(config, null, 2);
@@ -1344,7 +1255,7 @@ function clearAll() {
 }
 
 // ═══════════════════════════════════════════════════
-//  KEYBOARD
+// KEYBOARD
 // ═══════════════════════════════════════════════════
 document.addEventListener('keydown', e => {
   if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
@@ -1360,7 +1271,7 @@ document.addEventListener('keydown', e => {
 });
 
 // ═══════════════════════════════════════════════════
-//  SEARCH
+// SEARCH
 // ═══════════════════════════════════════════════════
 document.getElementById('searchInput').addEventListener('input', e => {
   searchQuery = e.target.value.trim();
@@ -1368,7 +1279,7 @@ document.getElementById('searchInput').addEventListener('input', e => {
 });
 
 // ═══════════════════════════════════════════════════
-//  MASTER FADER
+// MASTER FADER
 // ═══════════════════════════════════════════════════
 document.getElementById('masterFader').addEventListener('input', e => {
   config.masterVolume = parseInt(e.target.value);
@@ -1377,7 +1288,7 @@ document.getElementById('masterFader').addEventListener('input', e => {
 });
 
 // ═══════════════════════════════════════════════════
-//  TOAST
+// TOAST
 // ═══════════════════════════════════════════════════
 function showToast(msg) {
   const c = document.getElementById('toasts');
@@ -1386,7 +1297,7 @@ function showToast(msg) {
 }
 
 // ═══════════════════════════════════════════════════
-//  KEY REMAP
+// KEY REMAP
 // ═══════════════════════════════════════════════════
 function remapKey(id) {
   const s = config.sounds.find(x => x.id === id);
@@ -1396,14 +1307,14 @@ function remapKey(id) {
 }
 
 // ═══════════════════════════════════════════════════
-//  UTILS
+// UTILS
 // ═══════════════════════════════════════════════════
 function escHtml(str) {
   const d = document.createElement('div'); d.textContent=str; return d.innerHTML;
 }
 
 // ═══════════════════════════════════════════════════
-//  INIT + TICK LOOP
+// INIT
 // ═══════════════════════════════════════════════════
 updateMasterFader();
 render();
@@ -1413,27 +1324,15 @@ config.timers.forEach(t => {
   if (t.running && config._timerRuntime?.[t.id]) {
     const saved = config._timerRuntime[t.id];
     const elapsedSec = Math.floor((Date.now() - saved.lastTick) / 1000);
-    if (saved.type === 'countdown') {
-      t.seconds = Math.max(0, saved.seconds - elapsedSec);
-    } else {
-      t.seconds = saved.seconds + elapsedSec;
-    }
+    if (saved.type === 'countdown') { t.seconds = Math.max(0, saved.seconds - elapsedSec); }
+    else { t.seconds = saved.seconds + elapsedSec; }
     t.lastTick = Date.now();
   }
 });
 
-// Main tick loop — 250ms for smooth display updates
-setInterval(() => {
-  tickAllTimers();
-}, 250);
-
-// Save periodically to keep timers in sync
+setInterval(() => { tickAllTimers(); }, 250);
 setInterval(() => { save(); }, 5000);
-
-// Click outside timer edit to close
-document.addEventListener('click', e => {
-  if (!e.target.closest('.timer-unit')) closeAllTimerEdits();
-});
+document.addEventListener('click', e => { if (!e.target.closest('.timer-unit')) closeAllTimerEdits(); });
 </script>
 </body>
 </html>
