@@ -964,7 +964,7 @@
 
     <div class="timer-section" id="timerDock"></div>
 
-    <button class="add-timer-btn" onclick="openAddTimerModal()">
+    <button class="add-timer-btn" onclick="openAddTimerModal()" ontouchstart="event.preventDefault(); openAddTimerModal()">
       <span>+</span> Timer
     </button>
 
@@ -972,23 +972,23 @@
       <span class="master-label">Master</span>
       <input type="range" class="master-fader" id="masterFader" min="0" max="200" value="100">
       <span class="master-val" id="masterVal">100</span>
-      <button class="master-mute" id="masterMuteBtn" onclick="toggleMasterMute()">M</button>
+      <button class="master-mute" id="masterMuteBtn" onclick="toggleMasterMute()" ontouchstart="event.preventDefault(); toggleMasterMute()">M</button>
     </div>
 
-    <button class="tool-btn" onclick="openConfigModal()">⚙ Config</button>
-    <button class="tool-btn" onclick="exportCueSheet()">🖨 Export</button>
-    <button class="tool-btn" onclick="toggleTheme()">🌓 Theme</button>
+    <button class="tool-btn" onclick="openConfigModal()" ontouchstart="event.preventDefault(); openConfigModal()">⚙ Config</button>
+    <button class="tool-btn" onclick="exportCueSheet()" ontouchstart="event.preventDefault(); exportCueSheet()">🖨 Export</button>
+    <button class="tool-btn" onclick="toggleTheme()" ontouchstart="event.preventDefault(); toggleTheme()">🌓 Theme</button>
   </div>
 </header>
 
 <!-- ═══ PRESETS BAR ═══ -->
 <div class="presets-bar" id="presetsBar">
   <span class="presets-label">Presets:</span>
-  <button class="preset-btn active" data-preset="default" onclick="loadPreset('default')">Default</button>
-  <button class="preset-btn" data-preset="act1" onclick="loadPreset('act1')">Act 1</button>
-  <button class="preset-btn" data-preset="act2" onclick="loadPreset('act2')">Act 2</button>
-  <button class="preset-btn" data-preset="finale" onclick="loadPreset('finale')">Finale</button>
-  <button class="tool-btn" onclick="openPresetsModal()" style="margin-left:auto;font-size:.65rem;padding:3px 8px;">+ New</button>
+  <button class="preset-btn active" data-preset="default" onclick="loadPreset('default')" ontouchstart="event.preventDefault(); loadPreset('default')">Default</button>
+  <button class="preset-btn" data-preset="act1" onclick="loadPreset('act1')" ontouchstart="event.preventDefault(); loadPreset('act1')">Act 1</button>
+  <button class="preset-btn" data-preset="act2" onclick="loadPreset('act2')" ontouchstart="event.preventDefault(); loadPreset('act2')">Act 2</button>
+  <button class="preset-btn" data-preset="finale" onclick="loadPreset('finale')" ontouchstart="event.preventDefault(); loadPreset('finale')">Finale</button>
+  <button class="tool-btn" onclick="openPresetsModal()" ontouchstart="event.preventDefault(); openPresetsModal()" style="margin-left:auto;font-size:.65rem;padding:3px 8px;">+ New</button>
 </div>
 
 <!-- ═══ HISTORY BAR ═══ -->
@@ -1010,7 +1010,7 @@
   <div class="empty-state" id="emptyState" style="display:none">
     <div class="icon">🎛️</div>
     <p>No cues yet</p>
-    <button class="btn btn-accent" onclick="openAddModal()">+ Add Cue</button>
+    <button class="btn btn-accent" onclick="openAddModal()" ontouchstart="event.preventDefault(); openAddModal()">+ Add Cue</button>
   </div>
 </main>
 
@@ -1055,8 +1055,8 @@
       <input type="url" id="soundUrl" placeholder="https://example.com/sound.mp3">
     </div>
     <div class="modal-actions">
-      <button class="btn" onclick="closeAddModal()">Cancel</button>
-      <button class="btn btn-accent" onclick="saveSound()">Save Cue</button>
+      <button class="btn" onclick="closeAddModal()" ontouchstart="event.preventDefault(); closeAddModal()">Cancel</button>
+      <button class="btn btn-accent" onclick="saveSound()" ontouchstart="event.preventDefault(); saveSound()">Save Cue</button>
     </div>
   </div>
 </div>
@@ -1094,8 +1094,8 @@
       </div>
     </div>
     <div class="modal-actions">
-      <button class="btn" onclick="closeTimerModal()">Cancel</button>
-      <button class="btn btn-accent" onclick="saveTimer()">Add Timer</button>
+      <button class="btn" onclick="closeTimerModal()" ontouchstart="event.preventDefault(); closeTimerModal()">Cancel</button>
+      <button class="btn btn-accent" onclick="saveTimer()" ontouchstart="event.preventDefault(); saveTimer()">Add Timer</button>
     </div>
   </div>
 </div>
@@ -1109,8 +1109,8 @@
       <input type="text" id="presetName" placeholder="e.g. Act 1 Setup">
     </div>
     <div class="modal-actions">
-      <button class="btn" onclick="closePresetsModal()">Cancel</button>
-      <button class="btn btn-accent" onclick="savePreset()">Save Preset</button>
+      <button class="btn" onclick="closePresetsModal()" ontouchstart="event.preventDefault(); closePresetsModal()">Cancel</button>
+      <button class="btn btn-accent" onclick="savePreset()" ontouchstart="event.preventDefault(); savePreset()">Save Preset</button>
     </div>
   </div>
 </div>
@@ -1127,16 +1127,16 @@
       <textarea id="configEdit" rows="6"></textarea>
     </div>
     <div class="import-row">
-      <button class="btn btn-accent" onclick="exportConfig()">📤 Export</button>
-      <button class="btn" onclick="document.getElementById('importFile').click()">📥 Import</button>
+      <button class="btn btn-accent" onclick="exportConfig()" ontouchstart="event.preventDefault(); exportConfig()">📤 Export</button>
+      <button class="btn" onclick="document.getElementById('importFile').click()" ontouchstart="event.preventDefault(); document.getElementById('importFile').click()">📥 Import</button>
       <input type="file" id="importFile" accept=".json" style="display:none" onchange="importConfig(event)">
-      <button class="btn btn-danger" onclick="clearAll()">🗑 Clear All</button>
-      <button class="btn btn-danger" onclick="flushLocalStorage()">🗑 Flush Storage</button>
-      <button class="btn" onclick="preloadAssets()">⏬ Preload All</button>
+      <button class="btn btn-danger" onclick="clearAll()" ontouchstart="event.preventDefault(); clearAll()">🗑 Clear All</button>
+      <button class="btn btn-danger" onclick="flushLocalStorage()" ontouchstart="event.preventDefault(); flushLocalStorage()">🗑 Flush Storage</button>
+      <button class="btn" onclick="preloadAssets()" ontouchstart="event.preventDefault(); preloadAssets()">⏬ Preload All</button>
     </div>
     <div class="modal-actions">
-      <button class="btn" onclick="closeConfigModal()">Close</button>
-      <button class="btn btn-accent" onclick="saveConfig()">Save Changes</button>
+      <button class="btn" onclick="closeConfigModal()" ontouchstart="event.preventDefault(); closeConfigModal()">Close</button>
+      <button class="btn btn-accent" onclick="saveConfig()" ontouchstart="event.preventDefault(); saveConfig()">Save Changes</button>
     </div>
   </div>
 </div>
@@ -1410,7 +1410,7 @@ function renderHistory() {
   const container = document.getElementById('historyItems');
   if (!container) return;
   container.innerHTML = config.history.slice(0, 10).map(h =>
-    `<button class="history-item" onclick="playSound('${h.id}')" title="${escHtml(h.name)}">${escHtml(h.name)}</button>`
+    `<button class="history-item" onclick="playSound('${h.id}')" ontouchstart="event.preventDefault(); playSound('${h.id}')" title="${escHtml(h.name)}">${escHtml(h.name)}</button>`
   ).join('');
 }
 
@@ -1578,7 +1578,7 @@ function renderTimers() {
               <span>:</span>
               <input type="number" id="edit-s-${t.id}" min="0" max="59" value="${t.setSeconds%60}">
             ` : ''}
-            <button onclick="applyTimerEdit('${t.id}')">SET</button>
+            <button onclick="applyTimerEdit('${t.id}')" ontouchstart="event.preventDefault(); applyTimerEdit('${t.id}')">SET</button>
           </div>
         </div>
         <div class="timer-name">${escHtml(t.label)}</div>
@@ -1586,9 +1586,9 @@ function renderTimers() {
           ${formatTime(isOver ? (t.setSeconds||0) : t.seconds)}
         </div>
         <div class="timer-btns">
-          <button class="t-btn ${isActive?'play':'reset'}" onclick="toggleTimer('${t.id}')">${isActive?'⏸':'▶'}</button>
-          <button class="t-btn reset" onclick="resetTimer('${t.id}')">↺</button>
-          <button class="t-btn del" onclick="deleteTimer('${t.id}')">✕</button>
+          <button class="t-btn ${isActive?'play':'reset'}" onclick="toggleTimer('${t.id}')" ontouchstart="event.preventDefault(); toggleTimer('${t.id}')">${isActive?'⏸':'▶'}</button>
+          <button class="t-btn reset" onclick="resetTimer('${t.id}')" ontouchstart="event.preventDefault(); resetTimer('${t.id}')">↺</button>
+          <button class="t-btn del" onclick="deleteTimer('${t.id}')" ontouchstart="event.preventDefault(); deleteTimer('${t.id}')">✕</button>
         </div>
       </div>
     `;
@@ -1596,11 +1596,14 @@ function renderTimers() {
   config.timers.forEach(t => {
     const unit = document.querySelector(`[data-timer-id="${t.id}"]`);
     if (!unit) return;
-    unit.querySelector('.timer-name').addEventListener('click', e => {
+    const nameEl = unit.querySelector('.timer-name');
+    const handler = e => {
       e.stopPropagation();
       closeAllTimerEdits(t.id);
       document.getElementById(`edit-${t.id}`).classList.toggle('show');
-    });
+    };
+    nameEl.addEventListener('click', handler);
+    nameEl.addEventListener('touchstart', e => { e.preventDefault(); handler(e); }, { passive: false });
   });
 }
 
@@ -1704,11 +1707,13 @@ function renderCategories() {
     }).join('');
 
   bar.querySelectorAll('.cat-pill').forEach(btn => {
-    btn.addEventListener('click', () => {
+    const handler = () => {
       currentCat = btn.dataset.cat;
       renderCategories();
       renderChannels();
-    });
+    };
+    btn.addEventListener('click', handler);
+    btn.addEventListener('touchstart', e => { e.preventDefault(); handler(); }, { passive: false });
   });
 }
 
@@ -1784,8 +1789,8 @@ function renderChannel(s, i) {
   const panValue = s.pan !== undefined ? s.pan : 0;
   return `
     <div class="channel ${playing?'playing':''} ${s.mute?'muted-ch':''} ${s.loop?'looping':''}" id="ch-${s.id}">
-      <button class="ch-delete" onclick="deleteSound('${s.id}')" title="Delete">✕</button>
-      <button class="ch-edit" onclick="openEditModal('${s.id}')" title="Edit">✎</button>
+      <button class="ch-delete" onclick="deleteSound('${s.id}')" ontouchstart="event.preventDefault(); deleteSound('${s.id}')" title="Delete">✕</button>
+      <button class="ch-edit" onclick="openEditModal('${s.id}')" ontouchstart="event.preventDefault(); openEditModal('${s.id}')" title="Edit">✎</button>
       <span class="loop-indicator">🔁</span>
       <div class="led"></div>
       <div class="level-meter"><div class="level-meter-fill"></div></div>
@@ -1807,10 +1812,10 @@ function renderChannel(s, i) {
         <span class="ch-pan-label">R</span>
       </div>
       <div class="ch-controls">
-        <button class="ch-btn mute-btn ${s.mute?'active':''}" onclick="toggleMute('${s.id}')">M</button>
-        <button class="ch-btn solo-btn ${s.solo?'active':''}" onclick="toggleSolo('${s.id}')">S</button>
-        <button class="ch-btn ${loopActive}" onclick="toggleLoop('${s.id}')">L</button>
-        <button class="ch-btn" onclick="remapKey('${s.id}')" title="Remap key">${escHtml(s.key||'K')}</button>
+        <button class="ch-btn mute-btn ${s.mute?'active':''}" onclick="toggleMute('${s.id}')" ontouchstart="event.preventDefault(); toggleMute('${s.id}')">M</button>
+        <button class="ch-btn solo-btn ${s.solo?'active':''}" onclick="toggleSolo('${s.id}')" ontouchstart="event.preventDefault(); toggleSolo('${s.id}')">S</button>
+        <button class="ch-btn ${loopActive}" onclick="toggleLoop('${s.id}')" ontouchstart="event.preventDefault(); toggleLoop('${s.id}')">L</button>
+        <button class="ch-btn" onclick="remapKey('${s.id}')" ontouchstart="event.preventDefault(); remapKey('${s.id}')" title="Remap key">${escHtml(s.key||'K')}</button>
       </div>
     </div>
   `;
