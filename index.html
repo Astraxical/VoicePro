@@ -799,23 +799,35 @@ const DEFAULT_CONFIG = {
   masterVolume: 80,
   masterMuted: false,
   sounds: [
-    { id:'c1', name:'Ambient Wind',   cat:'Ambient', icon:'🌬️', key:'1', url:'', vol:80, mute:false, solo:false },
-    { id:'c2', name:'Fire Crackling', cat:'Ambient', icon:'🔥', key:'2', url:'', vol:75, mute:false, solo:false },
-    { id:'c3', name:'Sword Clash',    cat:'Combat',  icon:'⚔️', key:'3', url:'', vol:90, mute:false, solo:false },
-    { id:'c4', name:'Magic Cast',     cat:'Combat',  icon:'✨', key:'4', url:'', vol:80, mute:false, solo:false },
-    { id:'c5', name:'Footsteps',      cat:'Ambient', icon:'👣', key:'5', url:'', vol:60, mute:false, solo:false },
-    { id:'c6', name:'Door Open',      cat:'FX',      icon:'🚪', key:'6', url:'', vol:70, mute:false, solo:false },
-    { id:'c7', name:'Alert Bell',     cat:'FX',      icon:'🔔', key:'7', url:'', vol:85, mute:false, solo:false },
-    { id:'c8', name:'Evil Laugh',     cat:'Voice',   icon:'😈', key:'8', url:'', vol:80, mute:false, solo:false },
-    { id:'c9', name:'Wolf Growl',     cat:'Voice',   icon:'🐺', key:'9', url:'', vol:85, mute:false, solo:false },
-    { id:'c10',name:'Explosion',      cat:'Combat',  icon:'💥', key:'0', url:'', vol:95, mute:false, solo:false },
-    { id:'c11',name:'Heartbeat',      cat:'Ambient', icon:'💓', key:'Q', url:'', vol:70, mute:false, solo:false },
-    { id:'c12',name:'Thunder',        cat:'Ambient', icon:'⛈️', key:'W', url:'', vol:90, mute:false, solo:false },
+    // Scene 1 — Intro / Teleportation
+    { id:'s1', name:'Cassiopeia Calls', cat:'Scene 1', icon:'👁️', key:'1', url:'sfx/01_magic_teleport.mp3', vol:85, mute:false, solo:false },
+    { id:'s2', name:'Sang\'gre Intro Song', cat:'Scene 1', icon:'🎵', key:'2', url:'', vol:70, mute:false, solo:false },
+
+    // Scene 2 — WWII
+    { id:'s3', name:'WWII Battlefield', cat:'Scene 2', icon:'💣', key:'3', url:'sfx/06_war_gunfire.mp3', vol:90, mute:false, solo:false },
+    { id:'s4', name:'Explosion / Bomb', cat:'Scene 2', icon:'💥', key:'4', url:'sfx/07_explosion.mp3', vol:95, mute:false, solo:false },
+    { id:'s5', name:'Action Music — Fight', cat:'Scene 2', icon:'⚔️', key:'5', url:'sfx/03_epic_battle.mp3', vol:80, mute:false, solo:false },
+    { id:'s6', name:'Gunshot', cat:'Scene 2', icon:'🔫', key:'6', url:'sfx/06_war_gunfire.mp3', vol:85, mute:false, solo:false },
+    { id:'s7', name:'Laser Shot', cat:'Scene 2', icon:'⚡', key:'7', url:'sfx/07b_laser_shot.mp3', vol:75, mute:false, solo:false },
+    { id:'s8', name:'Hit / Impact', cat:'Scene 2', icon:'💢', key:'8', url:'sfx/07c_hit.mp3', vol:80, mute:false, solo:false },
+
+    // Scene 4 — Ramon Entrance
+    { id:'s9', name:'Ramon Dramatic Entrance', cat:'Scene 4', icon:'🎩', key:'9', url:'sfx/02_victory_fanfare.mp3', vol:90, mute:false, solo:false },
+
+    // Scene 5 — Estrada
+    { id:'s10', name:'Thunder Clap — Estrada', cat:'Scene 5', icon:'⛈️', key:'0', url:'sfx/05_thunder.mp3', vol:95, mute:false, solo:false },
+    { id:'s11', name:'Estrada Challenge Music', cat:'Scene 5', icon:'😈', key:'Q', url:'sfx/05_thunder.mp3', vol:85, mute:false, solo:false },
+
+    // Scene 6 — Ending
+    { id:'s12', name:'Mystical Magic Sound', cat:'Scene 6', icon:'✨', key:'W', url:'sfx/09_mystical_powerup.mp3', vol:80, mute:false, solo:false },
+    { id:'s13', name:'Teleport Out', cat:'Scene 6', icon:'🌀', key:'E', url:'sfx/08_teleport_2.mp3', vol:85, mute:false, solo:false },
+    { id:'s14', name:'Inspirational Outro', cat:'Scene 6', icon:'🎶', key:'R', url:'sfx/04_epilogue.mp3', vol:75, mute:false, solo:false },
   ],
   timers: [
     { id:'t_show', label:'Show Runtime', type:'stopwatch', seconds:0, running:false, lastTick:0 },
+    { id:'t_act2', label:'Act 2 Countdown', type:'countdown', seconds:900, running:false, lastTick:0, setSeconds:900 },
   ],
-  categories: ['Combat','Ambient','FX','Voice'],
+  categories: ['Scene 1','Scene 2','Scene 4','Scene 5','Scene 6'],
   pinnedKeys: ['Q','W','E','R','T','Y','U','I','O','P','1','2','3','4','5','6','7','8','9','0']
 };
 
